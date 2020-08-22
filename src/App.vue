@@ -52,6 +52,7 @@
 
 .main-content {
   margin-top:2rem;
+  padding-top: 24px !important;
 }
 </style>
 
