@@ -6,15 +6,15 @@
         <v-card-text class="mt-4">
             <v-form>
                 <v-text-field
-                    prepend-icon="mdi-account"
-                    label="Username"
-                    outlined
+                    solo
+                    prepend-inner-icon="mdi-email-outline"
+                    label="Email"
                 />
-                <v-text-field 
-                    outlined
+                <v-text-field
+                    solo
                     label="Password" 
                     :type="showPassword ? 'text' : 'password'" 
-                    prepend-icon="mdi-lock"
+                    prepend-inner-icon="mdi-lock"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPassword = !showPassword"
                 />
