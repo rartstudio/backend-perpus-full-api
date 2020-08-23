@@ -1,12 +1,33 @@
 <template>
   <div class="main">
-    <CarouselBar/>
-    <div class="mb-4 pl-4 text-h4">
-      Koleksi Buku
+    <v-text-field placeholder="Cari buku atau penulis " class="mt-4 mx-4" solo append-icon="mdi-magnify"></v-text-field>
+    <CarouselBar class="mb-8 mt-n4"/>
+    <div class="d-flex justify-space-between">
+      <div class="mb-4 pl-4 text-h6 heading-book">
+        Koleksi Buku
+      </div>
+      <v-btn icon>
+        <v-icon>mdi-chevron-double-right</v-icon>
+      </v-btn>
     </div>
-    <BookCard v-for="book in book.books.data" :key="book.slug" :book="book"/>
+    
+    <div class="collection-book d-flex">
+      <BookCard v-for="book in book.books.data" :key="book.slug" :book="book"/>
+    </div>
   </div>
 </template>
+
+<style>
+.heading-book {
+  color: #0a369d;
+}
+.collection-book {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 320px;
+  margin-top: -50px;
+}
+</style>
 
 <script>
 // @ is an alias to /src

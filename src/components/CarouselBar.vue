@@ -1,10 +1,11 @@
 <template>
     <v-carousel
         cycle
-        height="400"
+        height="150"
         hide-delimiter-background
+        hide-delimiters
         show-arrows-on-hover
-        class="mt-0"
+        class="mt-8 px-4"
     >
         <v-carousel-item
             v-for="(slide, i) in slides"
@@ -19,7 +20,7 @@
                     align="center"
                     justify="center"
                 >
-                    <div class="display-3">{{ slide }} Slide</div>
+                    <div class="display-3">{{ slide }}</div>
                 </v-row>
             </v-sheet>
         </v-carousel-item>
@@ -39,11 +40,11 @@
           'deep-purple accent-4',
         ],
         slides: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
+          '',
+          '',
+          '',
+          '',
+          '',
         ],
       }
     },

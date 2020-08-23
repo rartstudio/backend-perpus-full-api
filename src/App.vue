@@ -1,10 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar app dark class="app-bar" color="#1976D2">
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <router-link to="/" class="home__link">
-        <v-toolbar-title>Perpus GKKB PTK</v-toolbar-title>
-      </router-link>
+    <v-app-bar 
+      app 
+      color="#fff" 
+      elevation="2"
+      scroll-target="#main">
+      <v-app-bar-nav-icon class="d-sm-none" @click="drawer = true" color="#0a369d"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-navigation-drawer absolute temporary v-model="drawer">
       <v-list nav>
@@ -27,12 +32,15 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-main class="main-content">
-      <router-view></router-view>
-    </v-main>
+    <v-sheet
+      id="main" class="overflow-y-auto">
+      <v-container>
+        <v-main class="main-content">
+          <router-view></router-view>
+        </v-main>
+      </v-container>
+    </v-sheet>
   </v-app>
-  
-    
 </template>
 
 <style>
