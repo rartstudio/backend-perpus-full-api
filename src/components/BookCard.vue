@@ -25,7 +25,7 @@
               </div>
             </div>
             <div class="d-flex align-center">
-              <v-btn icon>
+              <v-btn icon color="#e2e2e2">
                 <v-icon>mdi-heart</v-icon>
               </v-btn>
             </div>
@@ -43,6 +43,7 @@
   }
   .btn-borrow {
     color: #00005e !important;
+    background-attachment: #e2e2e2;
   }
   .book-title {
     min-height: 3.2rem;
