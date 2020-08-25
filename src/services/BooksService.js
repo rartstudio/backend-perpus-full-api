@@ -13,5 +13,8 @@ const apiClient = axios.create({
 export default {
     getBooks(){
         return apiClient.get('/api/book')
+    },
+    getBooksByCat(query, value){
+        return apiClient.get(`/api/book?${query}=${value}`)
     }
 }

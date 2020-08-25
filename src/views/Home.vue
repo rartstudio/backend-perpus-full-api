@@ -10,9 +10,30 @@
         <v-icon>mdi-chevron-double-right</v-icon>
       </v-btn>
     </div>
-    
     <div class="collection-book d-flex">
       <BookCard v-for="book in book.books.data" :key="book.slug" :book="book"/>
+    </div>
+    <div class="d-flex justify-space-between mt-8">
+      <div class="mb-4 pl-4 text-h6 heading-book">
+        Koleksi Buku Science
+      </div>
+      <v-btn icon>
+        <v-icon>mdi-chevron-double-right</v-icon>
+      </v-btn>
+    </div>
+    <div class="collection-book d-flex">
+      <BookCard v-for="book in bookByCat.booksByCat.data" :key="book.slug" :book="book"/>
+    </div>
+    <div class="d-flex justify-space-between mt-8">
+      <div class="mb-4 pl-4 text-h6 heading-book">
+        Koleksi Buku Bisnis
+      </div>
+      <v-btn icon>
+        <v-icon>mdi-chevron-double-right</v-icon>
+      </v-btn>
+    </div>
+    <div class="collection-book d-flex">
+      <BookCard v-for="book in bookByCat.booksByCat.data" :key="book.slug" :book="book"/>
     </div>
   </div>
 </template>
@@ -38,19 +59,39 @@ import { mapState } from "vuex";
 
 import store from "@/store";
 
+function getBookByCat(q, v){
+  const query = q;
+  const value = v;
+
+  store
+    .dispatch('bookByCat/fetchBooks',{
+      query: query,
+      value : value,
+    })
+    .then(()=> {
+      console.log('success')
+    })
+}
+
+function getBooks() {
+  store
+    .dispatch('book/fetchBooks')
+    .then(() => {
+      console.log('success')
+    })
+}
+
 export default {
   components: {
     BookCard,
     CarouselBar
   },
-  created () {
-    store.dispatch('book/fetchBooks')
-        .then(() => {
-          console.log('success')
-        })
+  mounted () {
+    getBookByCat('cat','science')
+    getBooks()
   },
   computed : {
-    ...mapState(['book']),
+    ...mapState(['book','bookByCat']),
   }
 };
 </script>
