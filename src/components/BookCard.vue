@@ -15,7 +15,7 @@
             <!-- {{ book.title.slice(0,30) + '...' }} -->
             {{ book.title }}
           </div>
-          <div class="text-caption text--disabled">
+          <div class="text-caption text--disabled d-flex align-center justify-space-between">
             <div class="d-flex align-center review__book pa-1">
               <v-icon color="#fff" size="13px">
                 mdi-star
@@ -23,6 +23,11 @@
               <div class="ml-1 review__number">
                 {{ rating(book.reviews) }}
               </div>
+            </div>
+            <div class="d-flex align-center">
+              <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn>
             </div>
           </div>
         </v-card>
@@ -45,6 +50,7 @@
   .review__book {
     background: #0a369d;
     width: 2.2rem;
+    height: 1.6rem;
     border-radius: 10px;
   }
   .review__number {
