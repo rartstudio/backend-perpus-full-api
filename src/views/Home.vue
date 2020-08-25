@@ -24,7 +24,7 @@
 .collection-book {
   overflow-x: auto;
   overflow-y: hidden;
-  height: 320px;
+  height: 340px;
   margin-top: -50px;
 }
 </style>

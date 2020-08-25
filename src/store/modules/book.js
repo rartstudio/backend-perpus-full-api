@@ -17,6 +17,7 @@ export const actions = {
         BookService.getBooks(state)
             .then(response => {
                 commit('SET_BOOKS', response.data)
+                console.log(response.data)
             })
             .catch(error => {
                 console.log(error)

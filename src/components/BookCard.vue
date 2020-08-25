@@ -11,20 +11,26 @@
             width="180px"
           ></v-img>
 
-          <div class="text-body-2 mt-2">
-            {{ book.title.slice(0,30) + '...' }}
-            <!-- {{ book.title }} -->
+          <div class="text-body-2 mt-2 book-title">
+            <!-- {{ book.title.slice(0,30) + '...' }} -->
+            {{ book.title }}
           </div>
-
           <div class="text-caption text--disabled">
-            {{ book.author.name }}
+            <div class="d-flex align-center review__book pa-1">
+              <v-icon color="#fff" size="13px">
+                mdi-star
+              </v-icon>
+              <div class="ml-1 review__number">
+                {{ rating(book.reviews) }}
+              </div>
+            </div>
           </div>
         </v-card>
     </v-flex>
   </router-link>
 </template>
 
-<style>
+<style scoped>
   .card-book {
     line-height: 1.4rem;
     word-break: normal;
@@ -33,15 +39,46 @@
   .btn-borrow {
     color: #00005e !important;
   }
+  .book-title {
+    min-height: 3.2rem;
+  }
+  .review__book {
+    background: #0a369d;
+    width: 2.2rem;
+    border-radius: 10px;
+  }
+  .review__number {
+    color: #fff;
+    font-size: .7rem;
+  }
 </style>
 
 <script>
   export default {
     data: () => ({
-      show: false,
+
     }),
     props : {
       book : Object
+    },
+    methods : {
+      rating(data){
+        var rating = 0;
+        var final = 0;
+
+        for(var i = 0; i < data.length; i++){
+          rating += parseInt(data[i].rating)
+        }
+        
+        if(rating == 0){
+          final = 0;
+        }
+        else {
+          final = Math.round(rating/data.length) 
+        }
+
+        return final 
+      }
     }
   }
 </script>
