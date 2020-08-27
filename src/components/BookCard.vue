@@ -1,5 +1,5 @@
 <template>
-  <router-link class="home__link" :to="{name: 'books-show', params: {id: book.slug}}">
+  <router-link class="home__link" :to="{name: 'book-show', params: {slug: book.slug}}">
     <v-flex xs12 class="mt-12 mx-2">
         <v-card
           class="mx-auto card-book"

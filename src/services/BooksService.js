@@ -16,5 +16,8 @@ export default {
     },
     getBooksByCat(query, value){
         return apiClient.get(`/api/book?${query}=${value}`)
+    },
+    getBook(slug){
+        return apiClient.get(`/api/book/${slug}`)
     }
 }
