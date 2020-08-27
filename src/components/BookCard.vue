@@ -7,8 +7,8 @@
         >
           <v-img
             :src="book.cover"
-            height="180px"
-            width="180px"
+            height="140px"
+            width="90px"
           ></v-img>
 
           <div class="text-body-2 mt-2 book-title">

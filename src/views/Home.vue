@@ -2,36 +2,36 @@
   <div class="main">
     <v-text-field placeholder="Cari buku atau penulis " class="mt-4 mx-4" solo append-icon="mdi-magnify"></v-text-field>
     <CarouselBar class="mb-8 mt-n4"/>
-    <div class="d-flex justify-space-between">
-      <div class="mb-4 pl-4 text-h6 heading-book">
+    <TitleBook>
+      <template v-slot:header>
         Koleksi Buku
-      </div>
-      <v-btn icon>
+      </template>
+      <template v-slot:icon>
         <v-icon>mdi-chevron-double-right</v-icon>
-      </v-btn>
-    </div>
+      </template>
+    </TitleBook>
     <div class="collection-book d-flex">
       <BookCard v-for="book in book.books.data" :key="book.slug" :book="book"/>
     </div>
-    <div class="d-flex justify-space-between mt-8">
-      <div class="mb-4 pl-4 text-h6 heading-book">
+    <TitleBook>
+      <template v-slot:header>
         Koleksi Buku Science
-      </div>
-      <v-btn icon>
+      </template>
+      <template v-slot:icon>
         <v-icon>mdi-chevron-double-right</v-icon>
-      </v-btn>
-    </div>
+      </template>
+    </TitleBook>
     <div class="collection-book d-flex">
       <BookCard v-for="book in bookByCat.booksByCat.data" :key="book.slug" :book="book"/>
     </div>
-    <div class="d-flex justify-space-between mt-8">
-      <div class="mb-4 pl-4 text-h6 heading-book">
+    <TitleBook>
+      <template v-slot:header>
         Koleksi Buku Bisnis
-      </div>
-      <v-btn icon>
+      </template>
+      <template v-slot:icon>
         <v-icon>mdi-chevron-double-right</v-icon>
-      </v-btn>
-    </div>
+      </template>
+    </TitleBook>
     <div class="collection-book d-flex">
       <BookCard v-for="book in bookByCat.booksByCat.data" :key="book.slug" :book="book"/>
     </div>
@@ -45,7 +45,7 @@
 .collection-book {
   overflow-x: auto;
   overflow-y: hidden;
-  height: 340px;
+  height: 370px;
   margin-top: -50px;
 }
 </style>
@@ -53,6 +53,7 @@
 <script>
 // @ is an alias to /src
 import BookCard from "@/components/BookCard.vue";
+import TitleBook from "@/components/TitleBook.vue";
 import CarouselBar from "@/components/CarouselBar.vue";
 
 import { mapState } from "vuex";
@@ -84,7 +85,8 @@ function getBooks() {
 export default {
   components: {
     BookCard,
-    CarouselBar
+    CarouselBar,
+    TitleBook
   },
   mounted () {
     getBookByCat('cat','science')
