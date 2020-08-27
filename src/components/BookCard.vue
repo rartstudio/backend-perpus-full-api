@@ -35,7 +35,7 @@
   </router-link>
 </template>
 
-<style scoped>
+<style>
   .card-book {
     line-height: 1.4rem;
     word-break: normal;

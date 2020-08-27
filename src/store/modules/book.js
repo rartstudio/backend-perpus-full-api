@@ -42,5 +42,23 @@ export const actions = {
 export const getters = {
     getBooks: state => {
         return state.books
-    }
+    },
+    getBooksRating: state => {
+        let data = state.books.book.reviews;
+        let rating = 0;
+        let final = 0;
+
+        for(var i = 0; i < data.length; i++){
+          rating += parseInt(data[i].rating)
+        }
+        
+        if(rating == 0){
+          final = 0;
+        }
+        else {
+          final = Math.round(rating/data.length) 
+        }
+
+        return final 
+      }
 }
