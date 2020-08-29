@@ -1,5 +1,5 @@
 <template>
-    <div class="book d-flex flex-column justify-center align-center">    
+    <div class="book d-flex flex-column justify-center align-center mt-4">    
         <img class="book__img elevation-4" :src="link(book.data.cover)" height="200px" width="140px"> 
         <h4 class="book__title mt-4">{{book.data.title}}</h4>
         <p class="text-caption mt-2">{{book.data.author.name}}</p>
@@ -96,14 +96,14 @@
     .book {
 
         &__description {
-            color: #9a9a9a;
+            color: #818181;
         }
     }
     .review {
         color: #0a369d;
 
         &__comment {
-            color: #9a9a9a;
+            color: #818181;
         }
     }
 </style>
