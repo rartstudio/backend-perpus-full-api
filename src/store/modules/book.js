@@ -4,15 +4,20 @@ export const namespaced = true
 
 export const state = {
     books: [],
+    booksByOne : [],
+    booksByTwo : [],
     book: {}
 }
 
 export const mutations = {
+    SET_BOOK(state,book){
+        state.book = book
+    },
     SET_BOOKS(state, books){
         state.books = books
     },
-    SET_BOOK(state,book){
-        state.book = book
+    SET_BOOKS_BY_ONE(state,bookByOne){
+        state.booksByOne = bookByOne
     }
 }
 
@@ -21,6 +26,16 @@ export const actions = {
         BookService.getBooks(state)
             .then(response => {
                 commit('SET_BOOKS', response.data)
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
+    fetchBooksBy({commit},{query,value}){
+        BookService.getBooksBy(query, value)
+            .then(response => {
+                commit('SET_BOOKS_BY_ONE', response.data)
                 console.log(response.data)
             })
             .catch(error => {

@@ -22,18 +22,7 @@
       </template>
     </TitleBook>
     <div class="collection-book d-flex">
-      <BookCard v-for="book in bookByCat.booksByCat.data" :key="book.slug" :book="book"/>
-    </div>
-    <TitleBook>
-      <template v-slot:header>
-        Koleksi Buku Bisnis
-      </template>
-      <template v-slot:icon>
-        <v-icon>mdi-chevron-double-right</v-icon>
-      </template>
-    </TitleBook>
-    <div class="collection-book d-flex">
-      <BookCard v-for="book in bookByCat.booksByCat.data" :key="book.slug" :book="book"/>
+      <BookCard v-for="book in book.booksByOne.data" :key="book.slug" :book="book"/>
     </div>
   </div>
 </template>
@@ -60,12 +49,12 @@ import { mapState } from "vuex";
 
 import store from "@/store";
 
-function getBookByCat(q, v){
+function getBooksBy(q, v){
   const query = q;
   const value = v;
 
   store
-    .dispatch('bookByCat/fetchBooks',{
+    .dispatch('book/fetchBooksBy',{
       query: query,
       value : value,
     })
@@ -89,11 +78,11 @@ export default {
     TitleBook
   },
   mounted () {
-    getBookByCat('cat','science')
+    getBooksBy('cat','science')
     getBooks()
   },
   computed : {
-    ...mapState(['book','bookByCat']),
+    ...mapState(['book']),
   }
 };
 </script>
