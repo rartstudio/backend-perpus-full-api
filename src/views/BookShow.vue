@@ -40,15 +40,19 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
     export default {
         data: () => ({
-            rates: 0
+            rates: 0,
         }),
         props: {
             book: {
                 type: Object,
                 required: true
             }
+        },
+        computed : {
+            ...mapGetters('book',['getLinkServer'])
         },
         methods : {
             rating(data){
@@ -71,7 +75,9 @@
                 return final
             },
             link(data){
-                const linkImg = 'http://127.0.0.1:8000/'
+                // const linkImg = 'http://127.0.0.1:8000/'
+                const linkImg = this.getLinkServer
+
                 let imgUrl = data
                 let sliceImgUrl = imgUrl.slice(0,5)
                 

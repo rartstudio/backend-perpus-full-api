@@ -8,7 +8,8 @@ export const state = {
     booksByTwo : [],
     book: {},
     isLoading: true,
-    skeletonCount: 4
+    skeletonCount: 4,
+    linkServer: 'http://127.0.0.1:8000/'
 }
 
 export const mutations = {
@@ -59,5 +60,8 @@ export const actions = {
 export const getters = {
     getBooks: state => {
         return state.books
+    },
+    getLinkServer : state => {
+        return state.linkServer
     }
 }

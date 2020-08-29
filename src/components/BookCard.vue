@@ -21,7 +21,6 @@
               </v-icon>
               <div class="ml-1 review__number">
                 {{ rating(book.reviews) }}
-                <!-- {{ getBooksRating }} -->
               </div>
             </div>
             <div class="d-flex align-center">
@@ -61,12 +60,17 @@
 </style>
 
 <script>
+  import {mapGetters} from "vuex";
+
   export default {
     data: () => ({
 
     }),
     props : {
       book : Object
+    },
+    computed : {
+        ...mapGetters('book',['getLinkServer'])
     },
     methods : {
       rating(data){
@@ -87,7 +91,7 @@
         return final 
       },
       link(data){
-        const linkImg = 'http://127.0.0.1:8000/'
+        const linkImg = this.getLinkServer
         let imgUrl = data
         let sliceImgUrl = imgUrl.slice(0,5)
         
@@ -97,11 +101,6 @@
         else {
           return linkImg+imgUrl
         }
-      }
-    },
-    computed: {
-      getBooksRating(){
-        return this.$store.getters['book/getBooksRating']
       }
     }
   }
