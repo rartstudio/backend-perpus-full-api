@@ -16,8 +16,8 @@
       </div>
     </template>
     <template v-else>
-      <div class="collection-book d-flex mt-0">
-        <BookCard v-for="book in book.booksByOne.data" :key="book.slug" :book="book"/>
+      <div class="collection-book d-flex mt-0">       
+          <BookCard class="card-book" v-for="book in book.booksByOne.data" :key="book.slug" :book="book"/>
       </div>
     </template>
   </div>
@@ -47,6 +47,7 @@ import TitleBook from "@/components/TitleBook.vue";
 import CarouselBar from "@/components/CarouselBar.vue";
 
 import { mapState } from "vuex";
+import { gsap } from "gsap";
 
 import store from "@/store";
 
@@ -73,6 +74,16 @@ export default {
   },
   mounted () {
     getBooksBy('sort','desc')
+  },
+  updated () {
+    gsap.from('.card-book',{
+          duration: 0.5,
+          opacity: 0,
+          scale: 0,
+          x: 200,
+          ease: 'power1',
+          stagger: 0.1
+    })
   },
   computed : {
     ...mapState(['book']),

@@ -37,6 +37,7 @@ export const actions = {
         BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_BOOKS_BY_ONE', response.data)
+                //set loader to false so data can appear immediately
                 state.isLoading = false
             })
             .catch(error => {
