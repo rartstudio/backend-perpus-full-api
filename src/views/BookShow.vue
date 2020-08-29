@@ -1,6 +1,6 @@
 <template>
     <div class="book d-flex flex-column justify-center align-center">    
-        <img class="book__img elevation-4" :src="book.data.cover" height="200px" width="140px"> 
+        <img class="book__img elevation-4" :src="link(book.data.cover)" height="200px" width="140px"> 
         <h4 class="book__title mt-4">{{book.data.title}}</h4>
         <p class="text-caption mt-2">{{book.data.author.name}}</p>
         <div class="d-flex align-center review__book pa-1 mt-n2">
@@ -69,6 +69,18 @@
                 this.rates = final;
 
                 return final
+            },
+            link(data){
+                const linkImg = 'http://127.0.0.1:8000/'
+                let imgUrl = data
+                let sliceImgUrl = imgUrl.slice(0,5)
+                
+                if(sliceImgUrl === 'https'){
+                return imgUrl
+                }
+                else {
+                return linkImg+imgUrl
+                }
             }
         }
     }

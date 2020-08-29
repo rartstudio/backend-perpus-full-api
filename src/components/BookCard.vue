@@ -6,7 +6,7 @@
           max-width="120"
         >
           <v-img
-            :src="book.cover"
+            :src="link(book.cover)"
             height="140px"
             width="90px"
           ></v-img>
@@ -22,6 +22,7 @@
               </v-icon>
               <div class="ml-1 review__number">
                 {{ rating(book.reviews) }}
+                <!-- {{ getBooksRating }} -->
               </div>
             </div>
             <div class="d-flex align-center">
@@ -85,6 +86,23 @@
         }
 
         return final 
+      },
+      link(data){
+        const linkImg = 'http://127.0.0.1:8000/'
+        let imgUrl = data
+        let sliceImgUrl = imgUrl.slice(0,5)
+        
+        if(sliceImgUrl === 'https'){
+          return imgUrl
+        }
+        else {
+          return linkImg+imgUrl
+        }
+      }
+    },
+    computed: {
+      getBooksRating(){
+        return this.$store.getters['book/getBooksRating']
       }
     }
   }

@@ -26,7 +26,6 @@ export const actions = {
         BookService.getBooks(state)
             .then(response => {
                 commit('SET_BOOKS', response.data)
-                console.log(response.data)
             })
             .catch(error => {
                 console.log(error)
@@ -36,7 +35,6 @@ export const actions = {
         BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_BOOKS_BY_ONE', response.data)
-                console.log(response.data)
             })
             .catch(error => {
                 console.log(error)
@@ -57,23 +55,5 @@ export const actions = {
 export const getters = {
     getBooks: state => {
         return state.books
-    },
-    getBooksRating: state => {
-        let data = state.books.book.reviews;
-        let rating = 0;
-        let final = 0;
-
-        for(var i = 0; i < data.length; i++){
-          rating += parseInt(data[i].rating)
-        }
-        
-        if(rating == 0){
-          final = 0;
-        }
-        else {
-          final = Math.round(rating/data.length) 
-        }
-
-        return final 
-      }
+    }
 }
