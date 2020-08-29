@@ -4,18 +4,7 @@
     <CarouselBar class="mb-8 mt-n4"/>
     <TitleBook>
       <template v-slot:header>
-        Koleksi Buku
-      </template>
-      <template v-slot:icon>
-        <v-icon>mdi-chevron-double-right</v-icon>
-      </template>
-    </TitleBook>
-    <div class="collection-book d-flex">
-      <BookCard v-for="book in book.books.data" :key="book.slug" :book="book"/>
-    </div>
-    <TitleBook>
-      <template v-slot:header>
-        Koleksi Buku Science
+        Baru ditambahkan
       </template>
       <template v-slot:icon>
         <v-icon>mdi-chevron-double-right</v-icon>
@@ -63,14 +52,6 @@ function getBooksBy(q, v){
     })
 }
 
-function getBooks() {
-  store
-    .dispatch('book/fetchBooks')
-    .then(() => {
-      console.log('success')
-    })
-}
-
 export default {
   components: {
     BookCard,
@@ -78,8 +59,7 @@ export default {
     TitleBook
   },
   mounted () {
-    getBooksBy('cat','science')
-    getBooks()
+    getBooksBy('sort','desc')
   },
   computed : {
     ...mapState(['book']),
