@@ -1,6 +1,6 @@
 <template>
   <router-link class="home__link" :to="{name: 'book-show', params: {slug: book.slug}}">
-    <v-flex xs12 class="mt-12 mx-2">
+    <v-flex xs12 class=" mx-2">
         <v-card
           class="mx-auto card-book"
           max-width="120"
@@ -10,7 +10,6 @@
             height="140px"
             width="90px"
           ></v-img>
-
           <div class="text-body-2 mt-2 book-title">
             <!-- {{ book.title.slice(0,30) + '...' }} -->
             {{ book.title }}

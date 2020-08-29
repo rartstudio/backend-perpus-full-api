@@ -6,7 +6,9 @@ export const state = {
     books: [],
     booksByOne : [],
     booksByTwo : [],
-    book: {}
+    book: {},
+    isLoading: true,
+    skeletonCount: 4
 }
 
 export const mutations = {
@@ -31,10 +33,11 @@ export const actions = {
                 console.log(error)
             })
     },
-    fetchBooksBy({commit},{query,value}){
+    fetchBooksBy({commit,state},{query,value}){
         BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_BOOKS_BY_ONE', response.data)
+                state.isLoading = false
             })
             .catch(error => {
                 console.log(error)
