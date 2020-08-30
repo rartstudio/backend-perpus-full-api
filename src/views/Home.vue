@@ -30,7 +30,7 @@
 .collection-book {
   overflow-x: auto;
   overflow-y: hidden;
-  height: 360px;
+  height: 280px;
   margin-top: -50px;
 }
 

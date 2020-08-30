@@ -22,18 +22,25 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-            <v-btn color="#1976D2" dark large class="ml-2">
-                <v-icon left>mdi-pencil</v-icon>
+            <router-link to="/register" class="btn-form">
+                <v-btn color="#1976D2" dark large class="ml-2">
+                    <v-icon left>mdi-pencil</v-icon>
                     Sign Up
                 </v-btn>
+            </router-link>
             <v-spacer></v-spacer>
-            <v-btn color="#42A5F5" dark large outlined class="mr-2">
+            <v-btn color="#42A5F5" dark large outlined class="mr-2 btn-form">
                 <v-icon left>mdi-arrow-right</v-icon>
-                    Login
+                    Log In
             </v-btn>
         </v-card-actions>
     </v-card>
 </template>
+<style>
+    .btn-form{
+        width: 135px;
+    }
+</style>
 
 <script>
 export default {
