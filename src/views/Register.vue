@@ -1,7 +1,7 @@
 <template>
     <v-card class="mt-10 mx-4">
         <v-card-title class="mb-4 justify-center">
-            <h1 class="header__login">Member Sign Up</h1>
+            <h1 class="header__login">Registrasi</h1>
         </v-card-title>
         <v-card-text class="mt-4">
             <v-form @submit.prevent="register">
@@ -70,7 +70,7 @@ export default {
         register(){
             store.dispatch('auth/fetchRegister', this.details)
             .then(()=> {
-                console.log('success send register data')
+                this.$router.push({ name: 'dashboard' })
             })
         }
     }

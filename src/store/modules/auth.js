@@ -4,12 +4,20 @@ export const namespaced = true
 
 export const state = {
     jwtToken: '',
-    userData: []
+    userData: null,
+    error : null
 }
 
 export const mutations = {
     SET_USER_DATA(state,data){
         state.userData = data
+        localStorage.setItem('user',JSON.stringify(data))
+        
+        let getToken = localStorage.getItem("access_token")
+        AuthService.getBearerToken(getToken);
+    },
+    SET_USER_ERROR_NOTIF(state,error){
+        state.error = error
     }
 }
 
@@ -18,10 +26,9 @@ export const actions = {
         return AuthService.getRegister(credential)
             .then(response => {
                 commit('SET_USER_DATA',response.data)
-                console.log(response.data)
             })
             .catch(error => {
-                console.log(error.response)
+                commit('SET_USER_ERROR_NOTIF',error.response.data.errors)
             })
     }
 }
