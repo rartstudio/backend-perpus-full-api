@@ -9,13 +9,13 @@
                     solo
                     prepend-inner-icon="mdi-account-circle-outline"
                     label="Nama"
-                    v-model="name"
+                    v-model="details.name"
                 />
                 <v-text-field
                     solo
                     prepend-inner-icon="mdi-email-outline"
                     label="Email"
-                    v-model="email"
+                    v-model="details.email"
                 />
                 <v-text-field
                     solo
@@ -24,7 +24,7 @@
                     prepend-inner-icon="mdi-lock"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPassword = !showPassword"
-                    v-model="password"
+                    v-model="details.password"
                 />
                 <v-text-field
                     solo
@@ -33,7 +33,7 @@
                     prepend-inner-icon="mdi-lock"
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     @click:append="showPassword = !showPassword"
-                    v-model="password_confirm"
+                    v-model="details.password_confirmation"
                 />
                 <v-card-actions class="d-flex justify-center align-center pb-3">
                     <v-btn color="#1976D2" dark large class="ml-2" type="submit">
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import store from "@/store"
+
 export default {
     name: "Register",
 
@@ -57,14 +59,19 @@ export default {
 
     data: () => ({
         showPassword: false,
-        name : '',
-        email : '',
-        password : '',
-        password_confirm: '',
+        details : {
+            name : null,
+            email : null,
+            password : null,
+            password_confirmation: null,
+        },
     }),
     methods: {
-        register() {
-            console.log('ini adalah nama '+ this.name + 'email' + this.email + 'password'+ this.password+ 'password_confirm' + this.password_confirm);
+        register(){
+            store.dispatch('auth/fetchRegister', this.details)
+            .then(()=> {
+                console.log('success send register data')
+            })
         }
     }
 };

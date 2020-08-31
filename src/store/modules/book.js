@@ -1,4 +1,4 @@
-import BookService from '@/services/BooksService.js'
+import BookService from "@/services/BooksService.js"
 
 export const namespaced = true
 
