@@ -14,10 +14,6 @@ export const mutations = {
         
         //save user data to localstorage
         localStorage.setItem('user',JSON.stringify(data))
-        
-        //get token and parse it to bearer header
-        let getToken = localStorage.getItem("access_token")
-        AuthService.getBearerToken(getToken);
     },
     SET_USER_ERROR_NOTIF(state,error){
         state.error = error
