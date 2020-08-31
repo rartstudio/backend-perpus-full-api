@@ -11,8 +11,11 @@ export const state = {
 export const mutations = {
     SET_USER_DATA(state,data){
         state.userData = data
+        
+        //save user data to localstorage
         localStorage.setItem('user',JSON.stringify(data))
         
+        //get token and parse it to bearer header
         let getToken = localStorage.getItem("access_token")
         AuthService.getBearerToken(getToken);
     },
