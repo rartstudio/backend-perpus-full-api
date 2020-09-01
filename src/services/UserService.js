@@ -11,13 +11,7 @@ const apiClient = axios.create({
 })
 
 export default {
-    getBooks(){
-        return apiClient.get('/api/book')
-    },
-    getBooksBy(query, value){
-        return apiClient.get(`/api/book?${query}=${value}`)
-    },
-    getBook(slug){
-        return apiClient.get(`/api/book/${slug}`)
+    getUser(){
+        return apiClient.get('/api/user');
     }
 }

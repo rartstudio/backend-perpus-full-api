@@ -63,7 +63,7 @@
                     <template v-if="isSubmitted">
                         <v-btn color="#1976D2" dark large class="ml-2" type="submit" disabled elevation="3">
                             <v-progress-circular
-                                indeterminate="false"
+                                :indeterminate="indeterminate"
                                 size="24"
                                 width="4"
                                 color="light-blue"
@@ -112,6 +112,7 @@ export default {
     },
 
     data: () => ({
+        indeterminate: false,
         showPassword: false,
         isSubmitted: false,
         details : {
