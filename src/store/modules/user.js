@@ -16,7 +16,8 @@ export const actions = {
     fetchUser({commit}){
         return UserService.getUser()
             .then(response => {
-                commit('SET_USER_DATA', response.data.data)
+                commit('SET_USER_DATA', response.data)
+                console.log(response.data)
             })
             .catch(error => {
                 console.log(error.response)

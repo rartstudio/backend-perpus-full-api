@@ -3,13 +3,15 @@ import Vuex from "vuex";
 
 import * as book from "@/store/modules/book.js";
 import * as auth from "@/store/modules/auth.js";
+import * as user from "@/store/modules/user.js";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     book,
-    auth
+    auth,
+    user
   },
   state: {},
   mutations: {},

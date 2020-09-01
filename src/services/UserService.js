@@ -5,13 +5,15 @@ const apiClient = axios.create({
     withCredentials: false,
     headers: {
         Accept: 'application/json',
-                'Content-Type' : 'application/json'
     },
     timeout: 15000
 })
 
 export default {
     getUser(){
-        return apiClient.get('/api/user');
+        return apiClient.get('/api/user',{headers: {
+            'Content-Type' : 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("usacco")}`
+          }});
     }
 }

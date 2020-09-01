@@ -22,7 +22,8 @@ export const actions = {
         return AuthService.getRegister(credential)
             .then(response => {
                 commit('SET_USER_DATA',response.data)
-                
+                //dispatch to fetchUser
+                //dispatch('user/fetchUser',null,{root:true})
             })
             .catch(error => {
                 commit('SET_USER_ERROR_NOTIF',error.response.data.errors)
