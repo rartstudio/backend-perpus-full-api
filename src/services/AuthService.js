@@ -19,4 +19,7 @@ export default {
     getRegister(credential){
         return apiClient.post('/api/register',credential)
     },
+    getLogin(credential){
+        return apiClient.post('/api/login',credential)
+    },
 }

@@ -28,7 +28,19 @@ export const actions = {
             .catch(error => {
                 commit('SET_USER_ERROR_NOTIF',error.response.data.errors)
             })
+    },
+    fetchLogin({commit},credential){
+        return AuthService.getLogin(credential)
+            .then(response => {
+                commit('SET_USER_DATA',response.data)
+                //dispatch to fetchUser
+                //dispatch('user/fetchUser',null,{root:true})
+            })
+            .catch(error => {
+                commit('SET_USER_ERROR_NOTIF',error.response.data.errors)
+            })
     }
+    
 }
 
 export const getters = {

@@ -4,7 +4,7 @@
             <h1 class="header__login">Login</h1>
         </v-card-title>
         <v-card-text class="mt-4">
-            <v-form @submit.prevent="register">
+            <v-form @submit.prevent="login">
                 <v-text-field
                     solo
                     prepend-inner-icon="mdi-email-outline"
@@ -48,7 +48,7 @@
                     </template>
                     <template v-else>
                         <v-btn color="#1976D2" dark large class="ml-2" type="submit" :disabled="$v.$invalid">
-                            <v-icon left color="#fff">mdi-pencil</v-icon>
+                            <v-icon left color="#fff">mdi-door</v-icon>
                                 Sign In
                         </v-btn>
                     </template>
@@ -80,13 +80,13 @@ import store from "@/store"
 import { required, email, minLength } from "vuelidate/lib/validators"
 
 export default {
-    name: "Register",
+    name: "Login",
 
     components: {
     },
 
     data: () => ({
-        indeterminate: false,
+        indeterminate: true,
         showPassword: false,
         isSubmitted: false,
         details : {
@@ -106,9 +106,9 @@ export default {
         }
     },
     methods: {
-        register(){
+        login(){
             this.isSubmitted = true;
-            store.dispatch('auth/fetchRegister', this.details)
+            store.dispatch('auth/fetchLogin', this.details)
             .then(()=> {
                 this.$router.push({ name: 'dashboard' })
             })
@@ -119,6 +119,10 @@ export default {
 
 
 <style lang="scss" scoped>
+
+.mdi.mdi-email-outline.theme--light {
+    color: red !important
+}
 
 .header__login {
     color: #42A5F5;
