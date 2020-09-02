@@ -147,9 +147,12 @@ export default {
     methods: {
         register(){
             this.isSubmitted = true;
+            
             store.dispatch('auth/fetchRegister', this.details)
-            .then(()=> {
-                this.$router.push({ name: 'dashboard' })
+            .then((response)=> {
+                if(response == 200){
+                    this.$router.push({ name: 'dashboard' })
+                }
             })
         }
     }
