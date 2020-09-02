@@ -61,7 +61,7 @@ function getBooksBy(q, v){
       value : value,
     })
     .then(()=> {
-      console.log('success')
+      
     })
 }
 

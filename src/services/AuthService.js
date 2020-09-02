@@ -10,12 +10,7 @@ const apiClient = axios.create({
     timeout: 15000
 })
 
-
-
 export default {
-    getBearerToken (dataToken){
-        return axios.defaults.headers.common['Authorization'] = `Bearer ${dataToken}`
-    },
     getRegister(credential){
         return apiClient.post('/api/register',credential)
     },

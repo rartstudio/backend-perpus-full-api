@@ -47,12 +47,34 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/Login.vue')
+    component: () => import('../views/Login.vue'),
+    //check if user have a token
+    beforeEnter(routeTo, routeFrom, next){
+      let getUser = localStorage.getItem('usacco')
+
+      if (getUser == null){
+        next()
+      }
+      else {
+        next({name: 'dashboard'})
+      }
+    }
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('../views/Register.vue')
+    component: () => import('../views/Register.vue'),
+    //check if user have a token
+    beforeEnter(routeTo, routeFrom, next){
+      let getUser = localStorage.getItem('usacco')
+
+      if (getUser == null){
+        next()
+      }
+      else {
+        next({name: 'dashboard'})
+      }
+    }
   },
   {
     path: '/dashboard',

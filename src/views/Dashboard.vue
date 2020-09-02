@@ -8,7 +8,6 @@
     function getUser(){
         store.dispatch('user/fetchUser')
             .then(()=> {
-            console.log('success')
             })
     }
     

@@ -70,7 +70,7 @@
                                 :indeterminate="indeterminate"
                                 size="24"
                                 width="4"
-                                color="light-blue"
+                                color="white"
                                 class="mr-1"
                             ></v-progress-circular>
                             Proses
@@ -78,11 +78,10 @@
                     </template>
                     <template v-else>
                         <v-btn color="#1976D2" dark large class="ml-2" type="submit" :disabled="$v.$invalid">
-                            <v-icon left color="#fff">mdi-pencil</v-icon>
+                            <v-icon left color="#fff !important">mdi-pencil</v-icon>
                                 Sign Up
                         </v-btn>
                     </template>
-                    
                 </v-card-actions>
             </v-form>
         </v-card-text>

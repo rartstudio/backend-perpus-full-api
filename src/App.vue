@@ -15,31 +15,50 @@
     </v-app-bar>
     <v-navigation-drawer absolute temporary v-model="drawer">
       <v-list nav>
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <router-link  to="/login" text class="sidebar__link">
-            <v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-right</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Login
-              </v-list-item-title>
-            </v-list-item>
-          </router-link>
-          <router-link  to="/register" text class="sidebar__link">
-            <v-list-item>
-              <v-list-item-icon>
-                <v-icon>mdi-account</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                Register
-              </v-list-item-title>
-            </v-list-item>
-          </router-link>
-        </v-list-item-group>
+        <template v-if="userAuth">
+          <v-list-item-group
+            v-model="group"
+            active-class="deep-purple--text text--accent-4"
+            >
+            <router-link  to="/login" text class="sidebar__link">
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon>mdi-arrow-right</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  Logout
+                </v-list-item-title>
+              </v-list-item>
+            </router-link>
+          </v-list-item-group>
+        </template>
+        <template v-else>
+          <v-list-item-group
+            v-model="group"
+            active-class="deep-purple--text text--accent-4"
+            >
+            <router-link  to="/login" text class="sidebar__link">
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon>mdi-arrow-right</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  Login
+                </v-list-item-title>
+              </v-list-item>
+            </router-link>
+            <router-link  to="/register" text class="sidebar__link">
+              <v-list-item>
+                <v-list-item-icon>
+                  <v-icon>mdi-account</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  Register
+                </v-list-item-title>
+              </v-list-item>
+            </router-link>
+          </v-list-item-group>
+        </template>
       </v-list>
     </v-navigation-drawer>
     <v-sheet
@@ -85,6 +104,18 @@ export default {
     drawer: false,
     group: '',
     showPassword: false
-  })
+  }),
+  computed: {
+    userAuth() {
+      let token = localStorage.getItem('usacco');
+
+      if (token) {
+        return true
+      }
+      else {
+        return false
+      }
+    }
+  }
 };
 </script>
