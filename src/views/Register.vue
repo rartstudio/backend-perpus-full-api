@@ -11,6 +11,7 @@
                     label="Nama"
                     v-model.trim="details.name"
                     @blur="$v.details.name.$touch()"
+                    clearable
                     required
                 />
                 <div v-if="$v.details.name.$error">
@@ -23,6 +24,7 @@
                     label="Email"
                     v-model.trim="details.email"
                     @blur="$v.details.email.$touch()"
+                    clearable
                     required
                 />
                 <div v-if="$v.details.email.$error">
@@ -38,6 +40,7 @@
                     @click:append="showPassword = !showPassword"
                     v-model="details.password"
                     @blur="$v.details.password.$touch()"
+                    clearable
                     required
                 />
                 <div v-if="$v.details.password.$error">
@@ -53,6 +56,7 @@
                     @click:append="showPassword = !showPassword"
                     v-model="details.password_confirmation"
                     @blur="$v.details.password_confirmation.$touch()"
+                    clearable
                     required
                 />
                 <div v-if="$v.details.password_confirmation.$error">
@@ -112,7 +116,7 @@ export default {
     },
 
     data: () => ({
-        indeterminate: false,
+        indeterminate: true,
         showPassword: false,
         isSubmitted: false,
         details : {
