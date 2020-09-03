@@ -94,6 +94,7 @@
 </style>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "App",
 
@@ -106,10 +107,9 @@ export default {
     showPassword: false
   }),
   computed: {
+    ...mapState(['auth']),
     userAuth() {
-      let token = localStorage.getItem('usacco');
-
-      if (token) {
+      if (this.auth.status == 200) {
         return true
       }
       else {

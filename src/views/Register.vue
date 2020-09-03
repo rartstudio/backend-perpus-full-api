@@ -15,8 +15,8 @@
                     required
                 />
                 <div v-if="$v.details.name.$error">
-                    <p v-if="!$v.details.name.required" class="text-red mt-m-25">Nama harap diisi.</p>
-                    <p v-if="!$v.details.name.minLength" class="text-red mt-m-25">Nama minimal 3 huruf.</p>
+                    <p v-if="!$v.details.name.required" class="text-red mt-m-25 fs-12">Nama harap diisi.</p>
+                    <p v-if="!$v.details.name.minLength" class="text-red mt-m-25 fs-12">Nama minimal 3 huruf.</p>
                 </div>
                 <v-text-field
                     solo
@@ -27,9 +27,14 @@
                     clearable
                     required
                 />
-                <div v-if="$v.details.email.$error">
-                    <p v-if="!$v.details.email.email" class="text-red mt-m-25">Masukkan email valid</p>
-                    <p v-if="!$v.details.email.required" class="text-red mt-m-25">Email is required.</p>
+                <div v-if="emailError" class="mb-20">
+                    <p class="text-red mt-m-25 fs-12">
+                        Email tersebut sudah pernah registrasi
+                    </p>
+                </div>
+                <div v-if="$v.details.email.$error" class="mt-2">
+                    <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
+                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email is required.</p>
                 </div>
                 <v-text-field
                     solo
@@ -43,9 +48,14 @@
                     clearable
                     required
                 />
-                <div v-if="$v.details.password.$error">
-                    <p v-if="!$v.details.password.required" class="text-red mt-m-25">Password harap diisi.</p>
-                    <p v-if="!$v.details.password.minLength" class="text-red mt-m-25">Password minimal 8 huruf.</p>
+                <div v-if="passError" class="mb-20">
+                    <p class="text-red mt-m-25 fs-12">
+                        Konfirmasi Password beda dengan password
+                    </p>
+                </div>
+                <div v-if="$v.details.password.$error" class="mt-2">
+                    <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
+                    <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
                 </div>
                 <v-text-field
                     solo
@@ -60,8 +70,8 @@
                     required
                 />
                 <div v-if="$v.details.password_confirmation.$error">
-                    <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25">Konfirmasi password harap diisi.</p>
-                    <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25">Konfirmasi password harus sesuai dengan password.</p>
+                    <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25 fs-12">Konfirmasi password harap diisi.</p>
+                    <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25 .fs-12">Konfirmasi password harus sesuai dengan password.</p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pb-3">
                     <template v-if="isSubmitted">
@@ -102,11 +112,26 @@
 .mt-m-25{
     margin-top: -25px
 }
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.header__login {
+    color: #42A5F5;
+    text-align: center;
+    font-size: 1.5rem;
+}
 </style>
 
 <script>
 import store from "@/store"
 import { required, email, minLength } from "vuelidate/lib/validators"
+import { mapState } from 'vuex';
 
 export default {
     name: "Register",
@@ -118,6 +143,8 @@ export default {
         indeterminate: true,
         showPassword: false,
         isSubmitted: false,
+        emailError: false,
+        passError: false,
         details : {
             name : null,
             email : null,
@@ -144,28 +171,36 @@ export default {
             }
         }
     },
+    computed : {
+        ...mapState(['auth'])
+    },
     methods: {
+        setDefault(){
+            this.isSubmitted = false
+            this.details.password_confirmation = null
+            this.details.password = null
+        },
         register(){
             this.isSubmitted = true;
-            
             store.dispatch('auth/fetchRegister', this.details)
-            .then((response)=> {
-                if(response == 200){
+            .then(()=> {
+                //checking promise from auth
+                //state.auth.status
+                if(this.auth.status == 200){
                     this.$router.push({ name: 'dashboard' })
+                }
+                else if(this.auth.status == 422){
+                    this.setDefault()
+                    this.passError = true
+                    this.$v.details.password.required = true
+                    this.$v.details.confirm_password.required = true
+                }
+                else if(this.auth.status == 500){
+                    this.setDefault()
+                    this.emailError = true
                 }
             })
         }
     }
 };
 </script>
-
-
-<style lang="scss" scoped>
-
-.header__login {
-    color: #42A5F5;
-    text-align: center;
-    font-size: 1.5rem;
-}
-
-</style>
