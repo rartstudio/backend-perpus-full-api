@@ -15,8 +15,8 @@
                     clearable
                 />
                 <div v-if="$v.details.email.$error">
-                    <p v-if="!$v.details.email.email" class="text-red mt-m-25">Masukkan email valid</p>
-                    <p v-if="!$v.details.email.required" class="text-red mt-m-25">Email is required.</p>
+                    <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
+                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email is required.</p>
                 </div>
                 <v-text-field
                     solo
@@ -29,9 +29,14 @@
                     @blur="$v.details.password.$touch()"
                     required
                 />
+                <div v-if="passError" class="mb-20">
+                    <p class="text-red mt-m-25 fs-12">
+                        Kombinasi email password tidak sesuai
+                    </p>
+                </div>
                 <div v-if="$v.details.password.$error">
-                    <p v-if="!$v.details.password.required" class="text-red mt-m-25">Password harap diisi.</p>
-                    <p v-if="!$v.details.password.minLength" class="text-red mt-m-25">Password minimal 8 huruf.</p>
+                    <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
+                    <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pb-3">
                     <template v-if="isSubmitted">
@@ -73,10 +78,18 @@
 .mt-m-25{
     margin-top: -25px
 }
+.fs-12 {
+    font-size: 12px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
 </style>
 
 <script>
 import store from "@/store"
+import { mapState } from 'vuex';
 import { required, email, minLength } from "vuelidate/lib/validators"
 
 export default {
@@ -89,6 +102,7 @@ export default {
         indeterminate: true,
         showPassword: false,
         isSubmitted: false,
+        passError: false,
         details : {
             email : null,
             password : null
@@ -105,12 +119,25 @@ export default {
             }
         }
     },
+    computed : {
+        ...mapState(['auth'])
+    },
     methods: {
+        setDefault(){
+            this.isSubmitted = false
+            this.details.password = null
+            this.passError = true
+        },
         login(){
             this.isSubmitted = true;
             store.dispatch('auth/fetchLogin', this.details)
             .then(()=> {
-                this.$router.push({ name: 'dashboard' })
+                if(this.auth.status == 200){
+                    this.$router.push({ name: 'dashboard' })
+                }
+                else {
+                    this.setDefault()
+                }
             })
         }
     }
@@ -129,5 +156,6 @@ export default {
     text-align: center;
     font-size: 1.5rem;
 }
+
 
 </style>

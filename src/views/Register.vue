@@ -131,7 +131,7 @@
 <script>
 import store from "@/store"
 import { required, email, minLength } from "vuelidate/lib/validators"
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
     name: "Register",
@@ -192,8 +192,6 @@ export default {
                 else if(this.auth.status == 422){
                     this.setDefault()
                     this.passError = true
-                    this.$v.details.password.required = true
-                    this.$v.details.confirm_password.required = true
                 }
                 else if(this.auth.status == 500){
                     this.setDefault()

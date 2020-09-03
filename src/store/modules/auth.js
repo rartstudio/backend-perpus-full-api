@@ -40,10 +40,17 @@ export const actions = {
     fetchLogin({commit},credential){
         return AuthService.getLogin(credential)
             .then(response => {
-                commit('SET_USER_DATA',response.data)
+                const token = response.data.access_token
+                const statusCode = 200
+                if(token.length != 0 && statusCode.length != 0){
+                    commit('SET_STATUS_CODE',statusCode)
+                    commit('SET_USER_DATA',response.data)
+                }
             })
-            .catch(error => {
-                commit('SET_USER_ERROR_NOTIF',error.response.data.errors)
+            .catch(() => {
+                commit('SET_STATUS_CODE',401)
+                // commit('SET_USER_ERROR_NOTIF',error.response)
+                // commit('SET_STATUS_CODE',error.response.status)
             })
     }
     
