@@ -56,7 +56,7 @@
                     </template>
                     <template v-else>
                         <v-btn color="#1976D2" dark large class="ml-2" type="submit" :disabled="$v.$invalid">
-                            <v-icon left color="#fff">mdi-door</v-icon>
+                            <v-icon left color="#fff">mdi-login-variant</v-icon>
                                 Sign In
                         </v-btn>
                     </template>

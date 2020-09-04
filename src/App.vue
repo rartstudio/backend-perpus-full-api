@@ -20,16 +20,13 @@
             v-model="group"
             active-class="deep-purple--text text--accent-4"
             >
-            <router-link  to="/logout" text class="sidebar__link">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>mdi-arrow-right</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>
-                  Logout
-                </v-list-item-title>
-              </v-list-item>
-            </router-link>
+            <div class="text-center">
+              
+              <v-btn rounded color=#1976D2 dark large @click="logout">
+                <v-icon>mdi-logout-variant</v-icon>
+                <span class="ml-2">Logout</span>
+              </v-btn>
+            </div>
           </v-list-item-group>
         </template>
         <template v-else>
@@ -94,7 +91,20 @@
 </style>
 
 <script>
+function checkToken (){
+  let token = localStorage.getItem('user')
+
+  if(token === null) {
+    return token = 0
+  }
+  else {
+    return token
+  }
+}
+
 import { mapState } from "vuex";
+import store from "@/store"
+
 export default {
   name: "App",
 
@@ -108,14 +118,23 @@ export default {
     userAuth : false
   }),
   updated(){
-    const token = localStorage.getItem('user')
-
+    let code = checkToken()
+    
     if (this.user.status == 200) {
       this.userAuth = true
     }
 
-    if(token.length != 0){
+    if(code.length != 0){
       this.userAuth = true
+    }
+  },
+  methods: {
+    logout(){
+      console.log('logout');
+      store.dispatch('auth/fetchLogout')
+        .then(()=>{
+          this.$router.push({name: 'Home'})
+        })
     }
   },
   computed: {

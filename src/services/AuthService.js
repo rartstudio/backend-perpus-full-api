@@ -17,4 +17,12 @@ export default {
     getLogin(credential){
         return apiClient.post('/api/login',credential)
     },
+    getLogout(){
+        return apiClient.post('/api/logout',[],{
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`
+            }
+        })
+    }
 }

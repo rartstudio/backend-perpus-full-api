@@ -56,6 +56,19 @@ export const actions = {
                 // commit('SET_USER_ERROR_NOTIF',error.response)
                 // commit('SET_STATUS_CODE',error.response.status)
             })
+    },
+    fetchLogout(){
+        return AuthService.getLogout()
+            .then(() => {
+                const token = localStorage.getItem('usacco')
+                const user = localStorage.getItem('user')
+
+                if(token.length != 0 && user.length){
+                    localStorage.removeItem('usacco')
+                    localStorage.removeItem('user')
+                }
+            })
+            .catch()
     }
     
 }
