@@ -20,7 +20,7 @@
             v-model="group"
             active-class="deep-purple--text text--accent-4"
             >
-            <router-link  to="/login" text class="sidebar__link">
+            <router-link  to="/logout" text class="sidebar__link">
               <v-list-item>
                 <v-list-item-icon>
                   <v-icon>mdi-arrow-right</v-icon>
@@ -104,18 +104,22 @@ export default {
   data: () => ({
     drawer: false,
     group: '',
-    showPassword: false
+    showPassword: false,
+    userAuth : false
   }),
-  computed: {
-    ...mapState(['auth']),
-    userAuth() {
-      if (this.auth.status == 200) {
-        return true
-      }
-      else {
-        return false
-      }
+  updated(){
+    const token = localStorage.getItem('user')
+
+    if (this.user.status == 200) {
+      this.userAuth = true
     }
+
+    if(token.length != 0){
+      this.userAuth = true
+    }
+  },
+  computed: {
+    ...mapState(['user'])
   }
 };
 </script>

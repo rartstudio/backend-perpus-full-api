@@ -13,6 +13,7 @@
                     @blur="$v.details.email.$touch()"
                     required
                     clearable
+                    :loading="isLoading"
                 />
                 <div v-if="$v.details.email.$error">
                     <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
@@ -28,6 +29,8 @@
                     v-model="details.password"
                     @blur="$v.details.password.$touch()"
                     required
+                    :loading="isLoading"
+                    :counter="counterPassword ? countPass : false"
                 />
                 <div v-if="passError" class="mb-20">
                     <p class="text-red mt-m-25 fs-12">
@@ -45,7 +48,7 @@
                                 :indeterminate="indeterminate"
                                 size="24"
                                 width="4"
-                                color="light-blue"
+                                color="white"
                                 class="mr-1"
                             ></v-progress-circular>
                             Proses
@@ -99,9 +102,23 @@ export default {
     },
 
     data: () => ({
-        indeterminate: true,
-        showPassword: false,
+        //loading bar text field
+        isLoading: false,
+
+        //template button
         isSubmitted: false,
+
+        //spinner
+        indeterminate: true,
+        
+        //using show passowrd
+        showPassword: false,
+
+        //using counter
+        counterPassword: true,
+        countPass: 0,
+
+        //using backend validation
         passError: false,
         details : {
             email : null,
@@ -130,6 +147,7 @@ export default {
         },
         login(){
             this.isSubmitted = true;
+            this.isLoading = true
             store.dispatch('auth/fetchLogin', this.details)
             .then(()=> {
                 if(this.auth.status == 200){
@@ -137,6 +155,7 @@ export default {
                 }
                 else {
                     this.setDefault()
+                    this.isLoading = false
                 }
             })
         }

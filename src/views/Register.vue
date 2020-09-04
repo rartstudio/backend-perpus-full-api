@@ -13,6 +13,7 @@
                     @blur="$v.details.name.$touch()"
                     clearable
                     required
+                    :loading="isLoading"
                 />
                 <div v-if="$v.details.name.$error">
                     <p v-if="!$v.details.name.required" class="text-red mt-m-25 fs-12">Nama harap diisi.</p>
@@ -26,6 +27,7 @@
                     @blur="$v.details.email.$touch()"
                     clearable
                     required
+                    :loading="isLoading"
                 />
                 <div v-if="emailError" class="mb-20">
                     <p class="text-red mt-m-25 fs-12">
@@ -47,6 +49,8 @@
                     @blur="$v.details.password.$touch()"
                     clearable
                     required
+                    :loading="isLoading"
+                    :counter="counterPassword ? countPass : false"
                 />
                 <div v-if="passError" class="mb-20">
                     <p class="text-red mt-m-25 fs-12">
@@ -60,14 +64,16 @@
                 <v-text-field
                     solo
                     label="Konfirmasi Password" 
-                    :type="showPassword ? 'text' : 'password'" 
+                    :type="showPasswordConfirm ? 'text' : 'password'" 
                     prepend-inner-icon="mdi-lock"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPassword = !showPassword"
+                    :append-icon="showPasswordConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+                    @click:append="showPasswordConfirm = !showPasswordConfirm"
                     v-model="details.password_confirmation"
                     @blur="$v.details.password_confirmation.$touch()"
                     clearable
                     required
+                    :loading="isLoading"
+                    :counter="counterConfirm ? countConfirm : false"
                 />
                 <div v-if="$v.details.password_confirmation.$error">
                     <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25 fs-12">Konfirmasi password harap diisi.</p>
@@ -140,9 +146,26 @@ export default {
     },
 
     data: () => ({
-        indeterminate: true,
-        showPassword: false,
+        //loading bar text field
+        isLoading: false,
+
+        //template button
         isSubmitted: false,
+
+        //spinner
+        indeterminate: true,
+
+        //using show passowrd
+        showPassword: false,
+        showPasswordConfirm: false,
+
+        //using counter
+        counterPassword: true,
+        counterConfirm: true,
+        countPass: 0,
+        countConfirm: 0,
+
+        //using backend validation
         emailError: false,
         passError: false,
         details : {
@@ -181,7 +204,8 @@ export default {
             this.details.password = null
         },
         register(){
-            this.isSubmitted = true;
+            this.isSubmitted = true
+            this.isLoading = true
             store.dispatch('auth/fetchRegister', this.details)
             .then(()=> {
                 //checking promise from auth
@@ -192,10 +216,12 @@ export default {
                 else if(this.auth.status == 422){
                     this.setDefault()
                     this.passError = true
+                    this.isLoading = false
                 }
                 else if(this.auth.status == 500){
                     this.setDefault()
                     this.emailError = true
+                    this.isLoading = false
                 }
             })
         }

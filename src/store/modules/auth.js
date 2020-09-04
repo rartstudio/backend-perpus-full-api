@@ -29,8 +29,12 @@ export const actions = {
     fetchRegister({commit},credential){
         return AuthService.getRegister(credential)
             .then(response => {
-                commit('SET_USER_DATA',response.data)
-                commit('SET_STATUS_CODE',200)
+                const statusCode = 200
+                const token = response.data.access_token
+                if(token.length != 0 && statusCode.length != 0){
+                    commit('SET_USER_DATA',response.data)
+                    commit('SET_STATUS_CODE',200)
+                }
             })
             .catch(error => {
                 commit('SET_USER_ERROR_NOTIF',error.response)
