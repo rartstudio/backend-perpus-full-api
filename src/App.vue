@@ -3,14 +3,14 @@
     <v-app-bar 
       app 
       color="#fff" 
-      elevation="2"
+      elevation="0"
       scroll-target="#main">
       <v-app-bar-nav-icon class="d-sm-none" @click="drawer = true" color="#0a369d"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <router-link to="/" class="home__link">GKKB PTK</router-link>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>mdi-cart-outline</v-icon>
       </v-btn>
     </v-app-bar>
     <v-navigation-drawer absolute temporary v-model="drawer">
