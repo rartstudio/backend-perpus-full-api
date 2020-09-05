@@ -4,7 +4,8 @@ export const namespaced = true
 
 export const state = {
     userData: null,
-    status: 0
+    status: 0,
+    isLoading: true,
 }
 
 export const mutations = {
@@ -17,13 +18,15 @@ export const mutations = {
 }
 
 export const actions = {
-    fetchUser({commit}){
+    fetchUser({commit,state}){
         return UserService.getUser()
             .then(response => {
-                commit('SET_USER_DATA', response.data.data)
-                commit('SET_STATUS_CODE', response.status)
-
-                //console.log(response.data)
+                let userData = response.data.data
+                if(userData.length != 0){
+                    commit('SET_USER_DATA', response.data.data)
+                    commit('SET_STATUS_CODE', response.status)
+                }
+                state.isLoading = false
             })
             .catch()
     }

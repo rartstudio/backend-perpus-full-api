@@ -22,7 +22,7 @@
             >
             <div class="text-center">
               
-              <v-btn rounded color=#1976D2 dark large @click="logout">
+              <v-btn color=#1976D2 dark large @click="logout">
                 <v-icon>mdi-logout-variant</v-icon>
                 <span class="ml-2">Logout</span>
               </v-btn>
@@ -124,7 +124,11 @@ export default {
       this.userAuth = true
     }
 
-    if(code.length != 0){
+    if(code == 0){
+      this.userAuth = false
+    }
+
+    else {
       this.userAuth = true
     }
   },
