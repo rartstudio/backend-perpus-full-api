@@ -14,6 +14,7 @@
                     clearable
                     required
                     :loading="isLoading"
+                    :disabled="disabled"
                 />
                 <div v-if="$v.details.name.$error">
                     <p v-if="!$v.details.name.required" class="text-red mt-m-25 fs-12">Nama harap diisi.</p>
@@ -28,6 +29,7 @@
                     clearable
                     required
                     :loading="isLoading"
+                    :disabled="disabled"
                 />
                 <div v-if="emailError" class="mb-20">
                     <p class="text-red mt-m-25 fs-12">
@@ -50,6 +52,7 @@
                     clearable
                     required
                     :loading="isLoading"
+                    :disabled="disabled"
                     :counter="counterPassword ? countPass : false"
                 />
                 <div v-if="passError" class="mb-20">
@@ -73,11 +76,12 @@
                     clearable
                     required
                     :loading="isLoading"
+                    :disabled="disabled"
                     :counter="counterConfirm ? countConfirm : false"
                 />
                 <div v-if="$v.details.password_confirmation.$error">
                     <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25 fs-12">Konfirmasi password harap diisi.</p>
-                    <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25 .fs-12">Konfirmasi password harus sesuai dengan password.</p>
+                    <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25 fs-12">Konfirmasi password harus sesuai dengan password.</p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pb-3">
                     <template v-if="isSubmitted">
@@ -152,6 +156,9 @@ export default {
         //template button
         isSubmitted: false,
 
+        //disabled text field
+        disabled: false,
+
         //spinner
         indeterminate: true,
 
@@ -198,14 +205,20 @@ export default {
         ...mapState(['auth'])
     },
     methods: {
-        setDefault(){
+        beforeFetchRegister(){
+            this.isSubmitted = true
+            this.isLoading = true
+            this.disabled = true
+        },
+        afterFetchRegister(){
+            this.isLoading = false
+            this.disabled = false
             this.isSubmitted = false
             this.details.password_confirmation = null
             this.details.password = null
         },
         register(){
-            this.isSubmitted = true
-            this.isLoading = true
+            this.beforeFetchRegister()
             store.dispatch('auth/fetchRegister', this.details)
             .then(()=> {
                 //checking promise from auth
@@ -214,14 +227,12 @@ export default {
                     this.$router.push({ name: 'dashboard' })
                 }
                 else if(this.auth.status == 422){
-                    this.setDefault()
                     this.passError = true
-                    this.isLoading = false
+                    this.afterFetchRegister()
                 }
                 else if(this.auth.status == 500){
-                    this.setDefault()
                     this.emailError = true
-                    this.isLoading = false
+                    this.afterFetchRegister()
                 }
             })
         }
