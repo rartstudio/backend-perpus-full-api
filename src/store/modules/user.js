@@ -5,7 +5,7 @@ export const namespaced = true
 export const state = {
     userData: null,
     status: 0,
-    isLoading: true,
+    isLoading: true
 }
 
 export const mutations = {

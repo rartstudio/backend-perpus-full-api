@@ -16,10 +16,7 @@
     <v-navigation-drawer absolute temporary v-model="drawer">
       <v-list nav>
         <template v-if="userAuth">
-          <v-list-item-group
-            v-model="group"
-            active-class="deep-purple--text text--accent-4"
-            >
+          <v-list-item-group>
             <div class="text-center">
               <v-btn color=#1976D2 dark large @click="logout">
                 <v-icon>mdi-logout-variant</v-icon>
@@ -29,10 +26,7 @@
           </v-list-item-group>
         </template>
         <template v-else>
-          <v-list-item-group
-            v-model="group"
-            active-class="deep-purple--text text--accent-4"
-            >
+          <v-list-item-group>
             <router-link  to="/login" text class="sidebar__link">
               <v-list-item>
                 <v-list-item-icon>
@@ -111,8 +105,9 @@ export default {
   },
 
   data: () => ({
+    //spinner
+    indeterminate: true,
     drawer: false,
-    group: '',
     showPassword: false,
     userAuth : false
   }),
@@ -139,9 +134,12 @@ export default {
           const user = localStorage.getItem('user')
 
           if(token.length != 0 && user.length != 0){
-              localStorage.removeItem('usacco')
-              localStorage.removeItem('user')
-              location.reload()
+            localStorage.removeItem('usacco')
+            localStorage.removeItem('user')
+            
+            //reload page after delete local storage cause 
+            //without reload page broken              
+            location.reload()
           }
         })
     }

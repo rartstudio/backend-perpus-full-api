@@ -63,12 +63,10 @@
                                 Sign In
                         </v-btn>
                     </template>
-                    
                 </v-card-actions>
             </v-form>
         </v-card-text>
         <v-divider></v-divider>
-        
     </v-card>
 </template>
 <style>
@@ -145,7 +143,15 @@ export default {
     computed : {
         ...mapState(['auth'])
     },
+    updated(){
+        if(this.details.password != null) {
+            this.disabledBackendValidation()
+        }
+    },
     methods: {
+        disabledBackendValidation(){
+            return this.passError = false
+        },
         beforeFetchLogin(){
             this.isSubmitted = true
             this.isLoading = true
@@ -155,8 +161,8 @@ export default {
             this.isLoading = false
             this.disabled = false
             this.isSubmitted = false
-            this.details.password = null
             this.passError = true
+            this.details.password = null
         },
         login(){
             this.beforeFetchLogin()  
@@ -171,13 +177,6 @@ export default {
             })
         }
     },
-    // updated(){
-    //     let email = this.details.email
-    //     let pass = this.details.password
-    //     if(email.length != 0 && pass.length != 0){
-    //         this.passError = false
-    //     }
-    // }
 };
 </script>
 

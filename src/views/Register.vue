@@ -38,7 +38,7 @@
                 </div>
                 <div v-if="$v.details.email.$error" class="mt-2">
                     <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
-                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email is required.</p>
+                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email wajib diisi.</p>
                 </div>
                 <v-text-field
                     solo
@@ -204,7 +204,21 @@ export default {
     computed : {
         ...mapState(['auth'])
     },
+    updated(){
+        if(this.details.password != null) {
+            this.disabledBackendValidationPass()
+        }
+        if(this.details.email != null){
+            this.disabledBackendValidationEmail()
+        }
+    },
     methods: {
+        disabledBackendValidationPass(){
+            return this.passError = false
+        },
+        disabledBackendValidationEmail(){
+            return this.emailError = false
+        },
         beforeFetchRegister(){
             this.isSubmitted = true
             this.isLoading = true
@@ -233,6 +247,7 @@ export default {
                 else if(this.auth.status == 500){
                     this.emailError = true
                     this.afterFetchRegister()
+                    this.details.email = null
                 }
             })
         }
