@@ -1,4 +1,6 @@
-import AuthService from "@/services/AuthService.js"
+/* eslint-disable */
+import AuthService from '@/services/AuthService.js'
+import router from '@/router'
 
 export const namespaced = true
 
@@ -14,18 +16,14 @@ export const state = {
 export const mutations = {
     SET_USER_DATA(state,data){
         //save user data to localstorage
-        localStorage.setItem("user",JSON.stringify(data.user))
-        localStorage.setItem("usacco",data.access_token)
+        localStorage.setItem('user',JSON.stringify(data.user))
+        localStorage.setItem('usacco',data.access_token)
     },
     SET_USER_ERROR_NOTIF(state,error){
         state.error = error
     },
     SET_STATUS_CODE(state,status){
         state.status = status
-    },
-    DELETE_USER_DATA(){
-        localStorage.removeItem("usacco")
-        localStorage.removeItem("user")
     }
 }
 
@@ -36,13 +34,13 @@ export const actions = {
                 const statusCode = 200
                 const token = response.data.access_token
                 if(token.length != 0 && statusCode.length != 0){
-                    commit("SET_USER_DATA",response.data)
-                    commit("SET_STATUS_CODE",200)
+                    commit('SET_USER_DATA',response.data)
+                    commit('SET_STATUS_CODE',200)
                 }
             })
             .catch(error => {
-                commit("SET_USER_ERROR_NOTIF",error.response)
-                commit("SET_STATUS_CODE",error.response.status)
+                commit('SET_USER_ERROR_NOTIF',error.response)
+                commit('SET_STATUS_CODE',error.response.status)
             })
     },
     fetchLogin({commit},credential){
@@ -51,25 +49,22 @@ export const actions = {
                 const token = response.data.access_token
                 const statusCode = 200
                 if(token.length != 0 && statusCode.length != 0){
-                    commit("SET_STATUS_CODE",statusCode)
-                    commit("SET_USER_DATA",response.data)
+                    commit('SET_STATUS_CODE',statusCode)
+                    commit('SET_USER_DATA',response.data)
                 }
             })
             .catch(() => {
-                commit("SET_STATUS_CODE",401)
+                commit('SET_STATUS_CODE',401)
             })
     },
-    fetchLogout({commit}){
+    fetchLogout(){
         return AuthService.getLogout()
-            .then(() => {
-                const token = localStorage.getItem("usacco")
-                const user = localStorage.getItem("user")
-
-                if(token.length != 0 && user.length != 0){
-                    commit("DELETE_USER_DATA")
-                }
+            .then(()=>{
+                router.push({ name: 'home' })
             })
-            .catch()
+            .catch(error => {
+                
+            })
     }
 }
 

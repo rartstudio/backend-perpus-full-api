@@ -171,13 +171,13 @@ export default {
             })
         }
     },
-    updated(){
-        let email = this.details.email
-        let pass = this.details.password
-        if(email.length != 0 && pass.length != 0){
-            this.passError = false
-        }
-    }
+    // updated(){
+    //     let email = this.details.email
+    //     let pass = this.details.password
+    //     if(email.length != 0 && pass.length != 0){
+    //         this.passError = false
+    //     }
+    // }
 };
 </script>
 

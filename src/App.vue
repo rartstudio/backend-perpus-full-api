@@ -21,7 +21,6 @@
             active-class="deep-purple--text text--accent-4"
             >
             <div class="text-center">
-              
               <v-btn color=#1976D2 dark large @click="logout">
                 <v-icon>mdi-logout-variant</v-icon>
                 <span class="ml-2">Logout</span>
@@ -134,10 +133,16 @@ export default {
   },
   methods: {
     logout(){
-      console.log('logout');
       store.dispatch('auth/fetchLogout')
         .then(()=>{
-          this.$router.push({name: 'Home'})
+          const token = localStorage.getItem('usacco')
+          const user = localStorage.getItem('user')
+
+          if(token.length != 0 && user.length != 0){
+              localStorage.removeItem('usacco')
+              localStorage.removeItem('user')
+              location.reload()
+          }
         })
     }
   },
