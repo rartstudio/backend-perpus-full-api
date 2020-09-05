@@ -14,6 +14,7 @@
                     required
                     clearable
                     :loading="isLoading"
+                    :disabled="disabled"
                 />
                 <div v-if="$v.details.email.$error">
                     <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
@@ -29,7 +30,9 @@
                     v-model="details.password"
                     @blur="$v.details.password.$touch()"
                     required
+                    clearable
                     :loading="isLoading"
+                    :disabled="disabled"
                     :counter="counterPassword ? countPass : false"
                 />
                 <div v-if="passError" class="mb-20">
@@ -105,6 +108,9 @@ export default {
         //loading bar text field
         isLoading: false,
 
+        //disabled text field 
+        disabled: false,
+
         //template button
         isSubmitted: false,
 
@@ -140,24 +146,36 @@ export default {
         ...mapState(['auth'])
     },
     methods: {
-        setDefault(){
+        beforeFetchLogin(){
+            this.isSubmitted = true
+            this.isLoading = true
+            this.disabled = true
+        },
+        afterFetchLogin(){
+            this.isLoading = false
+            this.disabled = false
             this.isSubmitted = false
             this.details.password = null
             this.passError = true
         },
         login(){
-            this.isSubmitted = true;
-            this.isLoading = true
+            this.beforeFetchLogin()  
             store.dispatch('auth/fetchLogin', this.details)
             .then(()=> {
                 if(this.auth.status == 200){
                     this.$router.push({ name: 'dashboard' })
                 }
                 else {
-                    this.setDefault()
-                    this.isLoading = false
+                    this.afterFetchLogin()
                 }
             })
+        }
+    },
+    updated(){
+        let email = this.details.email
+        let pass = this.details.password
+        if(email.length != 0 && pass.length != 0){
+            this.passError = false
         }
     }
 };
