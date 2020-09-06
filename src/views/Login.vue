@@ -1,27 +1,28 @@
 <template>
-    <v-card class="mt-10 mx-4">
+    <v-card class="mt-10 mx-4" elevation=0>
         <v-card-title class="mb-4 justify-center">
             <h1 class="header__login">Login</h1>
         </v-card-title>
         <v-card-text class="mt-4">
             <v-form @submit.prevent="login">
                 <v-text-field
-                    solo
+                    outlined
                     prepend-inner-icon="mdi-email-outline"
                     label="Email"
                     v-model.trim="details.email"
                     @blur="$v.details.email.$touch()"
                     required
                     clearable
+                    :error="isEmailError"
                     :loading="isLoading"
                     :disabled="disabled"
                 />
+                <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
                 <div v-if="$v.details.email.$error">
-                    <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
                     <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email is required.</p>
                 </div>
                 <v-text-field
-                    solo
+                    outlined
                     label="Password" 
                     :type="showPassword ? 'text' : 'password'" 
                     prepend-inner-icon="mdi-lock"
@@ -31,6 +32,7 @@
                     @blur="$v.details.password.$touch()"
                     required
                     clearable
+                    :error="isPassError"
                     :loading="isLoading"
                     :disabled="disabled"
                     :counter="counterPassword ? countPass : false"
@@ -40,9 +42,9 @@
                         Kombinasi email password tidak sesuai
                     </p>
                 </div>
+                <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
                 <div v-if="$v.details.password.$error">
                     <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
-                    <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pb-3">
                     <template v-if="isSubmitted">
@@ -66,7 +68,6 @@
                 </v-card-actions>
             </v-form>
         </v-card-text>
-        <v-divider></v-divider>
     </v-card>
 </template>
 <style>
@@ -103,6 +104,10 @@ export default {
     },
 
     data: () => ({
+        //if text field has error
+        isEmailError: false,
+        isPassError: false,
+
         //loading bar text field
         isLoading: false,
 
@@ -146,6 +151,18 @@ export default {
     updated(){
         if(this.details.password != null) {
             this.disabledBackendValidation()
+        }
+        if(this.$v.details.email.email == true){
+            this.isEmailError = false
+        }
+        else {
+            this.isEmailError = true
+        }
+        if(!this.$v.details.password.minLength ){
+            this.isPassError = true
+        }
+        else {
+            this.isPassError = false
         }
     },
     methods: {
@@ -193,5 +210,7 @@ export default {
     font-size: 1.5rem;
 }
 
-
+.v-text-field__slot > .v-label:focus {
+    left: -28px !important
+}
 </style>
