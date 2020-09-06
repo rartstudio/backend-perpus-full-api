@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Vuelidate from "vuelidate"
+import 'remixicon/fonts/remixicon.css'
 
 Vue.use(Vuelidate)
 Vue.config.productionTip = false;

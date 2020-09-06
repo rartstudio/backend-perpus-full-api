@@ -23,11 +23,6 @@
                 {{ rating(book.reviews) }}
               </div>
             </div>
-            <div class="d-flex align-center">
-              <v-btn icon color="#e2e2e2">
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-            </div>
           </div>
         </v-card>
     </v-flex>

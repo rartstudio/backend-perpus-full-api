@@ -19,5 +19,8 @@ export default {
     },
     getBook(slug){
         return apiClient.get(`/api/book/${slug}`)
+    },
+    getRecommendationBooks(){
+        return apiClient.get('api/recommendation-books')
     }
 }

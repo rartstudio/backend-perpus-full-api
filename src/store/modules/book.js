@@ -6,6 +6,7 @@ export const state = {
     books: [],
     booksByOne : [],
     booksByTwo : [],
+    recommendationBooks: [],
     book: {},
     isLoading: true,
     skeletonCount: 4,
@@ -21,10 +22,22 @@ export const mutations = {
     },
     SET_BOOKS_BY_ONE(state,bookByOne){
         state.booksByOne = bookByOne
+    },
+    SET_RECOMMENDATION_BOOKS(state, books){
+        state.recommendationBooks = books
     }
 }
 
 export const actions = {
+    fetchRecommendationBooks({commit}){
+        BookService.getRecommendationBooks()
+            .then(response => {
+                commit('SET_RECOMMENDATION_BOOKS',response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
     fetchBooks({commit, state}){
         BookService.getBooks(state)
             .then(response => {
