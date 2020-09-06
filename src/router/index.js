@@ -1,7 +1,7 @@
 /* eslint-disable */
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import HomePage from "../views/HomePage.vue";
 import BookShow from "../views/BookShow.vue"
 import store from "@/store"
 
@@ -11,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: Home
+    component: HomePage
   },
   {
     path: "/book/:slug",

@@ -2,15 +2,15 @@
   <v-app>
     <v-app-bar 
       app 
-      color="#fff" 
+      color="#0a369d" 
       elevation="0"
       scroll-target="#main">
-      <v-app-bar-nav-icon class="d-sm-none" @click="drawer = true" color="#0a369d"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon class="d-sm-none" @click="drawer = true" color="#fff"></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <router-link to="/" class="home__link">GKKB PTK</router-link>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon>mdi-cart-outline</v-icon>
+        <v-icon color="#fff">mdi-cart-outline</v-icon>
       </v-btn>
     </v-app-bar>
     <v-navigation-drawer absolute temporary v-model="drawer">
@@ -68,7 +68,7 @@
 }
 
 .home__link {
-  color:  #0a369d !important;
+  color:  #fff !important;
   text-decoration: none;
 }
 
