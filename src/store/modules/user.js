@@ -1,3 +1,4 @@
+/* eslint-disable */
 import UserService from "@/services/UserService.js"
 
 export const namespaced = true

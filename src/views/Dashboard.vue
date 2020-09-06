@@ -59,6 +59,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 function getUser(){
     store.dispatch('user/fetchUser')
         .then(()=> {

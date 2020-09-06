@@ -1,3 +1,4 @@
+/* eslint-disable */
 import BookService from "@/services/BooksService.js"
 
 export const namespaced = true

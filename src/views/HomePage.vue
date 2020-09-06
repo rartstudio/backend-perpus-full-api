@@ -3,24 +3,31 @@
         <!-- header -->
         <v-container class="hero-container">
             <HeaderTitle/>
+            <template v-if="book.isLoading">
+                <HeaderCardLoader/>
+            </template>
+            <template v-else>
                 <div class="recommendation-book d-flex mt-0">
                     <HeaderCard v-for="recommendation in book.recommendationBooks.data" :key="recommendation.slug" :recommendation="recommendation"/>
                 </div>
+            </template>
         </v-container>
         <!--end of header-->
 
         <!--search bar-->
         <v-text-field 
             placeholder="Cari buku atau penulis" 
-            class="mt-4 mx-4" 
-            solo 
+            class="mt-4 mx-4 search-form" 
+            solo
             append-icon="mdi-magnify"/>
         <!-- end search bar -->
 
         <!--icon start here-->
         <HomePageIcon/>
         <!--icon end here -->
+        
         <v-divider></v-divider>
+        
         <!-- section bar -->
         <TitleBook>
             <template v-slot:header>
@@ -65,7 +72,7 @@
     max-height: 180px;
 }
 
-.v-input__control {
+.search-form .v-input__control {
     margin-top : -45px;
 }
 
@@ -107,12 +114,14 @@ i.ri {
 </style>
 
 <script>
+/* eslint-disable */
 // @ is an alias to /src
 import BookCard from "@/components/BookCard.vue";
 import BookCardLoader from "@/components/BookCardLoader.vue";
 import TitleBook from "@/components/TitleBook.vue";
 import HeaderTitle from "@/components/HeaderTitle.vue";
 import HeaderCard from "@/components/HeaderCard.vue";
+import HeaderCardLoader from "@/components/HeaderCardLoader.vue";
 import HomePageIcon from "@/components/HomePageIcon.vue";
 
 import { mapState } from "vuex";
@@ -142,6 +151,7 @@ export default {
     HomePageIcon,
     TitleBook,
     HeaderCard,
+    HeaderCardLoader,
     HeaderTitle
   },
   mounted () {

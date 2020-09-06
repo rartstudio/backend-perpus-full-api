@@ -38,7 +38,7 @@
                 <v-skeleton-loader
                     type="avatar"
                     width="100%"
-                    :tile=true
+                    :tile="tile"
                     >
                 </v-skeleton-loader>
             </v-col>

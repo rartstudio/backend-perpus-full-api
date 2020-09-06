@@ -148,6 +148,7 @@
 </style>
 
 <script>
+/* eslint-disable */
 import store from "@/store"
 import { required, email, minLength } from "vuelidate/lib/validators"
 import { mapState } from "vuex";
