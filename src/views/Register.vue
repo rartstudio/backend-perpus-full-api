@@ -1,33 +1,36 @@
 <template>
-    <v-card class="mt-10 mx-4">
+    <v-card class="mt-10 mx-4" elevation=0>
         <v-card-title class="mb-4 justify-center">
-            <h1 class="header__login">Registrasi</h1>
+            <h1 class="header__login mb-4">Join Perpus GKKB</h1>
+            <p class="text-body-2 text--secondary">Registrasi untuk meminjam buku</p>
         </v-card-title>
         <v-card-text class="mt-4">
             <v-form @submit.prevent="register">
                 <v-text-field
-                    solo
+                    outlined
                     prepend-inner-icon="mdi-account-circle-outline"
                     label="Nama"
                     v-model.trim="details.name"
                     @blur="$v.details.name.$touch()"
                     clearable
                     required
+                    :error="isNameError"
                     :loading="isLoading"
                     :disabled="disabled"
                 />
+                <p v-if="!$v.details.name.minLength" class="text-red mt-m-25 fs-12">Nama minimal 3 huruf.</p>
                 <div v-if="$v.details.name.$error">
                     <p v-if="!$v.details.name.required" class="text-red mt-m-25 fs-12">Nama harap diisi.</p>
-                    <p v-if="!$v.details.name.minLength" class="text-red mt-m-25 fs-12">Nama minimal 3 huruf.</p>
                 </div>
                 <v-text-field
-                    solo
+                    outlined
                     prepend-inner-icon="mdi-email-outline"
                     label="Email"
                     v-model.trim="details.email"
                     @blur="$v.details.email.$touch()"
                     clearable
                     required
+                    :error="isEmailError"
                     :loading="isLoading"
                     :disabled="disabled"
                 />
@@ -36,12 +39,12 @@
                         Email tersebut sudah pernah registrasi
                     </p>
                 </div>
+                <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
                 <div v-if="$v.details.email.$error" class="mt-2">
-                    <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
                     <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email wajib diisi.</p>
                 </div>
                 <v-text-field
-                    solo
+                    outlined
                     label="Password" 
                     :type="showPassword ? 'text' : 'password'" 
                     prepend-inner-icon="mdi-lock"
@@ -51,6 +54,7 @@
                     @blur="$v.details.password.$touch()"
                     clearable
                     required
+                    :error="isPassError"
                     :loading="isLoading"
                     :disabled="disabled"
                     :counter="counterPassword ? countPass : false"
@@ -60,12 +64,12 @@
                         Konfirmasi Password beda dengan password
                     </p>
                 </div>
+                <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
                 <div v-if="$v.details.password.$error" class="mt-2">
                     <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
-                    <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
                 </div>
                 <v-text-field
-                    solo
+                    outlined
                     label="Konfirmasi Password" 
                     :type="showPasswordConfirm ? 'text' : 'password'" 
                     prepend-inner-icon="mdi-lock"
@@ -75,13 +79,14 @@
                     @blur="$v.details.password_confirmation.$touch()"
                     clearable
                     required
+                    :error="isConfirmPassError"
                     :loading="isLoading"
                     :disabled="disabled"
                     :counter="counterConfirm ? countConfirm : false"
                 />
+                <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25 fs-12">Konfirmasi password harus sesuai dengan password.</p>
                 <div v-if="$v.details.password_confirmation.$error">
                     <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25 fs-12">Konfirmasi password harap diisi.</p>
-                    <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25 fs-12">Konfirmasi password harus sesuai dengan password.</p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pb-3">
                     <template v-if="isSubmitted">
@@ -132,9 +137,13 @@
 }
 
 .header__login {
-    color: #42A5F5;
+    color: #0a369d;
     text-align: center;
     font-size: 1.5rem;
+}
+
+.v-text-field__slot > .v-label:focus {
+    left: -28px !important
 }
 </style>
 
@@ -150,6 +159,12 @@ export default {
     },
 
     data: () => ({
+        //if any error when typing text field
+        isNameError: false,
+        isEmailError: false,
+        isPassError: false,
+        isConfirmPassError: false,
+
         //loading bar text field
         isLoading: false,
 
@@ -202,7 +217,7 @@ export default {
         }
     },
     computed : {
-        ...mapState(['auth'])
+        ...mapState(['auth']),
     },
     updated(){
         if(this.details.password != null) {
@@ -210,6 +225,33 @@ export default {
         }
         if(this.details.email != null){
             this.disabledBackendValidationEmail()
+        }
+        // if(this.$v.details.email.email == false){
+        //     this.isEmailError = true
+        // }
+        if(!this.$v.details.name.minLength){
+            this.isNameError = true
+        }
+        else {
+            this.isNameError = false
+        }
+        if(this.$v.details.email.email == true){
+            this.isEmailError = false
+        }
+        else {
+            this.isEmailError = true
+        }
+        if(!this.$v.details.password.minLength ){
+            this.isPassError = true
+        }
+        else {
+            this.isPassError = false
+        }
+        if(!this.$v.details.password_confirmation.minLength ){
+            this.isConfirmPassError = true
+        }
+        else {
+            this.isConfirmPassError = false
         }
     },
     methods: {

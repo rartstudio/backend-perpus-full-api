@@ -18,7 +18,7 @@
         <template v-if="userAuth">
           <v-list-item-group>
             <div class="text-center">
-              <v-btn color=#1976D2 dark large @click="logout">
+              <v-btn color=#0a369d dark large @click="logout">
                 <v-icon>mdi-logout-variant</v-icon>
                 <span class="ml-2">Logout</span>
               </v-btn>
