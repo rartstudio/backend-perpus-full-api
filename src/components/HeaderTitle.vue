@@ -2,7 +2,7 @@
     <div>
         <v-row class="header-row">
             <v-col cols="12" class="header-col">
-            <h2>Mau pinjam 
+            <h2 class="mt-8">Mau pinjam 
                 <br>
                 buku apa hari ini ?</h2>
             </v-col>

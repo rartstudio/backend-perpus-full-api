@@ -121,13 +121,6 @@
 .theme--dark.v-btn.v-btn--disabled {
     color: #fff !important;
 }
-.text-red {
-    color:red;
-}
-.mt-m-25{
-    margin-top: -25px
-}
-
 .fs-12 {
     font-size: 12px;
 }

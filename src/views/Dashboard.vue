@@ -5,29 +5,45 @@
         </template>
         <template v-else>
             <v-container>
-                <v-row class="user-container">
-                    <v-col cols="3" class="text-right">
-                        <v-avatar color="white" size="48">
+                <v-row class="user-container user-width">
+                    <v-col cols="4" class="text-right">
+                        <v-avatar color="white" size="72">
                             <span class="white--text headline"></span>
                         </v-avatar>
                     </v-col>
-                    <v-col cols="9">
-                        <div class="font-weight-bold text-uppercase text-subtitle-2 font-white">
+                    <v-col cols="8">
+                        <div class="font-weight-bold text-h6 text-capitalize font-color">
                             {{ user.userData.name }}
                         </div>
-                        <div class="text-caption dark font-white">
+                        <div class="text-subtitle-1">
                             {{ user.userData.email }}
                         </div>
                         <div class="mt-1">
-                            <v-btn small color="#ff8600" dark >
+                            <v-btn color="#0a369d" dark class="text-capitalize">
                                 profile
                             </v-btn>
                         </div>
                     </v-col>
                 </v-row>
-                <v-row class="mt-m-120">
+                <v-row class="user-width progress-container">
+                    <v-col cols="5" class="status">
+                        <p class="text-subtitle-2 font-color pl-8">Status Profil</p>
+                    </v-col>
+                    <v-col cols="7" class="status">
+                        <v-progress-linear
+                            :active="active"
+                            :rounded="rounded"
+                            :height="height"
+                            :value="value"
+                            :buffer-value="buffer"
+                            color="#ff8600"
+                            class="status-progress"
+                        />
+                    </v-col>
+                </v-row>
+                <v-row class="mt-m-120 user-width">
                     <v-col cols="12">
-                        <v-tabs background-color="#27187e" dark>
+                        <v-tabs background-color="#0a369d" dark>
                             <v-tab>On Going</v-tab>
                             <v-tab>Request</v-tab>
                             <v-tab>Last</v-tab>
@@ -71,6 +87,15 @@ import store from "@/store";
 import DashboardLoader from "@/components/DashboardLoader.vue";
 
 export default {
+    data() {
+        return {
+            active: true,
+            buffer: 100,
+            height: "5px",
+            rounded: true,
+            value: "50%" 
+        }
+    },
     components: {
         DashboardLoader
     },
@@ -84,22 +109,30 @@ export default {
 </script>
 
 <style lang="scss">
-.mt-m-120{
-    margin-top: -120px;
-}
 .mt-15 {
     margin-top: 15px;
 }
 .main-content {
     margin-top: 1.3rem !important;
 }
-.user-container {
-    background-color: #27187e;
-    border-radius: 10px;
-    padding-top: 30px;
-    height: 250px;
+.user-width {
+    width: 373px;
 }
-.font-white {
-    color: #fff;
+.user-container {
+    background-color: #f6f5ff;
+    padding-top: 30px;
+    height: 180px;
+}
+.font-color {
+    color: #0a369d;
+}
+.progress-container {
+    background: #f6f5ff;
+}
+.status {
+    padding-top: 0 !important;
+}
+.status-progress {
+    margin-top: 8px;
 }
 </style>

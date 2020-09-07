@@ -2,7 +2,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomePage from "../views/HomePage.vue";
-import BookShow from "../views/BookShow.vue"
+import BookShow from "../views/BookShow.vue";
 import store from "@/store"
 
 Vue.use(VueRouter);
@@ -81,6 +81,12 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('../views/Dashboard.vue'),
+    meta: {requiresAuth:true}
+  },
+  {
+    path: '/profile-form',
+    name: 'profile-form',
+    component: () => import('../views/ProfileForm.vue'),
     meta: {requiresAuth:true}
   }
 ];

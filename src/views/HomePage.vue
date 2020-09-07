@@ -89,7 +89,7 @@
 }
 
 .hero-container {
-    height: 345px;
+    height: 385px;
     background-color: #0a369d;
     color: white;
     border-radius: 0 0 30px 30px;

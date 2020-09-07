@@ -17,7 +17,17 @@
       <v-list nav>
         <template v-if="userAuth">
           <v-list-item-group>
-            <div class="text-center">
+            <router-link to="/dashboard" text class="sidebar__link">
+              <v-list-item>
+                <v-list-item-icon>
+                  <i class="ri ri-home-line" style="font-size: 24px"></i>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  Dashboard
+                </v-list-item-title>
+              </v-list-item>
+            </router-link>
+            <div class="text-center mt-4">
               <v-btn color=#0a369d dark large @click="logout">
                 <v-icon>mdi-logout-variant</v-icon>
                 <span class="ml-2">Logout</span>
@@ -82,6 +92,17 @@
   margin-top:2rem;
   padding-top: 24px !important;
 }
+
+.text-red {
+    color:red;
+}
+.mt-m-25{
+    margin-top: -25px
+}
+.fs-12 {
+    font-size: 12px;
+}
+
 </style>
 
 <script>
