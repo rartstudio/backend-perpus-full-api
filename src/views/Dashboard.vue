@@ -19,9 +19,12 @@
                             {{ user.userData.email }}
                         </div>
                         <div class="mt-1">
+                            <router-link to="/profile-form">
+                                
                             <v-btn color="#0a369d" dark class="text-capitalize">
                                 profile
                             </v-btn>
+                            </router-link>
                         </div>
                     </v-col>
                 </v-row>
