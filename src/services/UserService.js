@@ -16,5 +16,13 @@ export default {
             'Content-Type' : 'application/json',
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`
           }});
+    },
+    getProfile(userData, slug){
+        return apiClient.post(`/api/member/${slug}`,userData,{
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`
+            }
+        })
     }
 }

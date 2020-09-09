@@ -125,9 +125,13 @@
 </template>
 
 <script>
+import store from "@/store"
 import { required, minLength,numeric } from "vuelidate/lib/validators";
 // import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
+import { mapState } from 'vuex';
+var slugify = require('slugify')
+
   export default {
     // components: { DatePicker },
     data () {
@@ -137,6 +141,9 @@ import 'vue2-datepicker/index.css';
 
             //template button
             isSubmitted: false,
+
+            //spinner
+            indeterminate: true,
 
             //if any error when typing text field
             isAddressError: false,
@@ -176,7 +183,11 @@ import 'vue2-datepicker/index.css';
     },
     methods : {
       submitProfile(){
-        console.log(this.details.address)
+        let name = this.$store.state.user.userData.name;
+        let slug = slugify(name,{lower: true});
+        
+        store.dispatch('user/fetchProfile',this.details, slug)
+        .then(()=> {})
       }
     },
     validations: {
@@ -191,6 +202,9 @@ import 'vue2-datepicker/index.css';
             }
         }
     },
+    computed : {
+      ...mapState(['user'])
+    }
   }
 </script>
 

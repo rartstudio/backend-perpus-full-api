@@ -12,6 +12,9 @@ export const state = {
 export const mutations = {
     SET_USER_DATA(state, data){
         state.userData = data
+
+        //set to local storage overriding previos on login
+        localStorage.setItem("user",JSON.stringify(data))
     },
     SET_STATUS_CODE(state,status){
         state.status = status
@@ -33,5 +36,12 @@ export const actions = {
                 state.isLoading = false
             })
             .catch()
+    },
+    fetchProfile(userData,slug){
+        return UserService.getProfile(userData,slug)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {console.log(error)})
     }
 }
