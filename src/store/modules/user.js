@@ -21,6 +21,12 @@ export const mutations = {
     },
     SET_LOCAL_STORAGE(state,data){
         state.userData = data
+    },
+    updateAddress(state,data){
+        state.userData.details.address = data
+    },
+    updatePhoneNumber(state,data){
+        state.userData.details.phone_number = data
     }
 }
 

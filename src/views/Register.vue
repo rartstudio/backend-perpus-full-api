@@ -149,9 +149,6 @@ import { mapState } from "vuex";
 export default {
     name: "Register",
 
-    components: {
-    },
-
     data: () => ({
         //if any error when typing text field
         isNameError: false,
@@ -214,37 +211,48 @@ export default {
         ...mapState(['auth']),
     },
     updated(){
+
+        //checking type data after backend validation return true
         if(this.details.password != null) {
             this.disabledBackendValidationPass()
         }
+
+        //checking type data after backend validation return true
         if(this.details.email != null){
             this.disabledBackendValidationEmail()
         }
-        // if(this.$v.details.email.email == false){
-        //     this.isEmailError = true
-        // }
+
+        //check name if doesnt match with minlength
         if(!this.$v.details.name.minLength){
             this.isNameError = true
         }
         else {
             this.isNameError = false
         }
+
+        //check emailif doesnt match with minlength
         if(this.$v.details.email.email == true){
             this.isEmailError = false
         }
         else {
             this.isEmailError = true
         }
+
+        //check password if doesnt match with minlength
         if(!this.$v.details.password.minLength ){
             this.isPassError = true
         }
         else {
             this.isPassError = false
         }
+
+        //check password confirmation if doesnt match with minlength
         if(!this.$v.details.password_confirmation.minLength ){
+            //set border to red
             this.isConfirmPassError = true
         }
         else {
+            //set border to blue (default)
             this.isConfirmPassError = false
         }
     },

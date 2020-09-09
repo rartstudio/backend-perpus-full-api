@@ -17,7 +17,7 @@
                 dense
                 prepend-inner-icon="ri ri-map-pin-add-line"
                 label="Alamat"
-                v-model.trim="details.address"
+                v-model="address"
                 @blur="$v.details.address.$touch()"
                 clearable
                 required
@@ -36,7 +36,7 @@
                 type="number"
                 prepend-inner-icon="ri ri-map-pin-add-line"
                 label="Nomor HP"
-                v-model.trim="details.phoneNumber"
+                v-model.trim="phoneNumber"
                 @blur="$v.details.phoneNumber.$touch()"
                 clearable
                 required
@@ -64,7 +64,9 @@
             >
               Lanjut
             </v-btn>
-            <v-btn text>Cancel</v-btn>
+            <router-link to="/dashboard">
+              <v-btn text>Cancel</v-btn>
+            </router-link>
           </v-stepper-content>
           <v-stepper-content step="2" class="mt-2">
             <!-- <v-text-field
@@ -116,7 +118,9 @@
                         Submit
                 </v-btn>
             </template>
-            <v-btn text>Cancel</v-btn>
+            <router-link to="/dashboard">
+              <v-btn text>Cancel</v-btn>
+            </router-link>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -125,7 +129,7 @@
 </template>
 
 <script>
-import store from "@/store"
+//import store from "@/store"
 import { required, minLength,numeric } from "vuelidate/lib/validators";
 // import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
@@ -158,7 +162,7 @@ var slugify = require('slugify')
             selectStatus: ['Pelajar', 'Mahasiswa', 'Karyawan'],
 
             details : {
-                address : null,
+                address :null,
                 // dateOfBirth: null,
                 phoneNumber: null,
                 // gender: null,
@@ -183,11 +187,12 @@ var slugify = require('slugify')
     },
     methods : {
       submitProfile(){
-        let name = this.$store.state.user.userData.name;
+        let name = this.$store.user.userData.name;
         let slug = slugify(name,{lower: true});
         
-        store.dispatch('user/fetchProfile',this.details, slug)
-        .then(()=> {})
+        console.log(slug)
+        // store.dispatch('user/fetchProfile',this.details, slug)
+        // .then(()=> {})
       }
     },
     validations: {
@@ -203,7 +208,23 @@ var slugify = require('slugify')
         }
     },
     computed : {
-      ...mapState(['user'])
+      ...mapState(['user']),
+      address : {
+        get () {
+          return this.$store.state.user.userData.details.address
+        },
+        set(value) {
+          this.$store.commit('user/updateAddress',value)
+        }
+      },
+      phoneNumber : {
+        get () {
+          return this.$store.state.user.userData.details.phone_number
+        },
+        set(value) {
+          this.$store.commit('user/updatePhoneNumber',value)
+        }
+      }
     }
   }
 </script>

@@ -77,6 +77,9 @@
   font-family: 'Nunito', sans-serif;
 }
 
+a {
+  text-decoration: none ;
+}
 
 .home__link {
   color:  #fff !important;
@@ -134,12 +137,14 @@ export default {
     userAuth : false
   }),
   updated(){
+    //check data token
     let code = checkToken()
     
     if (this.user.status == 200) {
       this.userAuth = true
     }
 
+    //if token return zero
     if(code == 0){
       this.userAuth = false
     }
@@ -152,10 +157,12 @@ export default {
     logout(){
       store.dispatch('auth/fetchLogout')
         .then(()=>{
+          //get item from local storage
           const token = localStorage.getItem('usacco')
           const user = localStorage.getItem('user')
 
           if(token.length != 0 && user.length != 0){
+            //remove item from local storage
             localStorage.removeItem('usacco')
             localStorage.removeItem('user')
             
