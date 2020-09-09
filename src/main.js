@@ -14,5 +14,13 @@ new Vue({
   router,
   store,
   vuetify,
+  //adding auto login to user
+  created(){
+    const userObject = localStorage.getItem('user')
+    if(userObject){
+      const userData = JSON.parse(userObject)
+      this.$store.commit('user/SET_LOCAL_STORAGE',userData)
+    }
+  },
   render: h => h(App)
 }).$mount("#app");

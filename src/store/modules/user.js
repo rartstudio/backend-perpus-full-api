@@ -15,6 +15,9 @@ export const mutations = {
     },
     SET_STATUS_CODE(state,status){
         state.status = status
+    },
+    SET_LOCAL_STORAGE(state,data){
+        state.userData = data
     }
 }
 
