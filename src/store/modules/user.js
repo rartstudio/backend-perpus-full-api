@@ -6,7 +6,7 @@ export const namespaced = true
 export const state = {
     userData: null,
     status: 0,
-    isLoading: true
+    isLoading: true,
 }
 
 export const mutations = {
@@ -27,6 +27,15 @@ export const mutations = {
     },
     updatePhoneNumber(state,data){
         state.userData.details.phone_number = data
+    },
+    updateDateOfBirth(state,data){
+        state.userData.details.date_of_birth = data
+    },
+    updateGender(state,data){
+        state.userData.details.gender = data
+    },
+    updateMemberCode(state,data){
+        state.userData.details.no_cst = data
     }
 }
 
@@ -43,8 +52,9 @@ export const actions = {
             })
             .catch()
     },
-    fetchProfile(userData,slug){
-        return UserService.getProfile(userData,slug)
+    fetchProfile({state},slug){
+        console.log(state.userData.details)
+        return UserService.getProfile(state.userData.details,slug)
             .then(response => {
                 console.log(response)
             })

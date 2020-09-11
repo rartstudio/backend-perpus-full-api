@@ -10,7 +10,7 @@
         </v-stepper-header>
         <v-stepper-items class="mt-2">
           <v-stepper-content step="1" >
-            <!-- <DatePicker v-model="details.dateOfBirth" format="DD-MMM-YYYY"></DatePicker> -->
+            <DatePicker v-model="dateOfBirth" valueType="format"></DatePicker>
             <v-text-field
                 class="profile-form mt-2"
                 outlined
@@ -20,15 +20,15 @@
                 v-model="address"
                 @blur="$v.details.address.$touch()"
                 clearable
-                required
-                :error="isAddressError"
-                :loading="isLoading"
-                :disabled="disabled"
             />
-            <p v-if="!$v.details.address.minLength" class="text-red mt-m-25 fs-12">Alamat minimal 5 huruf.</p>
+            <!-- 
+              :error="isAddressError"
+              :loading="isLoading"
+              :disabled="disabled"
+              <p v-if="!$v.details.address.minLength" class="text-red mt-m-25 fs-12">Alamat minimal 5 huruf.</p>
             <div v-if="$v.details.address.$error">
                 <p v-if="!$v.details.address.required" class="text-red mt-m-25 fs-12">Alamat harap diisi.</p>
-            </div>
+            </div> -->
             <v-text-field
                 class="profile-form mt-2"
                 outlined
@@ -39,25 +39,27 @@
                 v-model.trim="phoneNumber"
                 @blur="$v.details.phoneNumber.$touch()"
                 clearable
-                required
-                :error="isPhoneNumberError"
-                :loading="isLoading"
-                :disabled="disabled"
             />
+            <!-- 
+            :error="isPhoneNumberError"
+            :loading="isLoading"
+            :disabled="disabled"
             <p v-if="!$v.details.phoneNumber.minLength" class="text-red mt-m-25 fs-12">Nomor Handphone minimal 11 digit</p>
             <div v-if="$v.details.phoneNumber.$error">
                 <p v-if="!$v.details.phoneNumber.required" class="text-red mt-m-25 fs-12">Nomor Handphone Wajib Diisi</p>
-            </div>
-            <!-- <v-radio-group v-model="details.gender" class="d-flex radio-gender">
+            </div> -->
+            <v-radio-group v-model="gender" class="d-flex radio-gender">
               <v-radio
                 label="Laki-Laki"
                 value="1"
+                :checked="gender == 1 ? true : false"
               ></v-radio>
               <v-radio
                 label="Perempuan"
                 value="2"
+                :checked="gender == 2 ? true : false"
               ></v-radio>
-            </v-radio-group> -->
+            </v-radio-group>
             <v-btn
               color="primary"
               @click="e1 = 2"
@@ -69,29 +71,21 @@
             </router-link>
           </v-stepper-content>
           <v-stepper-content step="2" class="mt-2">
-            <!-- <v-text-field
+            <v-text-field
               outlined
               class="profile-form mt-4"
-              prepend-inner-icon="ri ri-phone-line"
-              label="No Hp"
+              prepend-inner-icon="ri ri-user-line"
+              label="No Anggota Gereja"
               dense
-              v-model.trim="details.memberCode"
+              v-model.trim="memberCode"
               @blur="$v.details.memberCode.$touch()"
               clearable
-              required
+            />
+            <!-- 
               :error="isMemberCodeError"
               :loading="isLoading"
               :disabled="disabled"
-            />
-            <v-select
-              :items="selectStatus"
-              label="Outlined style"
-              dense
-              v-model="valueStatus"
-              outlined
-            >
-            </v-select>
-            <v-file-input
+              <v-file-input
               class="profile-form__image"
               v-model="files"
               label="File input"
@@ -113,7 +107,7 @@
                 </v-btn>
             </template>
             <template v-else>
-                <v-btn color="#1976D2" dark class="ml-2" type="submit" :disabled="$v.$invalid">
+                <v-btn color="#1976D2" dark class="ml-2" type="submit">
                     <v-icon left color="#fff !important">mdi-pencil</v-icon>
                         Submit
                 </v-btn>
@@ -129,15 +123,15 @@
 </template>
 
 <script>
-//import store from "@/store"
+import store from "@/store"
 import { required, minLength,numeric } from "vuelidate/lib/validators";
-// import DatePicker from 'vue2-datepicker';
+import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { mapState } from 'vuex';
-var slugify = require('slugify')
+let slugify = require('slugify')
 
   export default {
-    // components: { DatePicker },
+    components: { DatePicker},
     data () {
         return {
             e1: 1,
@@ -152,23 +146,13 @@ var slugify = require('slugify')
             //if any error when typing text field
             isAddressError: false,
             isPhoneNumberError: false,
+            isMemberCodeError : false,
 
             //loading bar text field
             isLoading: false,
 
             //disabled text field
             disabled: false,
-
-            selectStatus: ['Pelajar', 'Mahasiswa', 'Karyawan'],
-
-            details : {
-                address :null,
-                // dateOfBirth: null,
-                phoneNumber: null,
-                // gender: null,
-                // memberCode: null,
-                // valueStatus: null,
-            }
         }
     },
     updated(){
@@ -187,12 +171,13 @@ var slugify = require('slugify')
     },
     methods : {
       submitProfile(){
-        let name = this.$store.user.userData.name;
+        let name = this.$store.state.user.userData.name
         let slug = slugify(name,{lower: true});
         
-        console.log(slug)
-        // store.dispatch('user/fetchProfile',this.details, slug)
-        // .then(()=> {})
+        store.dispatch('user/fetchProfile', slug)
+        .then(()=> {
+          this.$router.push({ name: 'dashboard' })
+        })
       }
     },
     validations: {
@@ -204,11 +189,17 @@ var slugify = require('slugify')
             phoneNumber : {
                 required,numeric,
                 minLength: minLength(10)
-            }
+            },
+            memberCode : {
+                required,
+                minLength: minLength(5)
+            },
         }
     },
     computed : {
       ...mapState(['user']),
+
+      //using vuex state to display form
       address : {
         get () {
           return this.$store.state.user.userData.details.address
@@ -223,6 +214,31 @@ var slugify = require('slugify')
         },
         set(value) {
           this.$store.commit('user/updatePhoneNumber',value)
+        }
+      },
+      dateOfBirth : {
+        get() {
+          return this.$store.state.user.userData.details.date_of_birth
+        },
+        set(value){
+
+          this.$store.commit('user/updateDateOfBirth', value)
+        }
+      },
+      gender : {
+        get(){
+          return this.$store.state.user.userData.details.gender
+        },
+        set(value){
+          this.$store.commit('user/updateGender',value)
+        }
+      },
+      memberCode : {
+        get(){
+          return this.$store.state.user.userData.details.no_cst
+        },
+        set(value){
+          this.$store.commit('user/updateMemberCode',value);
         }
       }
     }

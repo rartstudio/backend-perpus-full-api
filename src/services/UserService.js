@@ -19,8 +19,8 @@ export default {
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`
           }});
     },
-    getProfile(userData, slug){
-        return apiClient.post(`/api/member/${slug}`,userData,{
+    getProfile(userData,slug){
+        return apiClient.post(`/api/user/${slug}`,userData,{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`
             }
