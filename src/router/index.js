@@ -88,6 +88,11 @@ const routes = [
     name: 'profile-form',
     component: () => import('../views/ProfileForm.vue'),
     meta: {requiresAuth:true}
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('../views/Cart.vue')
   }
 ];
 

@@ -9,9 +9,11 @@
       <v-spacer></v-spacer>
       <router-link to="/" class="home__link">GKKB PTK</router-link>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon color="#fff">mdi-cart-outline</v-icon>
-      </v-btn>
+      <router-link to="/cart">
+        <v-btn icon class="btn__cart">
+          <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
+        </v-btn>
+      </router-link>
     </v-app-bar>
     <v-navigation-drawer absolute temporary v-model="drawer">
       <v-list nav>
@@ -105,7 +107,9 @@ a {
 .fs-12 {
     font-size: 12px;
 }
-
+.btn__cart {
+  width: 24px !important;
+}
 </style>
 
 <script>
