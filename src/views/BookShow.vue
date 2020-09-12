@@ -58,10 +58,28 @@
             </p>
         </div>
         <v-footer fixed class="book__footer">
+            <v-snackbar
+                v-model="snackbar"
+                :timeout="timeout"
+                color="#ca0b64"
+                top="top"
+                >
+                {{ snackbarText }}
+
+                <template v-slot:action="{ attrs }">
+                    <v-btn
+                    text
+                    v-bind="attrs"
+                    @click="snackbar = false"
+                    >
+                    Close
+                    </v-btn>
+                </template>
+            </v-snackbar>
             <v-btn class="book__btn" dark color="#ca0b64" @click="addToCart()">
                 <v-icon>ri ri-add-line</v-icon>
-                    <span class="book__btn--text">Keranjang</span>
-                </v-btn>
+                <span class="book__btn--text">Keranjang</span>
+            </v-btn>
         </v-footer>
     </div>
     
@@ -70,11 +88,12 @@
 <script>
 /* eslint-disable */
 import store from "@/store";
-import {mapGetters} from 'vuex';
+//import {mapGetters} from 'vuex';
 export default {
     data: () => ({
         rates: 0,
-        snackBar: false,
+        snackbar: false,
+        timeout: 1500,
     }),
     props: {
         book: {
@@ -83,7 +102,10 @@ export default {
         }
     },
     computed : {
-        ...mapGetters('book',['getLinkServer'])
+        // ...mapGetters('book',['getLinkServer']),
+        snackbarText(){
+            return this.$store.state.transaction.text
+        }
     },
     methods : {
         // rating(data){
@@ -112,19 +134,20 @@ export default {
             }
             store.dispatch('transaction/sendToCart',cartItem)
                 .then()
+            
+            this.snackbar = true
         },
         link(data){
-            // const linkImg = 'http://127.0.0.1:8000/'
-            const linkImg = this.getLinkServer
+            const linkImg = this.$store.state.linkServer
 
             let imgUrl = data
             let sliceImgUrl = imgUrl.slice(0,5)
             
             if(sliceImgUrl === 'https'){
-            return imgUrl
+                return imgUrl
             }
             else {
-            return linkImg+imgUrl
+                return linkImg+imgUrl
             }
         }
     }

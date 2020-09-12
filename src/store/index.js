@@ -16,7 +16,9 @@ export default new Vuex.Store({
     user,
     transaction
   },
-  state: {},
+  state: {
+    linkServer: 'http://127.0.0.1:8000/'
+  },
   mutations: {},
   actions: {}
 });

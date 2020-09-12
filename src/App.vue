@@ -11,13 +11,18 @@
       <v-spacer></v-spacer>
       <router-link to="/cart">
         <v-btn icon class="btn__cart">
-          <v-badge
+          <template v-if="getCartLength != 0">
+            <v-badge
             color="#ca0b64"
             :content="getCartLength"
-            overlap
-          >
+            overlap>
             <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
           </v-badge>
+          </template>
+          <template v-else>
+
+            <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
+          </template>
         </v-btn>
       </router-link>
     </v-app-bar>

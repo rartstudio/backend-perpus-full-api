@@ -55,7 +55,6 @@
 </style>
 
 <script>
-  import {mapGetters} from "vuex";
 
   export default {
     data: () => ({
@@ -65,7 +64,7 @@
       book : Object
     },
     computed : {
-        ...mapGetters('book',['getLinkServer'])
+        //...mapGetters('book',['getLinkServer'])
     },
     methods : {
       rating(data){
@@ -86,7 +85,9 @@
         return final 
       },
       link(data){
-        const linkImg = this.getLinkServer
+        //const linkImg = this.getLinkServer
+        const linkImg = this.$store.state.linkServer
+
         let imgUrl = data
         let sliceImgUrl = imgUrl.slice(0,5)
         

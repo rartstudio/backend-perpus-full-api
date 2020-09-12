@@ -31,7 +31,7 @@ export const mutations = {
 
 export const actions = {
     fetchRecommendationBooks({commit}){
-        BookService.getRecommendationBooks()
+        return BookService.getRecommendationBooks()
             .then(response => {
                 commit('SET_RECOMMENDATION_BOOKS',response.data)
             })
@@ -40,7 +40,7 @@ export const actions = {
             })
     },
     fetchBooks({commit, state}){
-        BookService.getBooks(state)
+        return BookService.getBooks(state)
             .then(response => {
                 commit('SET_BOOKS', response.data)
             })
@@ -49,7 +49,7 @@ export const actions = {
             })
     },
     fetchBooksBy({commit,state},{query,value}){
-        BookService.getBooksBy(query, value)
+        return BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_BOOKS_BY_ONE', response.data)
                 //set loader to false so data can appear immediately
