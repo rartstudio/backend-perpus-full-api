@@ -14,12 +14,20 @@ new Vue({
   router,
   store,
   vuetify,
-  //adding auto login to user
+  
   created(){
+    //adding auto login to user
     const userObject = localStorage.getItem('user')
     if(userObject){
       const userData = JSON.parse(userObject)
       this.$store.commit('user/SET_LOCAL_STORAGE',userData)
+    }
+
+    //restore local storage user
+    const cartObject = localStorage.getItem('book-cart')
+    if(cartObject){
+      const userCart = JSON.parse(cartObject)
+      this.$store.commit('transaction/SET_LOCAL_STORAGE',userCart)
     }
   },
   render: h => h(App)

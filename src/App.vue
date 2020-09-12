@@ -13,7 +13,7 @@
         <v-btn icon class="btn__cart">
           <v-badge
             color="#ca0b64"
-            content="6"
+            :content="getCartLength"
             overlap
           >
             <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
@@ -130,7 +130,7 @@ function checkToken (){
   }
 }
 
-import { mapState } from "vuex";
+import { mapState,mapGetters } from "vuex";
 import store from "@/store"
 
 export default {
@@ -184,7 +184,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user']),
+    ...mapGetters('transaction',['getCartLength'])
   }
 };
 </script>

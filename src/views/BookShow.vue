@@ -58,9 +58,10 @@
             </p>
         </div>
         <v-footer fixed class="book__footer">
-            <v-btn class="book__btn" dark color="#ca0b64">
+            <v-btn class="book__btn" dark color="#ca0b64" @click="addToCart()">
                 <v-icon>ri ri-add-line</v-icon>
-                Keranjang</v-btn>
+                    <span class="book__btn--text">Keranjang</span>
+                </v-btn>
         </v-footer>
     </div>
     
@@ -68,10 +69,12 @@
 
 <script>
 /* eslint-disable */
+import store from "@/store";
 import {mapGetters} from 'vuex';
 export default {
     data: () => ({
         rates: 0,
+        snackBar: false,
     }),
     props: {
         book: {
@@ -83,24 +86,32 @@ export default {
         ...mapGetters('book',['getLinkServer'])
     },
     methods : {
-        rating(data){
-            var rating = 0;
-            var final = 0;
+        // rating(data){
+        //     var rating = 0;
+        //     var final = 0;
 
-            for(var i = 0; i < data.length; i++){
-                rating += parseInt(data[i].rating)
-            }
+        //     for(var i = 0; i < data.length; i++){
+        //         rating += parseInt(data[i].rating)
+        //     }
             
-            if(rating == 0){
-                final = 0;
-            }
-            else {
-                final = Math.round(rating/data.length) 
-            }
+        //     if(rating == 0){
+        //         final = 0;
+        //     }
+        //     else {
+        //         final = Math.round(rating/data.length) 
+        //     }
 
-            this.rates = final;
+        //     this.rates = final;
 
-            return final
+        //     return final
+        // },
+        addToCart(){
+            let cartItem = {
+                id : this.book.data.id,
+                qty : 1
+            }
+            store.dispatch('transaction/sendToCart',cartItem)
+                .then()
         },
         link(data){
             // const linkImg = 'http://127.0.0.1:8000/'
@@ -130,6 +141,10 @@ export default {
 
         &__btn {
             margin: 0 auto;
+
+            &--text {
+                margin-left: 5px;
+            }
         }
 
         &__description {

@@ -1,5 +1,5 @@
 <template>
-    <v-card class="d-flex">
+    <div class="d-flex cart__card">
             <div>
                 <v-img></v-img>
             </div>
@@ -7,7 +7,7 @@
                 <v-card-title></v-card-title>
                 <v-card-subtitle></v-card-subtitle>
             </div>
-    </v-card>
+    </div>
 </template>
 
 <script>
@@ -17,5 +17,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.d-flex.cart__card {
+    box-shadow: none !important;
+}
 </style>
