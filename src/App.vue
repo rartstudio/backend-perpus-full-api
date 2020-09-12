@@ -11,7 +11,13 @@
       <v-spacer></v-spacer>
       <router-link to="/cart">
         <v-btn icon class="btn__cart">
-          <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
+          <v-badge
+            color="#ca0b64"
+            content="6"
+            overlap
+          >
+            <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
+          </v-badge>
         </v-btn>
       </router-link>
     </v-app-bar>
