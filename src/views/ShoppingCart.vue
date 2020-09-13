@@ -1,6 +1,10 @@
 <template>
     <div class="mt-10 mb-15">
-        <p class="text-center font-weight-bold header__cart mb-10 text-h6">List Buku yang akan dipinjam</p>
+        <template v-if="checkCart">
+        </template>
+        <template v-else>
+            <p class="text-center font-weight-bold header__cart mb-10 text-h6">List Buku yang akan dipinjam</p>
+        </template>
         <template v-if="getCartLength != 0">
             <ShoppingCartCard v-for="item in cart" :key="item.id" :cart="item"/>
         </template>
@@ -15,10 +19,23 @@
             fixed
             height="48"
         >
-            <v-btn color="#ca0b64" class="pa-2 ml-auto" dark @click="processToCheckout">
-                <span class="text-white">Checkout</span>
-                <v-icon color="#fff">ri ri-arrow-right-line</v-icon>
-            </v-btn>
+            <template v-if="isSubmitted">
+                <v-btn color="#ca0b64" class="pa-2 ml-auto" dark @click="processToCheckout">
+                    <span class="text-white">Checkout</span>
+                    <v-progress-circular
+                        indeterminate
+                        size="20"
+                        color="#fff"
+                        >
+                    </v-progress-circular>
+                </v-btn>
+            </template>
+            <template v-else>
+                <v-btn color="#ca0b64" class="pa-2 ml-auto btn__cart" @click="processToCheckout" :disabled="checkCart">
+                    <span class="text-white">Checkout</span>
+                    <v-icon color="#fff">ri ri-arrow-right-line</v-icon>
+                </v-btn>
+            </template>
         </v-bottom-navigation>
         <template v-if="enabledSnackbar">
             <Snackbar :snackbarText="text"/>
@@ -35,6 +52,7 @@ import {mapGetters, mapState} from "vuex";
 export default {
     data(){
         return {
+            isSubmitted : false,
             enabledSnackbar : false
         }
     },
@@ -44,17 +62,29 @@ export default {
     },
     methods : {
         processToCheckout(){
-            const isVerifiedUser = parseInt(this.$store.state.user.userData.details.is_verified)
-            // console.log(isVerifiedUser)
-            store.dispatch('transaction/checkoutItem',isVerifiedUser)
+            if(this.$store.state.user.userData){
+                this.isSubmitted = true
+                const isVerifiedUser = this.$store.state.user.userData.details.is_verified    
+                store.dispatch('transaction/checkoutItem',isVerifiedUser)
                 .then(()=>{
-                    this.enabledSnackbar = true
+                    if (this.$store.state.transaction.status == 200){
+                        this.$router.push({ name: 'dashboard'})
+                    }
+                    else {
+                        this.$router.push({ name: 'cart'})
+                        this.enabledSnackbar = true
+                    }
                 })
+            }
+            else {
+                this.$router.push({name: 'login'})
+            }
+            this.isSubmitted = false
             this.enabledSnackbar = false
         }
     },
     computed : {
-        ...mapGetters('transaction',['getCartLength']),
+        ...mapGetters('transaction',['getCartLength','checkCart']),
         ...mapState('transaction',['cart','text'])
     }
 }
@@ -69,5 +99,8 @@ export default {
 }
 .header__cart {
     color: #0a369d;
+}
+.btn__cart.v-btn--disabled {
+    background: #c5c5c5 !important;
 }
 </style>

@@ -1,16 +1,20 @@
-//import TransactionService from "@/services/TransactionService.js";
-import router from '@/router'
+import TransactionService from "@/services/TransactionService.js";
 
 export const namespaced = true
 
 export const state = {
     cart: [],
     maxCart : 2,
+    finalCart: null,
     text: null,
+    status: null,
     linkServer: 'http://127.0.0.1:8000/'
 }
 
 export const mutations = {
+    SET_STATUS(state,data){
+        state.status = data
+    },
     SET_TO_CART(state,data){
         state.cart.push(data)
     },
@@ -22,23 +26,18 @@ export const mutations = {
     },
     SET_TO_NULL(state){
         state.cart = null
+    },
+    SET_FINAL_CART(state,data){
+        state.finalCart = data
     }
 }
 
 export const actions = {
-    // fetchBooks({commit, state}){
-    //     BookService.getBooks(state)
-    //         .then(response => {
-    //             commit('SET_BOOKS', response.data)
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // },
     sendToCart({commit,state},item){
         //if state.cart still empty
         if(state.cart.length == 0){
             commit('SET_TO_CART',item)
+            state.text = 'Berhasil ditambahkan ke keranjang'
             localStorage.setItem('book-cart',JSON.stringify(state.cart))
         }
         //if not
@@ -85,14 +84,47 @@ export const actions = {
             localStorage.setItem('book-cart',JSON.stringify(state.cart))
         }
     },
-    checkoutItem({state},userVerified){
+    checkoutItem({state,commit},userVerified){
         //checking if user verified
         if(userVerified == 1 ){
-            router.push({ name: 'dashboard'})
+            //mutation state cart before send it to database
+            let tempCart = state.cart
+            for(let i = 0; i < tempCart.length ; i++){
+                
+                //set addition info
+                tempCart[i].transaction_id = 1
+                
+                //replacing key object
+                tempCart[i].book_id = tempCart[i].id
+                
+                //set addition info
+                tempCart[i].state = 1
+                
+                //delete key image and title
+                delete tempCart[i].image
+                delete tempCart[i].title
+                delete tempCart[i].id                
+            }
+
+            //set it to final
+            commit('SET_FINAL_CART', tempCart)
+            //set cart to null first
+            commit('SET_TO_NULL')
+            //set it to array again with data
+            commit('SET_TO_ARRAY',JSON.parse(localStorage.getItem('book-cart')))
+
+            return TransactionService.postCartItem(state.finalCart)
+                .then(response => {
+                    localStorage.removeItem('book-cart')
+                    state.cart = []
+                    commit('SET_STATUS',response.status)
+                })
+                .catch(error => {
+                    console.log(error)
+                })            
         }
         else{
             state.text = "Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu"
-            console.log('gagal')
         }
     }
 }
@@ -100,5 +132,16 @@ export const actions = {
 export const getters = {
     getCartLength: state => {
         return state.cart.length
+    },
+    getCart: state => {
+        return state.cart
+    },
+    checkCart: state => {
+        if(state.cart.length == 0){
+            return true
+        }
+        else {
+            return false
+        }
     }
 }
