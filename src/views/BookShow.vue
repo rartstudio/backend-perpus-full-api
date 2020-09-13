@@ -58,7 +58,7 @@
             </p>
         </div>
         <v-footer fixed class="book__footer">
-            <v-snackbar
+            <!-- <v-snackbar
                 v-model="snackbar"
                 :timeout="timeout"
                 color="#ca0b64"
@@ -75,7 +75,10 @@
                     Close
                     </v-btn>
                 </template>
-            </v-snackbar>
+            </v-snackbar> -->
+            <template v-if="enabledSnackbar">
+                <Snackbar :snackbarText="text"/>
+            </template>
             <v-btn class="book__btn" dark color="#ca0b64" @click="addToCart()">
                 <v-icon>ri ri-add-line</v-icon>
                 <span class="book__btn--text">Keranjang</span>
@@ -88,11 +91,16 @@
 <script>
 /* eslint-disable */
 import store from "@/store";
+import {mapState} from "vuex";
+import Snackbar from "@/components/SnackBar.vue"
 //import {mapGetters} from 'vuex';
 export default {
+    components : {
+        Snackbar
+    },
     data: () => ({
         rates: 0,
-        snackbar: false,
+        enabledSnackbar: false,
         timeout: 1500,
     }),
     props: {
@@ -103,6 +111,7 @@ export default {
     },
     computed : {
         // ...mapGetters('book',['getLinkServer']),
+        ...mapState('transaction',['text']),
         snackbarText(){
             return this.$store.state.transaction.text
         }
@@ -130,12 +139,14 @@ export default {
         addToCart(){
             let cartItem = {
                 id : this.book.data.id,
+                image : this.book.data.cover,
+                title : this.book.data.title,
                 qty : 1
             }
             store.dispatch('transaction/sendToCart',cartItem)
-                .then()
-            
-            this.snackbar = true
+                .then(()=> {
+                    this.enabledSnackbar = true
+                })
         },
         link(data){
             const linkImg = this.$store.state.linkServer
