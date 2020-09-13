@@ -1,4 +1,5 @@
 //import TransactionService from "@/services/TransactionService.js";
+import router from '@/router'
 
 export const namespaced = true
 
@@ -84,9 +85,10 @@ export const actions = {
             localStorage.setItem('book-cart',JSON.stringify(state.cart))
         }
     },
-    checkoutItem(userVerified){
+    checkoutItem({state},userVerified){
+        //checking if user verified
         if(userVerified == 1 ){
-            console.log('sukses')
+            router.push({ name: 'dashboard'})
         }
         else{
             state.text = "Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu"
