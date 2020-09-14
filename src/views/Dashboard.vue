@@ -35,44 +35,26 @@
                             </v-btn>
                             </router-link>
                             <v-progress-circular
-                            :active="active"
-                            :rounded="rounded"
-                            :height="height"
-                            :value="value"
-                            :buffer-value="buffer"
-                            :size="24"
-                            color="#0a369d"
-                            class="status-progress"
+                                :active="true"
+                                :rounded="true"
+                                :height="5"
+                                :value="value"
+                                :buffer-value="100"
+                                :size="24"
+                                color="#0a369d"
+                                class="status-progress"
                         />
                         </div>
                     </v-col>
                 </v-row>
                 <v-row class="mt-m-120 user-width">
-                    <v-col cols="12" class="no-padding-top">
+                    <v-col cols="12" class="no-padding-top no-padding-right no-padding-left">
                         <v-tabs background-color="#0a369d" dark>
                             <v-tab>On Going</v-tab>
                             <v-tab>Request</v-tab>
-                            <v-tab>Last</v-tab>
+                            <v-tab>History</v-tab>
                         </v-tabs>
-                        <template>
-                            <v-card
-                                class="mx-auto mt-3"
-                                max-width="344"
-                                outlined
-                            >
-                                <v-list-item three-line>
-                                    <v-list-item-avatar
-                                        tile
-                                        size="80"
-                                        color="grey"
-                                    ></v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title class="text-subtitle-2 mb-1">Headline 5</v-list-item-title>
-                                        <v-list-item-subtitle class="text-caption">Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-card>
-                        </template>
+                        <TransactionCard v-for="transaction in getTransactions" :key="transaction.id" :transaction="transaction"/>
                     </v-col>
                 </v-row>
             </v-container>
@@ -88,27 +70,27 @@ function getUser(){
         })
 }
 
-import {mapState} from "vuex"
+import {mapGetters, mapState} from "vuex"
 import store from "@/store";
 import DashboardLoader from "@/components/DashboardLoader.vue";
+import TransactionCard from "@/components/TransactionCard.vue";
 
 export default {
     data() {
         return {
-            active: true,
-            buffer: 100,
-            height: "5px",
-            rounded: true,
+            
         }
     },
     components: {
-        DashboardLoader
+        DashboardLoader,
+        TransactionCard
     },
     mounted() {
         getUser()
     },
     computed : {
         ...mapState(['user']),
+        ...mapGetters('user',['getTransactions']),
         value(){
             let baseState = 50
             let inc = 10
@@ -148,8 +130,17 @@ export default {
 .no-padding-top {
     padding-top: 0px !important;
 }
+.no-padding-right {
+    padding-right: 0px !important;
+}
+.no-padding-left {
+    padding-left: 0px !important;
+}
 .main-content {
     margin-top: 1.3rem !important;
+}
+.v-slide-group__content{
+    justify-content: center;
 }
 .user-width {
     min-width: 373px;

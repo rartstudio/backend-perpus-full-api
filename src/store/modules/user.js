@@ -61,3 +61,9 @@ export const actions = {
             .catch(error => {console.log(error)})
     }
 }
+
+export const getters = {
+    getTransactions : state => {
+        return state.userData.transactions
+    }
+}

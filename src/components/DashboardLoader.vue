@@ -33,36 +33,6 @@
                 </v-skeleton-loader>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col cols="4" class="card-style">
-                <v-skeleton-loader
-                    type="avatar"
-                    width="100%"
-                    :tile="tile"
-                    >
-                </v-skeleton-loader>
-            </v-col>
-            <v-col cols="8">
-                <v-row>
-                    <v-col cols="12">
-                        <v-skeleton-loader
-                            type="heading"
-                            width="100%"
-                            >
-                        </v-skeleton-loader>
-                    </v-col>
-                </v-row>
-                <v-row>
-                    <v-col cols="12">
-                        <v-skeleton-loader
-                            type="sentences"
-                            width="100%"
-                            >
-                        </v-skeleton-loader>
-                    </v-col>
-                </v-row>
-            </v-col>
-        </v-row>
     </v-container>
 </template>
 
