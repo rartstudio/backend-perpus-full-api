@@ -33,6 +33,15 @@
                 </v-skeleton-loader>
             </v-col>
         </v-row>
+        <v-row>
+             <v-col cols="12">
+                <v-skeleton-loader
+                    type="list-item-three-line"
+                    width="100%"
+                    >
+                </v-skeleton-loader>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
