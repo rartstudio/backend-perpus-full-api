@@ -52,10 +52,13 @@
             </div>
         </div>
         <div class="pl-4">
-            <p class="font-weight-bold">Sinopsis</p>
+            <p class="font-weight-bold text-h6">Sinopsis</p>
             <p class="book__description text-body-2 mt-2">
                 {{ book.data.description }}
             </p>
+        </div>
+        <div class="pl-4">
+            <p class="text-h6 font-weight-bold">Buku lainnya</p>
         </div>
         <v-footer fixed class="book__footer">
             <!-- <v-snackbar
