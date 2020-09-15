@@ -180,6 +180,9 @@ export default {
             //remove item from local storage
             localStorage.removeItem('usacco')
             localStorage.removeItem('user')
+            localStorage.removeItem('borrow')
+            localStorage.removeItem('history')
+            localStorage.removeItem('process')
             
             //reload page after delete local storage cause 
             //without reload page broken              

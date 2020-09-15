@@ -66,6 +66,8 @@ export const actions = {
     },
     deleteFromCart({commit,state},id){
         //find index of array want to delete
+        //if dont find will return -1 
+        //if find will return index of array
         let cartIndex = state.cart.findIndex(element => {
             return element.id == id
         })

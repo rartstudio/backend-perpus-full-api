@@ -31,14 +31,14 @@
                             <router-link to="/profile-form">
                                 
                             <v-btn color="#0a369d" dark class="text-capitalize">
-                                profile
+                                profil
                             </v-btn>
                             </router-link>
                             <v-progress-circular
                                 :active="true"
                                 :rounded="true"
                                 :height="5"
-                                :value="value"
+                                :value="getProgressValue"
                                 :buffer-value="100"
                                 :size="24"
                                 color="#0a369d"
@@ -49,12 +49,25 @@
                 </v-row>
                 <v-row class="mt-m-120 user-width">
                     <v-col cols="12" class="no-padding-top no-padding-right no-padding-left">
-                        <v-tabs background-color="#0a369d" dark>
-                            <v-tab>On Going</v-tab>
-                            <v-tab>Request</v-tab>
-                            <v-tab>History</v-tab>
+                        <v-tabs background-color="#0a369d" dark v-model="tab">
+                            <v-tab
+                                v-for="item in items"
+                                :key = "item.tab"
+                                >
+                                {{ item.tab }}
+                            </v-tab>
                         </v-tabs>
-                        <TransactionCard v-for="transaction in getTransactions" :key="transaction.id" :transaction="transaction"/>
+                        <v-tabs-items v-model="tab">
+                            <v-tab-item
+                                v-for="item in items"
+                                :key="item.tab"
+                                >
+                                    <!-- <v-card flat>
+                                        <v-card-text>{{item.content}}</v-card-text>
+                                    </v-card> -->
+                                    <TransactionCard v-for="transaction in item.content" :key="transaction.id" :transaction="transaction"/>
+                            </v-tab-item>
+                        </v-tabs-items>
                     </v-col>
                 </v-row>
             </v-container>
@@ -66,8 +79,7 @@
 /* eslint-disable */
 function getUser(){
     store.dispatch('user/fetchUser')
-        .then(()=> {
-        })
+        .then()
 }
 
 import {mapGetters, mapState} from "vuex"
@@ -78,7 +90,12 @@ import TransactionCard from "@/components/TransactionCard.vue";
 export default {
     data() {
         return {
-            
+            tab: null,
+            items : [
+                { tab : 'Proses', content : null},
+                { tab : 'Pinjam', content : null },
+                { tab : 'Riwayat', content : null },
+            ]
         }
     },
     components: {
@@ -87,38 +104,35 @@ export default {
     },
     mounted() {
         getUser()
+
+        const borrow = localStorage.getItem('borrow')
+        const history = localStorage.getItem('history')
+        const process = localStorage.getItem('process')
+
+        if(borrow){
+            this.items[1].content = JSON.parse(borrow)
+        }
+        else {
+            this.items[1].content = this.$store.state.user.transactionsInBorrow
+        }
+
+        if(history){
+            this.items[2].content = JSON.parse(history)
+        }
+        else {
+            this.items[2].content = this.$store.state.user.transactionsInHistory
+        }
+
+        if(process){
+            this.items[0].content = JSON.parse(process)
+        }
+        else {
+            this.items[0].content = this.$store.state.user.transactionsInProcess
+        }
     },
     computed : {
         ...mapState(['user']),
-        ...mapGetters('user',['getTransactions']),
-        value(){
-            let baseState = 50
-            let inc = 10
-            let final = 0
-            let temp
-
-            if(this.$store.state.user.userData.details.address){
-                temp = baseState + inc
-            }
-            if(this.$store.state.user.userData.details.date_of_birth){
-                final = temp + inc
-            }
-            if(this.$store.state.user.userData.details.gender){
-                final = temp + inc
-            }
-            if(this.$store.state.user.userData.details.phone_number){
-                final = baseState + inc
-            }
-            if(this.$store.state.user.userData.details.no_cst){
-                final = final + 5
-            }
-
-            if(final == 0){
-                return baseState + "%"
-            }
-
-            return final + "%"
-        }
+        ...mapGetters('user',['getProgressValue'])
     }
 }
 </script>

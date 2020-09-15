@@ -7,6 +7,9 @@ export const state = {
     userData: null,
     status: 0,
     isLoading: true,
+    transactionsInProcess: null,
+    transactionsInBorrow: null,
+    transactionsInHistory: null,
 }
 
 export const mutations = {
@@ -65,5 +68,78 @@ export const actions = {
 export const getters = {
     getTransactions : state => {
         return state.userData.transactions
+    },
+    getProgressValue: state => {
+        let baseState = 50
+        let inc = 10
+
+        if(state.userData.details.address){
+            baseState += inc
+        }
+        if(state.userData.details.date_of_birth){
+            baseState += inc
+        }
+        if(state.userData.details.gender){
+            baseState += inc
+        }
+        if(state.userData.details.phone_number){
+            baseState += inc
+        }
+        if(state.userData.details.no_cst){
+            baseState += 5
+        }
+        if(state.userData.details.is_verified == 1){
+            baseState += 5
+        }
+
+        return baseState + "%"
+    },
+    getProcess(){
+
+        let base = state.userData.transactions
+
+        //filtering by state
+        //using filter will return a new array based on filter
+        let waited = base.filter(el => {
+            return el.stated == 1
+        })
+
+        let accept = base.filter(el => {
+            return el.stated == 2
+        })
+
+        let reject= base.filter(el => {
+            return el.stated == 3
+        })
+
+        let ready = base.filter(el => {
+            return el.stated == 4
+        })
+
+        //concat it
+        let final = waited.concat(accept,reject,ready)
+
+        localStorage.setItem('process',JSON.stringify(final))
+        return state.transactionsInProcess = final
+    },
+    getBorrow(){
+        let base = state.userData.transactions
+
+        let borrowed = base.filter(el => {
+            return el.stated == 5
+        })
+
+        localStorage.setItem('borrow',JSON.stringify(borrowed))
+        return state.transactionsInBorrow = borrowed
+    },
+    getHistory(){
+        let base = state.userData.transactions
+
+        let history = base.filter(el => {
+            return el.stated == 6
+        })
+
+        localStorage.setItem('history',JSON.stringify(history))
+        return state.transactionsInHistory = history
     }
 }

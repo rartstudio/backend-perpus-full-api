@@ -10,7 +10,7 @@
             <v-expansion-panel-header>{{transaction.transaction_code}}
                 <span class="text-center">
                     <v-chip>
-                        {{ checkTransactionState(transaction.state) }}
+                        {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
                 </span>
             </v-expansion-panel-header>
