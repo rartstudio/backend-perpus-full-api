@@ -7,7 +7,11 @@
         <v-expansion-panel
             
         >
-            <v-expansion-panel-header>{{transaction.transaction_code}}
+            <v-expansion-panel-header>
+                <div class="d-flex flex-column">
+                    <p class="text-body-1">{{transaction.created_at}}</p>
+                    <p class="text-body-2">{{transaction.transaction_code}}</p>
+                </div>
                 <span class="text-center">
                     <v-chip>
                         {{ checkTransactionState(transaction.stated) }}
@@ -15,9 +19,10 @@
                 </span>
             </v-expansion-panel-header>
             <v-expansion-panel-content v-for="detail in transaction.transaction_details" :key="detail.id">
-                {{ detail.details.title }}
-                {{ detail.qty }}
-                <span></span>
+                <div class="d-flex mt-7">
+                    <p>{{ detail.details.title }}</p> x 
+                     <p>{{ detail.qty }}</p>
+                </div>
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-expansion-panels>
