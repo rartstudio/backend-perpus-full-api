@@ -27,7 +27,7 @@ const routes = [
         //after get data set data to route
         .then(book => {
           //and set the data to dynamic slug param
-          routeTo.params.book = book
+          routeTo.params.show = book
           //empty next mean continue
           next()
         })

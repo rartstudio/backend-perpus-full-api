@@ -15,7 +15,9 @@
 
 <script>
 import store from "@/store"
+import {bookMixin} from "@/mixins/bookMixin.js";
 export default {
+    mixins: [bookMixin],
     props: {
         cart : {
             type: Object
@@ -25,21 +27,7 @@ export default {
         deleteFromCart(id){
             store.dispatch('transaction/deleteFromCart',id)
             .then()
-        },
-        link(data){
-        //const linkImg = this.getLinkServer
-        const linkImg = this.$store.state.linkServer
-
-        let imgUrl = data
-        let sliceImgUrl = imgUrl.slice(0,5)
-        
-        if(sliceImgUrl === 'https'){
-          return imgUrl
         }
-        else {
-          return linkImg+imgUrl
-        }
-      }
     }
 }
 </script>

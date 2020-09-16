@@ -1,12 +1,13 @@
 <template>
     <div class="book">
-        <div class="d-flex justify-center align-start mt-4 pa-4">
+        <h3 class="text-center mt-6">Detail Buku</h3>
+        <div class="d-flex justify-between align-start mt-4 pa-4">
             <div>
-                <img class="book__img elevation-4" :src="link(book.data.cover)" height="200px" width="140px"> 
+                <img class="book__img elevation-4 ml-0" :src="link(show.data.cover)" height="200px" width="140px"> 
             </div>
             <div class="ml-4">
-                <h4 class="book__title mt-4">{{book.data.title}}</h4>
-                <p class="text-caption mt-2">{{book.data.author.name}}</p>
+                <h4 class="book__title mt-4">{{show.data.title}}</h4>
+                <p class="text-caption mt-2">{{show.data.author.name}}</p>
                 <div>
                     <ChipDefault>
                         Tersedia
@@ -47,7 +48,7 @@
         <div class="pl-4">
             <p class="font-weight-bold text-h6">Sinopsis</p>
             <p class="book__description text-body-2 mt-2">
-                {{ book.data.description }}
+                {{ show.data.description }}
             </p>
         </div>
         <div class="pl-4">
@@ -60,7 +61,7 @@
         </template>
         <template v-else>
             <BookCardLayout>
-                <BookCard class="card-book" v-for="related in book.relatedBooks.data" :key="related.slug" :book="related"/>
+                <BookCard class="card-book" v-for="book in book.relatedBooks.data" :key="book.slug" :book="book"/>
                 <v-btn fab color="#0a369d" class="mt-11">
                     <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
                 </v-btn>
@@ -105,6 +106,8 @@ import ChipDefault from "@/components/ChipDefault.vue";
 import BookCardLayout from "@/layout/BookCardLayout.vue";
 import BookCard from "@/components/BookCard.vue";
 import BookCardLoader from "@/components/BookCardLoader.vue";
+
+import {bookMixin} from "@/mixins/bookMixin.js";
 //import {mapGetters} from 'vuex';
 
 function getBooksBy(q, v){
@@ -118,6 +121,7 @@ function getBooksBy(q, v){
 }
 
 export default {
+    mixins: [bookMixin],
     components : {
         Snackbar,
         ChipDefault,
@@ -130,67 +134,34 @@ export default {
         enabledSnackbar: false,
         timeout: 1500,
     }),
-    created(){
+    mounted(){
         getBooksBy('cat','science fiction')
     },
     props: {
-        book: {
+        show: {
             type: Object,
             required: true
         }
     },
     computed : {
-        // ...mapGetters('book',['getLinkServer']),
         ...mapState('transaction',['text']),
-        ...mapState('book',['relatedBooks']),
+        ...mapState(['book']),
         snackbarText(){
             return this.$store.state.transaction.text
         }
     },
     methods : {
-        // rating(data){
-        //     var rating = 0;
-        //     var final = 0;
-
-        //     for(var i = 0; i < data.length; i++){
-        //         rating += parseInt(data[i].rating)
-        //     }
-            
-        //     if(rating == 0){
-        //         final = 0;
-        //     }
-        //     else {
-        //         final = Math.round(rating/data.length) 
-        //     }
-
-        //     this.rates = final;
-
-        //     return final
-        // },
         addToCart(){
             let cartItem = {
-                id : this.book.data.id,
-                image : this.book.data.cover,
-                title : this.book.data.title,
+                id : this.show.data.id,
+                image : this.show.data.cover,
+                title : this.show.data.title,
                 qty : 1
             }
             store.dispatch('transaction/sendToCart',cartItem)
                 .then(()=> {
                     this.enabledSnackbar = true
                 })
-        },
-        link(data){
-            const linkImg = this.$store.state.linkServer
-
-            let imgUrl = data
-            let sliceImgUrl = imgUrl.slice(0,5)
-            
-            if(sliceImgUrl === 'https'){
-                return imgUrl
-            }
-            else {
-                return linkImg+imgUrl
-            }
         }
     }
 }
@@ -217,8 +188,7 @@ export default {
         }
     }
     .review {
-        
-
+    
         &__comment {
             color: #818181;
         }

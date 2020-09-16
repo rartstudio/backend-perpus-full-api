@@ -1,5 +1,5 @@
 <template>
-    <div class="collection-book d-flex mt-0 max-height-180">
+    <div class="collection-book d-flex mt-0 max-height-180 ml-2">
         <slot></slot>
     </div>
 </template>

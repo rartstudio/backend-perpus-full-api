@@ -16,11 +16,12 @@
           </div>
           <div class="text-caption text--disabled d-flex align-center justify-space-between">
             <div class="d-flex align-center review__book pa-1">
-              <v-icon color="#fff" size="13px">
-                mdi-star
+              <v-icon color="#fff" size="24px">
+                ri ri-check-line
               </v-icon>
               <div class="ml-1 review__number">
-                {{ rating(book.reviews) }}
+                <!-- {{ rating(book.reviews) }} -->
+                <!-- Tersedia -->
               </div>
             </div>
           </div>
@@ -55,49 +56,11 @@
 </style>
 
 <script>
-
-  export default {
-    data: () => ({
-
-    }),
-    props : {
-      book : Object
-    },
-    computed : {
-        //...mapGetters('book',['getLinkServer'])
-    },
-    methods : {
-      rating(data){
-        var rating = 0;
-        var final = 0;
-
-        for(var i = 0; i < data.length; i++){
-          rating += parseInt(data[i].rating)
-        }
-        
-        if(rating == 0){
-          final = 0;
-        }
-        else {
-          final = Math.round(rating/data.length) 
-        }
-
-        return final 
-      },
-      link(data){
-        //const linkImg = this.getLinkServer
-        const linkImg = this.$store.state.linkServer
-
-        let imgUrl = data
-        let sliceImgUrl = imgUrl.slice(0,5)
-        
-        if(sliceImgUrl === 'https'){
-          return imgUrl
-        }
-        else {
-          return linkImg+imgUrl
-        }
-      }
-    }
+import {bookMixin} from "@/mixins/bookMixin.js";
+export default {
+  mixins: [bookMixin],
+  props : {
+    book : Object
   }
+}
 </script>
