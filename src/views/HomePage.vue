@@ -7,9 +7,9 @@
                 <HeaderCardLoader/>
             </template>
             <template v-else>
-                <div class="recommendation-book d-flex mt-0">
+                <RecommendationCardLayout>
                     <HeaderCard v-for="recommendation in book.recommendationBooks.data" :key="recommendation.slug" :recommendation="recommendation"/>
-                </div>
+                </RecommendationCardLayout>
             </template>
         </v-container>
         <!--end of header-->
@@ -19,7 +19,7 @@
             placeholder="Cari buku atau penulis" 
             class="mt-4 mx-4 search-form" 
             solo
-            append-icon="mdi-magnify"/>
+            append-icon="ri ri-search-line"/>
         <!-- end search bar -->
 
         <!--icon start here-->
@@ -33,19 +33,19 @@
             <template v-slot:header>
                 Baru ditambahkan
             </template>
-            <template v-slot:icon>
-                <v-icon>mdi-chevron-double-right</v-icon>
-            </template>
         </TitleBook>
         <template v-if="book.isLoading">
-            <div class="collection-book d-flex mt-0 max-height-180">
+            <BookCardLayout>
                 <BookCardLoader v-for="loop in book.skeletonCount" :key="loop"/>
-            </div>
+            </BookCardLayout>
         </template>
         <template v-else>
-            <div class="collection-book d-flex mt-0">       
+            <BookCardLayout>
                 <BookCard class="card-book" v-for="book in book.booksByOne.data" :key="book.slug" :book="book"/>
-            </div>
+                <v-btn fab color="#0a369d" class="mt-11">
+                    <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
+                </v-btn>
+            </BookCardLayout>
         </template>
         <!-- end of section bar -->
     </div>
@@ -54,22 +54,6 @@
 <style lang="scss">
 .heading-book {
     color: #0a369d;
-}
-.collection-book {
-    overflow-x: auto;
-    overflow-y: hidden;
-    height: 280px;
-    margin-top: -50px;
-}
-
-.recommendation-book {
-    overflow-x: auto;
-    overflow-y: hidden;
-    height: 140px;
-}
-
-.max-height-180 {
-    max-height: 180px;
 }
 
 .search-form .v-input__control {
@@ -124,6 +108,9 @@ import HeaderCard from "@/components/HeaderCard.vue";
 import HeaderCardLoader from "@/components/HeaderCardLoader.vue";
 import HomePageIcon from "@/components/HomePageIcon.vue";
 
+import BookCardLayout from "@/layout/BookCardLayout.vue";
+import RecommendationCardLayout from "@/layout/RecommendationCardLayout.vue";
+
 import { mapState } from "vuex";
 // import { gsap } from "gsap";
 
@@ -148,11 +135,13 @@ export default {
   components: {
     BookCard,
     BookCardLoader,
+    BookCardLayout,
     HomePageIcon,
     TitleBook,
     HeaderCard,
     HeaderCardLoader,
-    HeaderTitle
+    HeaderTitle,
+    RecommendationCardLayout
   },
   mounted () {
     getBooksBy('sort','desc')

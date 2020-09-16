@@ -8,17 +8,10 @@
                 <h4 class="book__title mt-4">{{book.data.title}}</h4>
                 <p class="text-caption mt-2">{{book.data.author.name}}</p>
                 <div>
-                    <v-chip
-                    outlined
-                    class="text--white"
-                    color="#0a369d"
-                    label
-                    dark
-                    >
-                    <v-icon left>ri ri-check-line</v-icon>
-                    Tersedia
-                </v-chip>
-            </div>
+                    <ChipDefault>
+                        Tersedia
+                    </ChipDefault>
+                </div>
             <!-- <div class="d-flex align-center review__book pa-1 mt-n2">
                 <v-icon color="#fff" size="13px">
                     mdi-star
@@ -60,6 +53,19 @@
         <div class="pl-4">
             <p class="text-h6 font-weight-bold">Buku lainnya</p>
         </div>
+        <template v-if="book.isLoading">
+            <BookCardLayout>
+                <BookCardLoader v-for="loop in book.skeletonCount" :key="loop"/>
+            </BookCardLayout>
+        </template>
+        <template v-else>
+            <BookCardLayout>
+                <BookCard class="card-book" v-for="related in book.relatedBooks.data" :key="related.slug" :book="related"/>
+                <v-btn fab color="#0a369d" class="mt-11">
+                    <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
+                </v-btn>
+            </BookCardLayout>
+        </template>
         <v-footer fixed class="book__footer">
             <!-- <v-snackbar
                 v-model="snackbar"
@@ -88,24 +94,45 @@
             </v-btn>
         </v-footer>
     </div>
-    
 </template>
 
 <script>
 /* eslint-disable */
 import store from "@/store";
 import {mapState} from "vuex";
-import Snackbar from "@/components/SnackBar.vue"
+import Snackbar from "@/components/SnackBar.vue";
+import ChipDefault from "@/components/ChipDefault.vue";
+import BookCardLayout from "@/layout/BookCardLayout.vue";
+import BookCard from "@/components/BookCard.vue";
+import BookCardLoader from "@/components/BookCardLoader.vue";
 //import {mapGetters} from 'vuex';
+
+function getBooksBy(q, v){
+  const query = q;
+  const value = v;
+
+  store.dispatch('book/fetchRelatedBooks',{
+      query: query,
+      value : value})
+        .then(()=> {})
+}
+
 export default {
     components : {
-        Snackbar
+        Snackbar,
+        ChipDefault,
+        BookCard,
+        BookCardLoader,
+        BookCardLayout,
     },
     data: () => ({
         rates: 0,
         enabledSnackbar: false,
         timeout: 1500,
     }),
+    created(){
+        getBooksBy('cat','science fiction')
+    },
     props: {
         book: {
             type: Object,
@@ -115,6 +142,7 @@ export default {
     computed : {
         // ...mapGetters('book',['getLinkServer']),
         ...mapState('transaction',['text']),
+        ...mapState('book',['relatedBooks']),
         snackbarText(){
             return this.$store.state.transaction.text
         }

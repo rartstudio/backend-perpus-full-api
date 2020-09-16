@@ -40,7 +40,7 @@
     background-attachment: #e2e2e2;
   }
   .book-title {
-    min-height: 3.2rem;
+    min-height: 4.2rem;
   }
   .review__book {
     background: #0a369d;
