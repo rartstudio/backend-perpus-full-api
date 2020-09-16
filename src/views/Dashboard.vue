@@ -47,26 +47,7 @@
                         </div>
                     </v-col>
                 </v-row>
-                <v-row class="mt-m-120 user-width">
-                    <v-col cols="12" class="no-padding-top no-padding-right no-padding-left">
-                        <v-tabs background-color="#0a369d" dark v-model="tab">
-                            <v-tab
-                                v-for="item in items"
-                                :key = "item.tab"
-                                >
-                                {{ item.tab }}
-                            </v-tab>
-                        </v-tabs>
-                        <v-tabs-items v-model="tab">
-                            <v-tab-item
-                                v-for="item in items"
-                                :key="item.tab"
-                                >
-                                    <TransactionCard v-for="transaction in item.content" :key="transaction.id" :transaction="transaction"/>
-                            </v-tab-item>
-                        </v-tabs-items>
-                    </v-col>
-                </v-row>
+                <TransactionTab/>
             </v-container>
         </template>
     </div>
@@ -82,37 +63,19 @@ function getUser(){
 import {mapGetters, mapState} from "vuex"
 import store from "@/store";
 import DashboardLoader from "@/components/DashboardLoader.vue";
-import TransactionCard from "@/components/TransactionCard.vue";
+import TransactionTab from "@/components/TransactionTab.vue";
 
 export default {
-    data() {
-        return {
-            tab: null,
-            items : [
-                {   tab : 'Proses', 
-                    content : this.$store.state.user.transactionsInProcess
-                },
-                { 
-                    tab : 'Pinjam', 
-                    content : this.$store.state.user.transactionsInBorrow
-                },
-                { 
-                    tab : 'Riwayat', 
-                    content : this.$store.state.user.transactionsInHistory 
-                },
-            ]
-        }
-    },
     components: {
         DashboardLoader,
-        TransactionCard
+        TransactionTab
     },
     created() {
         getUser()
     },
     computed : {
         ...mapState(['user']),
-        ...mapGetters('user',['getProgressValue'])
+        ...mapGetters('user',['getProgressValue']),
     }   
 }
 
