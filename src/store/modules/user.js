@@ -1,6 +1,48 @@
 /* eslint-disable */
 import UserService from "@/services/UserService.js"
 
+function getProcess(base){
+
+    //filtering by state
+    //using filter will return a new array based on filter
+    let waited = base.filter(el => {
+        return el.stated == 1
+    })
+
+    let accept = base.filter(el => {
+        return el.stated == 2
+    })
+
+    let reject= base.filter(el => {
+        return el.stated == 3
+    })
+
+    let ready = base.filter(el => {
+        return el.stated == 4
+    })
+
+    //concat it
+    let final = waited.concat(accept,reject,ready)
+
+    return final
+}
+
+function getBorrow(base){
+    let borrowed = base.filter(el => {
+        return el.stated == 5
+    })
+
+    return borrowed
+}
+
+function getHistory(base){
+    let history = base.filter(el => {
+        return el.stated == 6
+    })
+
+    return history
+}
+
 export const namespaced = true
 
 export const state = {
@@ -13,6 +55,18 @@ export const state = {
 }
 
 export const mutations = {
+    SET_TRANSACTIONS_PROCESS(state,data){
+        state.transactionsInProcess = data
+        localStorage.setItem('process',JSON.stringify(data))
+    },
+    SET_TRANSACTIONS_BORROW(state,data){
+        state.transactionsInBorrow = data
+        localStorage.setItem('borrow',JSON.stringify(data))
+    },
+    SET_TRANSACTIONS_HISTORY(state,data){
+        state.transactionsInHistory = data
+        localStorage.setItem('history',JSON.stringify(data))
+    },
     SET_USER_DATA(state, data){
         state.userData = data
 
@@ -50,6 +104,17 @@ export const actions = {
                 if(userData.length != 0){
                     commit('SET_USER_DATA', response.data.data)
                     commit('SET_STATUS_CODE', response.status)
+
+                    let base = state.userData.transactions 
+
+                    let process = getProcess(base)
+                    let borrow = getBorrow(base)
+                    let history = getHistory(base)
+
+                    commit('SET_TRANSACTIONS_PROCESS',process)
+                    commit('SET_TRANSACTIONS_BORROW',borrow)
+                    commit('SET_TRANSACTIONS_HISTORY',history)
+
                 }
                 state.isLoading = false
             })
@@ -93,53 +158,5 @@ export const getters = {
         }
 
         return baseState + "%"
-    },
-    getProcess(){
-
-        let base = state.userData.transactions
-
-        //filtering by state
-        //using filter will return a new array based on filter
-        let waited = base.filter(el => {
-            return el.stated == 1
-        })
-
-        let accept = base.filter(el => {
-            return el.stated == 2
-        })
-
-        let reject= base.filter(el => {
-            return el.stated == 3
-        })
-
-        let ready = base.filter(el => {
-            return el.stated == 4
-        })
-
-        //concat it
-        let final = waited.concat(accept,reject,ready)
-
-        localStorage.setItem('process',JSON.stringify(final))
-        return state.transactionsInProcess = final
-    },
-    getBorrow(){
-        let base = state.userData.transactions
-
-        let borrowed = base.filter(el => {
-            return el.stated == 5
-        })
-
-        localStorage.setItem('borrow',JSON.stringify(borrowed))
-        return state.transactionsInBorrow = borrowed
-    },
-    getHistory(){
-        let base = state.userData.transactions
-
-        let history = base.filter(el => {
-            return el.stated == 6
-        })
-
-        localStorage.setItem('history',JSON.stringify(history))
-        return state.transactionsInHistory = history
     }
 }

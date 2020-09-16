@@ -62,9 +62,6 @@
                                 v-for="item in items"
                                 :key="item.tab"
                                 >
-                                    <!-- <v-card flat>
-                                        <v-card-text>{{item.content}}</v-card-text>
-                                    </v-card> -->
                                     <TransactionCard v-for="transaction in item.content" :key="transaction.id" :transaction="transaction"/>
                             </v-tab-item>
                         </v-tabs-items>
@@ -92,9 +89,17 @@ export default {
         return {
             tab: null,
             items : [
-                { tab : 'Proses', content : null},
-                { tab : 'Pinjam', content : null },
-                { tab : 'Riwayat', content : null },
+                {   tab : 'Proses', 
+                    content : this.$store.state.user.transactionsInProcess
+                },
+                { 
+                    tab : 'Pinjam', 
+                    content : this.$store.state.user.transactionsInBorrow
+                },
+                { 
+                    tab : 'Riwayat', 
+                    content : this.$store.state.user.transactionsInHistory 
+                },
             ]
         }
     },
@@ -102,39 +107,16 @@ export default {
         DashboardLoader,
         TransactionCard
     },
-    mounted() {
+    created() {
         getUser()
-
-        const borrow = localStorage.getItem('borrow')
-        const history = localStorage.getItem('history')
-        const process = localStorage.getItem('process')
-
-        if(borrow){
-            this.items[1].content = JSON.parse(borrow)
-        }
-        else {
-            this.items[1].content = this.$store.state.user.transactionsInBorrow
-        }
-
-        if(history){
-            this.items[2].content = JSON.parse(history)
-        }
-        else {
-            this.items[2].content = this.$store.state.user.transactionsInHistory
-        }
-
-        if(process){
-            this.items[0].content = JSON.parse(process)
-        }
-        else {
-            this.items[0].content = this.$store.state.user.transactionsInProcess
-        }
     },
     computed : {
         ...mapState(['user']),
         ...mapGetters('user',['getProgressValue'])
-    }
+    }   
 }
+
+
 </script>
 
 <style lang="scss">

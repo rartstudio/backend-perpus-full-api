@@ -29,6 +29,27 @@ new Vue({
       const userCart = JSON.parse(cartObject)
       this.$store.commit('transaction/SET_LOCAL_STORAGE',userCart)
     }
+
+    //restore local storage transaction process
+    const processObject = localStorage.getItem('process')
+    if(processObject){
+      let userTransaction = JSON.parse(processObject)
+      this.$store.commit('user/SET_TRANSACTIONS_PROCESS',userTransaction)
+    }
+
+    //restore local storage transaction history
+    const historyObject = localStorage.getItem('history')
+    if(historyObject){
+      let userTransaction = JSON.parse(historyObject)
+      this.$store.commit('user/SET_TRANSACTIONS_BORROW',userTransaction)
+    }
+
+    //restore local storage transaction borrow
+    const borrowObject = localStorage.getItem('borrow')
+    if(borrowObject){
+      let userTransaction = JSON.parse(borrowObject)
+      this.$store.commit('user/SET_TRANSACTIONS_HISTORY',userTransaction)
+    }
   },
   render: h => h(App)
 }).$mount("#app");
