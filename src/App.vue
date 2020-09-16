@@ -9,21 +9,7 @@
       <v-spacer></v-spacer>
       <router-link to="/" class="home__link">GKKB PTK</router-link>
       <v-spacer></v-spacer>
-      <router-link to="/cart">
-        <v-btn icon class="btn__cart">
-          <template v-if="getCartLength != 0">
-            <v-badge
-            color="#ca0b64"
-            :content="getCartLength"
-            overlap>
-            <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
-          </v-badge>
-          </template>
-          <template v-else>
-            <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
-          </template>
-        </v-btn>
-      </router-link>
+      <AppBarCart/>
     </v-app-bar>
     <v-navigation-drawer absolute temporary v-model="drawer">
       <v-list nav>
@@ -96,16 +82,18 @@ function checkToken (){
   }
 }
 
-import { mapState,mapGetters } from "vuex";
+import { mapState } from "vuex";
 import SidebarAuth from "@/components/SidebarAuth.vue";
 import SidebarGuest from "@/components/SidebarGuest.vue";
+import AppBarCart from "@/components/AppBarCart.vue";
 
 export default {
   name: "App",
 
   components: {
     SidebarAuth,
-    SidebarGuest
+    SidebarGuest,
+    AppBarCart
   },
 
   data: () => ({
@@ -134,7 +122,7 @@ export default {
   },
   computed: {
     ...mapState(['user']),
-    ...mapGetters('transaction',['getCartLength'])
+    // ...mapGetters('transaction',['getCartLength'])
   }
 };
 </script>
