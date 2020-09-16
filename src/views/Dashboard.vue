@@ -86,15 +86,6 @@ export default {
 .mt-15 {
     margin-top: 15px;
 }
-.no-padding-top {
-    padding-top: 0px !important;
-}
-.no-padding-right {
-    padding-right: 0px !important;
-}
-.no-padding-left {
-    padding-left: 0px !important;
-}
 .main-content {
     margin-top: 1.3rem !important;
 }
