@@ -48,7 +48,7 @@ export const actions = {
             .then(response => {
                 commit('SET_RELATED_BOOKS', response.data)
                 //set loader to false so data can appear immediately
-                state.isLoading = false
+                //state.isLoading = false
             })
             .catch(error => {
                 console.log(error)
@@ -80,8 +80,8 @@ export const actions = {
         return BookService.getBook(slug)
             .then(response => {
                 //commiting data to state and return it to router index
-                commit('SET_BOOK', response.data)
-                return response.data
+                commit('SET_BOOK', response.data.data)
+                state.isLoading = false
             })
     }
 }

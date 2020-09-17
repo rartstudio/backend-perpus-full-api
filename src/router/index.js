@@ -13,28 +13,34 @@ const routes = [
     name: "home",
     component: HomePage
   },
+  // {
+  //   path: "/book/:slug",
+  //   name: "book-show",
+  //   component: BookShow,
+  //   props: true,
+  //   //executing this lifecycle from router before enter the route
+  //   beforeEnter(routeTo,routeFrom,next){
+  //     //running dispatch to get a book data
+  //     //and parsing slug for second parameter
+  //     store
+  //       .dispatch("book/fetchBook",routeTo.params.slug)
+  //       //after get data set data to route
+  //       .then(book => {
+  //         //and set the data to dynamic slug param
+  //         routeTo.params.show = book
+  //         //empty next mean continue
+  //         next()
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       })
+  //   }
+  // },
   {
     path: "/book/:slug",
     name: "book-show",
     component: BookShow,
     props: true,
-    //executing this lifecycle from router before enter the route
-    beforeEnter(routeTo,routeFrom,next){
-      //running dispatch to get a book data
-      //and parsing slug for second parameter
-      store
-        .dispatch("book/fetchBook",routeTo.params.slug)
-        //after get data set data to route
-        .then(book => {
-          //and set the data to dynamic slug param
-          routeTo.params.show = book
-          //empty next mean continue
-          next()
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }
   },
   {
     path: "/about",
