@@ -108,10 +108,6 @@ export default {
     },
     mounted(){
         getBooksBy('cat',this.$store.state.book.book.categories.name)
-        // store.dispatch('book/fetchRelatedBooks',{
-        //     query: 'cat',
-        //     value : this.$store.state.book.book.categories.name})
-        // .then(()=> {})
     },
     //using watch to see change from route
     watch: {
