@@ -43,12 +43,10 @@ export const actions = {
                 console.log(error)
             })
     },
-    fetchRelatedBooks({commit,state},{query,value}){
+    fetchRelatedBooks({commit},{query,value}){
         return BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_RELATED_BOOKS', response.data)
-                //set loader to false so data can appear immediately
-                //state.isLoading = false
             })
             .catch(error => {
                 console.log(error)
@@ -92,8 +90,5 @@ export const getters = {
     },
     getLinkServer : state => {
         return state.linkServer
-    },
-    // getRelatedBooks : state => {
-    //     return state.relatedBooks
-    // }
+    }
 }

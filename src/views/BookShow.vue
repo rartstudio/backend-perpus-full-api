@@ -37,19 +37,12 @@
                 <div class="pl-4">
                     <p class="text-h6 font-weight-bold">Buku lainnya</p>
                 </div>
-                <template v-if="book.isLoading">
-                    <BookCardLayout>
-                        <BookCardLoader v-for="loop in book.skeletonCount" :key="loop"/>
-                    </BookCardLayout>
-                </template>
-                <template v-else>
-                    <BookCardLayout>
-                        <BookCard class="card-book" v-for="book in book.relatedBooks.data" :key="book.slug" :book="book"/>
-                        <v-btn fab color="#0a369d" class="mt-11">
-                            <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
-                        </v-btn>
-                    </BookCardLayout>
-                </template>
+                <BookCardLayout>
+                    <BookCard class="card-book" v-for="book in book.relatedBooks.data" :key="book.slug" :book="book"/>
+                    <v-btn fab color="#0a369d" class="mt-11">
+                        <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
+                    </v-btn>
+                </BookCardLayout>
                 <v-footer fixed class="book__footer">
                     <template v-if="enabledSnackbar">
                         <Snackbar :snackbarText="text"/>
@@ -106,13 +99,19 @@ export default {
     data: () => ({
         rates: 0,
         enabledSnackbar: false,
-        timeout: 1500
+        timeout: 1500,
     }),
     created(){
-        getBooksBy('cat','science fiction')
-
         //recreate component after user clicking related book
         this.fetchBook(this.slug)
+        this.scrollToTop()
+    },
+    mounted(){
+        getBooksBy('cat',this.$store.state.book.book.categories.name)
+        // store.dispatch('book/fetchRelatedBooks',{
+        //     query: 'cat',
+        //     value : this.$store.state.book.book.categories.name})
+        // .then(()=> {})
     },
     //using watch to see change from route
     watch: {
@@ -122,6 +121,7 @@ export default {
             //dispatch
             store.dispatch("book/fetchBook",this.slug)
             .then(() => {
+                this.scrollToTop()
                 next()
             })
             .catch(error => {
@@ -138,6 +138,9 @@ export default {
     },
     methods : {
         ...mapActions('book',['fetchBook']),
+        scrollToTop() {
+            window.scrollTo(0,0);
+        },
         addToCart(){
             let cartItem = {
                 id : this.$store.state.book.book.id,
