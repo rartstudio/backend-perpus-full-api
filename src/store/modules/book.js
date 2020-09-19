@@ -73,13 +73,16 @@ export const actions = {
             })
     },
     //set a second parameter for slug
-    fetchBook({commit},slug){
+    fetchBook({commit,dispatch},slug){
         //add return to wait response bookservice
         return BookService.getBook(slug)
             .then(response => {
                 //commiting data to state and return it to router index
                 commit('SET_BOOK', response.data.data)
                 state.isLoading = false
+                commit('transaction/SET_TEXT',null,{ root: true })
+                commit('transaction/SET_SNACKBAR',false,{ root: true })
+                dispatch('fetchRelatedBooks','cat',state.book.categories.name)
             })
     }
 }

@@ -8,12 +8,19 @@ export const state = {
     finalCart: null,
     text: null,
     status: null,
-    linkServer: 'http://127.0.0.1:8000/'
+    linkServer: 'http://127.0.0.1:8000/',
+    enabledSnackbar: false
 }
 
 export const mutations = {
     SET_STATUS(state,data){
         state.status = data
+    },
+    SET_SNACKBAR(state, data){
+        state.enabledSnackbar = data
+    },
+    SET_TEXT(state,data){
+        state.text = data
     },
     SET_TO_CART(state,data){
         state.cart.push(data)
@@ -50,17 +57,21 @@ export const actions = {
 
                 //if true 
                 if (existId){
-                    state.text = 'Sudah pernah ditambahkan ke keranjang'
+                    commit('SET_SNACKBAR',true);
+                    commit('SET_TEXT','Sudah pernah ditambahkan ke keranjang');
                 }
                 //if false
                 else {
                     commit('SET_TO_CART',item)
-                    state.text = 'Berhasil ditambahkan ke keranjang'
+                    commit('SET_SNACKBAR',true);
+                    commit('SET_TEXT','Berhasil ditambahkan ke keranjang');
                     localStorage.setItem('book-cart',JSON.stringify(state.cart))
                 }
             }
             else{
-                state.text = 'Maksimal peminjaman hanya '+ state.cart.length + ' buku'
+                let text = 'Maksimal peminjaman hanya '+ state.cart.length + ' buku'
+                commit('SET_SNACKBAR',true);
+                commit('SET_TEXT',text);
             }
         }
     },
@@ -116,14 +127,14 @@ export const actions = {
             commit('SET_TO_ARRAY',JSON.parse(localStorage.getItem('book-cart')))
 
             return TransactionService.postCartItem(state.finalCart)
-                .then(response => {
-                    localStorage.removeItem('book-cart')
-                    state.cart = []
-                    commit('SET_STATUS',response.status)
-                })
-                .catch(error => {
-                    console.log(error)
-                })            
+            .then(response => {
+                localStorage.removeItem('book-cart')
+                state.cart = []
+                commit('SET_STATUS',response.status)
+            })
+            .catch(error => {
+                console.log(error)
+            })    
         }
         else{
             state.text = "Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu"

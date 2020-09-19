@@ -64,17 +64,25 @@ export default {
         processToCheckout(){
             if(this.$store.state.user.userData){
                 this.isSubmitted = true
-                const isVerifiedUser = this.$store.state.user.userData.details.is_verified    
-                store.dispatch('transaction/checkoutItem',isVerifiedUser)
-                .then(()=>{
-                    if (this.$store.state.transaction.status == 200){
-                        this.$router.push({ name: 'dashboard'})
-                    }
-                    else {
-                        this.$router.push({ name: 'cart'})
-                        this.enabledSnackbar = true
-                    }
-                })
+                const isVerifiedUser = this.$store.state.user.userData.details.is_verified
+                let alreadyBorrow = this.$store.state.user.transactionsInBorrow
+                console.log(alreadyBorrow)
+                if(alreadyBorrow == null ){
+                    store.dispatch('transaction/checkoutItem',isVerifiedUser,alreadyBorrow)
+                    .then(()=>{
+                        if (this.$store.state.transaction.status == 200){
+                            this.$router.push({ name: 'dashboard'})
+                        }
+                        else {
+                            this.$router.push({ name: 'cart'})
+                            this.enabledSnackbar = true
+                        }
+                    })
+                }    
+                else {
+                    this.$store.state.transaction.text = 'Harap selesaikan terlebih dahulu peminjaman sebelumnya, maksimal 1 transaksi peminjaman'
+                    this.enabledSnackbar = true
+                }
             }
             else {
                 this.$router.push({name: 'login'})

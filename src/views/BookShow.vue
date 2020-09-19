@@ -69,7 +69,6 @@ import BookCardLoader from "@/components/BookCardLoader.vue";
 import BookShowLoader from "@/components/BookShowLoader.vue";
 
 import {bookMixin} from "@/mixins/bookMixin.js";
-//import {mapGetters} from 'vuex';
 
 function getBooksBy(q, v){
   const query = q;
@@ -98,16 +97,20 @@ export default {
     },
     data: () => ({
         rates: 0,
-        enabledSnackbar: false,
-        timeout: 1500,
+        timeout: 1500
     }),
     created(){
         //recreate component after user clicking related book
         this.fetchBook(this.slug)
         this.scrollToTop()
+        //getBooksBy('cat',this.$store.state.book.book.categories.name)
     },
     mounted(){
-        getBooksBy('cat',this.$store.state.book.book.categories.name)
+        
+    },
+    beforeDestroy(){
+        this.$store.commit('transaction/SET_SNACKBAR',false)
+        this.$store.commit('transaction/SET_TEXT',null)
     },
     //using watch to see change from route
     watch: {
@@ -126,11 +129,8 @@ export default {
         }
     },
     computed : {
-        ...mapState('transaction',['text']),
+        ...mapState('transaction',['text','enabledSnackbar']),
         ...mapState(['book']),
-        snackbarText(){
-            return this.$store.state.transaction.text
-        }
     },
     methods : {
         ...mapActions('book',['fetchBook']),
@@ -146,7 +146,6 @@ export default {
             }
             store.dispatch('transaction/sendToCart',cartItem)
                 .then(()=> {
-                    this.enabledSnackbar = true
                 })
         }
     }
