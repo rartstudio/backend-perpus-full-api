@@ -52,9 +52,12 @@ import {mapGetters, mapState} from "vuex";
 export default {
     data(){
         return {
-            isSubmitted : false,
-            enabledSnackbar : false
+            isSubmitted : false
         }
+    },
+    beforeDestroy(){
+        this.$store.commit('transaction/SET_SNACKBAR',false)
+        this.$store.commit('transaction/SET_TEXT',null)
     },
     components : {
         ShoppingCartCard,
@@ -62,38 +65,19 @@ export default {
     },
     methods : {
         processToCheckout(){
-            if(this.$store.state.user.userData){
-                this.isSubmitted = true
-                const isVerifiedUser = this.$store.state.user.userData.details.is_verified
-                let alreadyBorrow = this.$store.state.user.transactionsInBorrow
-                console.log(alreadyBorrow)
-                if(alreadyBorrow == null ){
-                    store.dispatch('transaction/checkoutItem',isVerifiedUser,alreadyBorrow)
-                    .then(()=>{
-                        if (this.$store.state.transaction.status == 200){
-                            this.$router.push({ name: 'dashboard'})
-                        }
-                        else {
-                            this.$router.push({ name: 'cart'})
-                            this.enabledSnackbar = true
-                        }
-                    })
-                }    
-                else {
-                    this.$store.state.transaction.text = 'Harap selesaikan terlebih dahulu peminjaman sebelumnya, maksimal 1 transaksi peminjaman'
-                    this.enabledSnackbar = true
-                }
-            }
-            else {
-                this.$router.push({name: 'login'})
-            }
+            store.dispatch('transaction/checkoutItem')
+                .then(()=>{
+                    if (this.$store.state.transaction.status == 200){
+                        this.$router.push({ name: 'dashboard'})
+                    }
+                }) 
             this.isSubmitted = false
             this.enabledSnackbar = false
         }
     },
     computed : {
         ...mapGetters('transaction',['getCartLength','checkCart']),
-        ...mapState('transaction',['cart','text'])
+        ...mapState('transaction',['cart','text','enabledSnackbar'])
     }
 }
 </script>

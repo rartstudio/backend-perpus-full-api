@@ -105,9 +105,6 @@ export default {
         this.scrollToTop()
         //getBooksBy('cat',this.$store.state.book.book.categories.name)
     },
-    mounted(){
-        
-    },
     beforeDestroy(){
         this.$store.commit('transaction/SET_SNACKBAR',false)
         this.$store.commit('transaction/SET_TEXT',null)

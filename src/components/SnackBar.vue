@@ -24,7 +24,7 @@
         data(){
             return {
                 snackbar: true,
-                timeout: 1500,
+                timeout: 3500,
             }
         },
         props : {

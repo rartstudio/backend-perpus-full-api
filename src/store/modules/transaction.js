@@ -1,4 +1,5 @@
 import TransactionService from "@/services/TransactionService.js";
+import router from "@/router";
 
 export const namespaced = true
 
@@ -44,7 +45,9 @@ export const actions = {
         //if state.cart still empty
         if(state.cart.length == 0){
             commit('SET_TO_CART',item)
-            state.text = 'Berhasil ditambahkan ke keranjang'
+            commit('SET_SNACKBAR',true);
+            commit('SET_TEXT','Berhasil ditambahkan ke keranjang') 
+
             localStorage.setItem('book-cart',JSON.stringify(state.cart))
         }
         //if not
@@ -97,47 +100,63 @@ export const actions = {
             localStorage.setItem('book-cart',JSON.stringify(state.cart))
         }
     },
-    checkoutItem({state,commit},userVerified){
-        //checking if user verified
-        if(userVerified == 1 ){
-            //mutation state cart before send it to database
-            let tempCart = state.cart
-            for(let i = 0; i < tempCart.length ; i++){
-                
-                //set addition info
-                tempCart[i].transaction_id = 1
-                
-                //replacing key object
-                tempCart[i].book_id = tempCart[i].id
-                
-                //set addition info
-                tempCart[i].state = 1
-                
-                //delete key image and title
-                delete tempCart[i].image
-                delete tempCart[i].title
-                delete tempCart[i].id                
+    checkoutItem({state,commit,rootState}){
+
+        //check user data is available
+        if(rootState.user.userData){
+            //checking if user verified
+            if(rootState.user.userData.details.is_verified == 1 ){
+                //checking is user transaction borrow
+                if(rootState.user.transactionsInBorrow.length == 0){
+                    //mutation state cart before send it to database
+                    let tempCart = state.cart
+                    for(let i = 0; i < tempCart.length ; i++){
+                        
+                        //set addition info
+                        tempCart[i].transaction_id = 1
+                        
+                        //replacing key object
+                        tempCart[i].book_id = tempCart[i].id
+                        
+                        //set addition info
+                        tempCart[i].state = 1
+                        
+                        //delete key image and title
+                        delete tempCart[i].image
+                        delete tempCart[i].title
+                        delete tempCart[i].id                
+                    }
+
+                    //set it to final
+                    commit('SET_FINAL_CART', tempCart)
+                    //set cart to null first
+                    commit('SET_TO_NULL')
+                    //set it to array again with data
+                    commit('SET_TO_ARRAY',JSON.parse(localStorage.getItem('book-cart')))
+                    
+                    return TransactionService.postCartItem(state.finalCart)
+                    .then(response => {
+
+                        localStorage.removeItem('book-cart')
+                        state.cart = []
+                        commit('SET_STATUS',response.status)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })    
+                }
+                else {
+                    commit('SET_SNACKBAR',true);
+                    commit('SET_TEXT','Untuk melakukan transaksi peminjaman baru harap transaksi peminjaman sebelumnya diselesaikan terlebih dahulu') 
+                }
             }
-
-            //set it to final
-            commit('SET_FINAL_CART', tempCart)
-            //set cart to null first
-            commit('SET_TO_NULL')
-            //set it to array again with data
-            commit('SET_TO_ARRAY',JSON.parse(localStorage.getItem('book-cart')))
-
-            return TransactionService.postCartItem(state.finalCart)
-            .then(response => {
-                localStorage.removeItem('book-cart')
-                state.cart = []
-                commit('SET_STATUS',response.status)
-            })
-            .catch(error => {
-                console.log(error)
-            })    
+            else{
+                commit('SET_SNACKBAR',true);
+                commit('SET_TEXT','Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu') 
+            }
         }
-        else{
-            state.text = "Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu"
+        else {
+            router.push({name: 'login'})
         }
     }
 }
