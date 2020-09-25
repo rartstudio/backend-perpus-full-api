@@ -73,6 +73,7 @@
                 this.$swal.fire({
                     title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
                     icon: 'success',
+                    text: 'pastikan buku yang diterima sudah sesuai dengan buku yang dipinjam',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',

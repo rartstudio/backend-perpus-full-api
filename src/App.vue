@@ -37,6 +37,10 @@
    font-family: 'Nunito', sans-serif; 
 }
 
+.swal2-html-container {
+  font-size: 15px !important;
+}
+
 .swal2-title {
   font-size: 20px !important;
 }
