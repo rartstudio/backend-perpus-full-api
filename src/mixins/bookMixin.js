@@ -4,6 +4,11 @@ export const bookMixin = {
             const linkImg = this.$store.state.linkServer
 
             let imgUrl = data
+
+            if(imgUrl == null){
+                imgUrl = ''
+            }
+
             let sliceImgUrl = imgUrl.slice(0,5)
             
             if(sliceImgUrl === 'https'){

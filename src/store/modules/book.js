@@ -82,7 +82,7 @@ export const actions = {
                 state.isLoading = false
                 commit('transaction/SET_TEXT',null,{ root: true })
                 commit('transaction/SET_SNACKBAR',false,{ root: true })
-                dispatch('fetchRelatedBooks','cat',state.book.categories.name)
+                dispatch('fetchRelatedBooks','cat',response.data.data.categories.name)
             })
     }
 }
