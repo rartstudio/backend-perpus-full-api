@@ -33,6 +33,14 @@
 </template>
 
 <style>
+.swal2-container {
+   font-family: 'Nunito', sans-serif; 
+}
+
+.swal2-title {
+  font-size: 20px !important;
+}
+
 .app-bar {
   font-family: 'Nunito', sans-serif; 
 }

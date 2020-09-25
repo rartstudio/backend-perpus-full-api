@@ -4,10 +4,13 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-import Vuelidate from "vuelidate"
-import 'remixicon/fonts/remixicon.css'
+import Vuelidate from "vuelidate";
+import 'remixicon/fonts/remixicon.css';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.use(Vuelidate)
+Vue.use(VueSweetalert2);
 Vue.config.productionTip = false;
 
 new Vue({

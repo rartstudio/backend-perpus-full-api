@@ -12,12 +12,13 @@
                 </div>
                 <span class="text-center">
                     <template v-if="transaction.stated === 4">
-                        <v-chip class="fs-med" color="teal" dark @click.prevent="show">
+                        <!-- using stop cause expansion have event click to if we dont stop it, it will open detail -->
+                        <v-chip class="fs-med" color="teal" dark @click.stop="show">
                             {{ checkTransactionState(transaction.stated) }}
                         </v-chip>
                     </template>
                     <template v-else-if="transaction.stated === 3">
-                        <v-chip class="fs-med" color="orange" dark @click.prevent="show">
+                        <v-chip class="fs-med" color="orange" dark >
                             {{ checkTransactionState(transaction.stated) }}
                         </v-chip>
                     </template>
@@ -68,8 +69,24 @@
         },
         methods : {
             show(){
-                this.showDialog = true
-                console.log(this.showDialog);
+                //this.$swal('Hello Vue world!!!');
+                this.$swal.fire({
+                    title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Belum',
+                    confirmButtonText: 'Sudah diterima'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.$swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                    }
+                });
             },
             checkTransactionState (data) {
                 if (data == 1){
