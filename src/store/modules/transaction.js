@@ -140,6 +140,7 @@ export const actions = {
                         localStorage.removeItem('book-cart')
                         state.cart = []
                         commit('SET_STATUS',response.status)
+                        commit('SET_SNACKBAR',false);
                     })
                     .catch(error => {
                         console.log(error)
@@ -152,7 +153,7 @@ export const actions = {
             }
             else{
                 commit('SET_SNACKBAR',true);
-                commit('SET_TEXT','Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu') 
+                commit('SET_TEXT','Untuk meminjam harus memasukkan nomor member gereja terlebih dahulu dan sudah diverifikasi') 
             }
         }
         else {

@@ -4,25 +4,51 @@
         :focusable="true"
         :hover="true"
         >
-        <v-expansion-panel
-            
-        >
-            <v-expansion-panel-header>
+        <v-expansion-panel>
+            <v-expansion-panel-header disable-icon-rotate>
                 <div class="d-flex flex-column">
-                    <p class="text-body-1">{{transaction.created_at}}</p>
-                    <p class="text-body-2">{{transaction.transaction_code}}</p>
+                    <p class="fs-med">{{transaction.created_at}}</p>
+                    <p class="fs-med">{{transaction.transaction_code}}</p>
                 </div>
                 <span class="text-center">
-                    <v-chip>
-                        {{ checkTransactionState(transaction.stated) }}
-                    </v-chip>
+                    <template v-if="transaction.stated === 4">
+                        <v-chip class="fs-med" color="teal" dark @click.prevent="show">
+                            {{ checkTransactionState(transaction.stated) }}
+                        </v-chip>
+                    </template>
+                    <template v-else-if="transaction.stated === 3">
+                        <v-chip class="fs-med" color="orange" dark @click.prevent="show">
+                            {{ checkTransactionState(transaction.stated) }}
+                        </v-chip>
+                    </template>
+                    <template v-else>
+                        <v-chip class="fs-med">
+                            {{ checkTransactionState(transaction.stated) }}
+                        </v-chip>
+                    </template>
                 </span>
+                <template v-slot:actions v-if="transaction.stated === 4">
+                    <v-icon color="teal">mdi-check</v-icon>
+                </template>
+                <template v-slot:actions v-else-if="transaction.stated === 3">
+                    <v-icon color="orange">mdi-close</v-icon>
+                </template>
             </v-expansion-panel-header>
-            <v-expansion-panel-content v-for="detail in transaction.transaction_details" :key="detail.id">
-                <div class="d-flex mt-7">
-                    <p>{{ detail.details.title }}</p> x 
-                     <p>{{ detail.qty }}</p>
+            <v-expansion-panel-content>
+                <div>
+                    <h5 class="mb-2 ">Detail Pengambilan</h5>
+                    <p class="fs-med">
+                        {{transaction.add_info == null || transaction.add_info == '' ? 'Tunggu hingga status siap diambil' : transaction.add_info}}
+                    </p>
                 </div>
+                <div>
+                    <h5 class="mb-2">Detail Buku</h5>
+                    <div class="d-flex" v-for="detail in transaction.transaction_details" :key="detail.id">
+                        <p class="fs-med">{{ detail.details.title }} x </p>
+                        <p class="fs-med ml-1">{{ detail.qty }}</p>
+                    </div>
+                </div>
+                
             </v-expansion-panel-content>
         </v-expansion-panel>
     </v-expansion-panels>
@@ -35,7 +61,16 @@
                 type: Object
             }
         },
+        data(){
+            return {
+                showDialog : false
+            }
+        },
         methods : {
+            show(){
+                this.showDialog = true
+                console.log(this.showDialog);
+            },
             checkTransactionState (data) {
                 if (data == 1){
                     return 'Menunggu'

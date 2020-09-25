@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="dashboard">
         <template v-if="user.isLoading">
             <DashboardLoader/>
         </template>

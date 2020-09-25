@@ -1,6 +1,12 @@
 /* eslint-disable */
 import UserService from "@/services/UserService.js"
 
+function sortZtoA(base){
+    let sorted = base.sort((a,b) => b.stated - a.stated)
+
+    return sorted
+}
+
 function getProcess(base){
 
     //filtering by state
@@ -24,7 +30,9 @@ function getProcess(base){
     //concat it
     let final = waited.concat(accept,reject,ready)
 
-    return final
+    let sorted = sortZtoA(final)
+
+    return sorted
 }
 
 function getBorrow(base){
@@ -32,7 +40,9 @@ function getBorrow(base){
         return el.stated == 5
     })
 
-    return borrowed
+    let sorted = sortZtoA(borrowed)
+
+    return sorted
 }
 
 function getHistory(base){
@@ -40,8 +50,11 @@ function getHistory(base){
         return el.stated == 6
     })
 
-    return history
+    let sorted = sortZtoA(history)
+
+    return sorted
 }
+
 
 export const namespaced = true
 
@@ -109,7 +122,7 @@ export const actions = {
 
                     let process = getProcess(base)
                     let borrow = getBorrow(base)
-                    let history = getHistory(base)
+                    let history = getHistory(base) 
 
                     commit('SET_TRANSACTIONS_PROCESS',process)
                     commit('SET_TRANSACTIONS_BORROW',borrow)

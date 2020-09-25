@@ -34,7 +34,11 @@
 
 <style>
 .app-bar {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Nunito', sans-serif; 
+}
+
+.fs-med{
+  font-size: 13px !important;
 }
 
 a {
