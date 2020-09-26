@@ -10,7 +10,8 @@ export const state = {
     text: null,
     status: null,
     linkServer: 'http://127.0.0.1:8000/',
-    enabledSnackbar: false
+    enabledSnackbar: false,
+    trxid: null
 }
 
 export const mutations = {
@@ -37,6 +38,9 @@ export const mutations = {
     },
     SET_FINAL_CART(state,data){
         state.finalCart = data
+    },
+    TRX_ID(state,data){
+        state.trxid = data
     }
 }
 
@@ -159,6 +163,16 @@ export const actions = {
         else {
             router.push({name: 'login'})
         }
+    },
+    processBorrow({commit},trxid){
+        commit('TRX_ID',trxid);
+        return TransactionService.postProcessBorrow(state.trxid)
+                    .then((response) => {
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })    
     }
 }
 

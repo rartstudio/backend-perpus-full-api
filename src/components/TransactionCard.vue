@@ -13,7 +13,7 @@
                 <span class="text-center">
                     <template v-if="transaction.stated === 4">
                         <!-- using stop cause expansion have event click to if we dont stop it, it will open detail -->
-                        <v-chip class="fs-med" color="teal" dark @click.stop="show">
+                        <v-chip class="fs-med" color="teal" dark @click.stop="show(transaction.id)">
                             {{ checkTransactionState(transaction.stated) }}
                         </v-chip>
                     </template>
@@ -56,20 +56,15 @@
 </template>
 
 <script>
+    import store from "@/store"
     export default {
         props : {
             transaction: {
                 type: Object
             }
         },
-        data(){
-            return {
-                showDialog : false
-            }
-        },
         methods : {
-            show(){
-                //this.$swal('Hello Vue world!!!');
+            show(id){
                 this.$swal.fire({
                     title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
                     icon: 'success',
@@ -81,11 +76,15 @@
                     confirmButtonText: 'Sudah diterima'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        this.$swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                        )
+                        console.log(id);
+                        store.dispatch('transaction/processBorrow',id)
+                        .then(()=> {    
+                            this.$swal.fire(
+                            'Sukses!',
+                            'Buku berhasil pinjam',
+                            location.reload()
+                            )
+                        });
                     }
                 });
             },

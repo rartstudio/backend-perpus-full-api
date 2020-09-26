@@ -7,6 +7,13 @@ export default {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`
             }
         })
+    },
+    postProcessBorrow(id){
+        return apiClient.post(`/api/transaction-borrow/${id}`,id,{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`
+            }
+        })
     }
 }
 
