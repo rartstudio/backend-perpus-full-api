@@ -280,7 +280,7 @@ let slugify = require('slugify')
 
 //datepicker
 .mx-datepicker {
-  width: 314px;
+  width: 305px;
   margin-bottom: 20px;
 }
 .mx-input {

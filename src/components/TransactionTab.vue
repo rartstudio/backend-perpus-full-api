@@ -1,7 +1,7 @@
 <template>
-    <v-row class="mt-m-120 user-width">
-        <v-col cols="12" class="no-padding-top no-padding-right no-padding-left">
-            <v-tabs background-color="#0a369d" dark v-model="tab">
+    <v-row class="mt-m-25 user-width">
+        <v-col cols="12" class="no-padding-top no-padding-right no-padding-left ">
+            <v-tabs background-color="#3285C0" dark v-model="tab" class="d-flex justify-center border-rad-8">
                 <v-tab
                     v-for="item in items"
                     :key = "item.tab"
@@ -64,6 +64,12 @@
 </script>
 
 <style lang="scss">
+.w-85 {
+    width: 85%;
+}
+.border-rad-sm{
+    border-radius: 8px;
+}
 .no-padding-top {
     padding-top: 0px !important;
 }

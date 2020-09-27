@@ -49,8 +49,16 @@
   font-family: 'Nunito', sans-serif; 
 }
 
+.v-application p {
+  margin-bottom: 8px !important;
+}
+
 .fs-med{
   font-size: 13px !important;
+}
+
+.fs-med-xl{
+  font-size: 16px !important;
 }
 
 a {

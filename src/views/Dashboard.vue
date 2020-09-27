@@ -6,44 +6,45 @@
         <template v-else>
             <v-container>
                 <v-row class="user-container user-width">
-                    <v-col cols="4" class="text-right">
-                        <v-avatar color="white" size="72">
+                    <v-col cols="2" class="ml-5">
+                        <v-avatar color="white" size="48">
                             <span class="white--text headline"></span>
                         </v-avatar>
                     </v-col>
-                    <v-col cols="8">
-                        <div class="font-weight-bold text-h6 text-capitalize font-color">
-                            <div class="d-flex align-center">
-                                {{ user.userData.name }}
+                    <v-col cols="9">
+                        <div class="text-h6 text-capitalize font-color">
+                            <div class="d-flex align-start">
+                                <p class="fs-med-xl">
+                                    {{ user.userData.name }}
+                                </p>
                                 <template v-if="user.userData.details.is_verified == 1">
                                     <i class="ri ri-checkbox-circle-line verified"></i>
-                                </template>
-                                <template v-else>
-                                    <span></span>
                                 </template>
                             </div>
                             
                         </div>
-                        <div class="text-subtitle-1">
-                            {{ user.userData.email }}
-                        </div>
-                        <div class="mt-1">
-                            <router-link to="/profile-form">
-                                
-                            <v-btn color="#0a369d" dark class="text-capitalize">
-                                profil
-                            </v-btn>
-                            </router-link>
-                            <v-progress-circular
+                        <div class="mt-1 d-flex flex-column">
+                            <p class="font-color fs-8">Status Profil</p>
+                            <v-progress-linear
                                 :active="true"
                                 :rounded="true"
                                 :height="5"
                                 :value="getProgressValue"
                                 :buffer-value="100"
                                 :size="24"
-                                color="#0a369d"
-                                class="status-progress"
-                        />
+                                color="#FFCB36"
+                            />
+                            <template v-if="user.userData.details.is_verified == 1">
+                                <v-btn dense class="fs-med mt-4" depressed disabled dark>
+                                    User Terverifikasi
+                                </v-btn>
+                            </template>
+                            <template v-else>
+                                <v-btn dense class="fs-med mt-4" depressed>
+                                    Verifikasi Saya
+                                </v-btn>
+                            </template>
+                            
                         </div>
                     </v-col>
                 </v-row>
@@ -83,6 +84,15 @@ export default {
 </script>
 
 <style lang="scss">
+.btn-profile.text-capitalize {
+    height: 25px !important;
+    padding: 0 12px;
+}
+
+.fs-8 {
+    font-size: 12px !important;
+}
+
 .mt-15 {
     margin-top: 15px;
 }
@@ -96,24 +106,22 @@ export default {
     min-width: 373px;
 }
 .user-container {
-    background-color: #f6f5ff;
     padding-top: 30px;
-    height: 180px;
+    height: 230px;
+    background-color:#0a369d;
 }
 .verified {
     display: inline-block !important;
     margin-left: 10px;
+    color: #fff !important;
 }
 .font-color {
-    color: #0a369d;
+    color: white;
 }
 .progress-container {
     background: #f6f5ff;
 }
 .status {
     padding-top: 0 !important;
-}
-.status-progress {
-    margin-left: 8px;
 }
 </style>
