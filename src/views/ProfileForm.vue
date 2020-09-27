@@ -128,7 +128,7 @@ import { required, minLength,numeric } from "vuelidate/lib/validators";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import { mapState } from 'vuex';
-let slugify = require('slugify')
+// const slugify = require('slugify')
 
   export default {
     components: { DatePicker},
@@ -171,10 +171,10 @@ let slugify = require('slugify')
     },
     methods : {
       submitProfile(){
-        let name = this.$store.state.user.userData.name
-        let slug = slugify(name,{lower: true});
+        // let name = this.$store.state.user.userData.name
+        // let slug = slugify(name,{lower: true});
         
-        store.dispatch('user/fetchProfile', slug)
+        store.dispatch('user/fetchProfile')
         .then(()=> {
           this.$router.push({ name: 'dashboard' })
         })

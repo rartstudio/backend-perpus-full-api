@@ -34,13 +34,18 @@
                                 :size="24"
                                 color="#FFCB36"
                             />
-                            <template v-if="user.userData.details.is_verified == 1">
+                            <template v-if="user.userData.details.submission == 2">
                                 <v-btn dense class="fs-med mt-4" depressed disabled dark>
                                     User Terverifikasi
                                 </v-btn>
                             </template>
+                            <template v-else-if="user.userData.details.submission == 1">
+                                <v-btn dense class="fs-med mt-4" depressed disabled dark>
+                                    Sedang Proses Verifikasi
+                                </v-btn>
+                            </template>
                             <template v-else>
-                                <v-btn dense class="fs-med mt-4" depressed>
+                                <v-btn dense class="fs-med mt-4" depressed @click="submitVerified()">
                                     Verifikasi Saya
                                 </v-btn>
                             </template>
@@ -74,6 +79,31 @@ export default {
     created() {
         getUser()
     },
+    methods: {
+        submitVerified(){
+            this.$swal.fire({
+                    title: 'Apakah kamu yakin sudah mengisi form profil?',
+                    icon: 'success',
+                    text: 'pastikan data yang diisi sudah benar',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Cek dulu ah',
+                    confirmButtonText: 'Ya, Sudah'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        store.dispatch('user/fetchSubmission')
+                        .then(()=> {    
+                            this.$swal.fire(
+                            'Sukses!',
+                            'Berhasil submit profile',
+                            location.reload()
+                            )
+                        });
+                    }
+                });
+        }
+    },
     computed : {
         ...mapState(['user']),
         ...mapGetters('user',['getProgressValue']),
@@ -88,11 +118,9 @@ export default {
     height: 25px !important;
     padding: 0 12px;
 }
-
 .fs-8 {
     font-size: 12px !important;
 }
-
 .mt-15 {
     margin-top: 15px;
 }

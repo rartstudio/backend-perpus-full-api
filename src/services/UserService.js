@@ -19,11 +19,18 @@ export default {
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`
           }});
     },
-    getProfile(userData,slug){
-        return apiClient.post(`/api/user/${slug}`,userData,{
+    getProfile(userData){
+        return apiClient.post(`/api/user`,userData,{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`
             }
         })
+    },
+    setSubmission(submission){
+        return apiClient.post(`/api/user/submission`,submission,{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`
+            }
+        });
     }
 }

@@ -76,7 +76,6 @@
                     confirmButtonText: 'Sudah diterima'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        console.log(id);
                         store.dispatch('transaction/processBorrow',id)
                         .then(()=> {    
                             this.$swal.fire(

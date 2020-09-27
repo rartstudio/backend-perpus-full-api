@@ -131,15 +131,22 @@ export const actions = {
                 }
                 state.isLoading = false
             })
-            .catch()
-    },
-    fetchProfile({state},slug){
-        console.log(state.userData.details)
-        return UserService.getProfile(state.userData.details,slug)
-            .then(response => {
-                console.log(response)
-            })
             .catch(error => {console.log(error)})
+    },
+    fetchProfile({state}){
+        return UserService.getProfile(state.userData.details)
+            .then(() => {})
+            .catch(error => {console.log(error)})
+    },
+    fetchSubmission(){
+        //0 belum verifikasi
+        //1 sedang pengajuan verifikasi
+        //2 sukses verifikasi
+
+
+        return UserService.setSubmission({submission: 1})
+                .then((response) => {console.log(response)})
+                .catch(error => {console.log(error)})
     }
 }
 
