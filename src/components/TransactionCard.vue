@@ -1,63 +1,88 @@
 <template>
-    <v-expansion-panels
-        :accordion="true"
-        :focusable="true"
-        :hover="true"
+    <v-expansion-panels>
+        <v-card
+            elevation="2"
+            shaped
+            width="88%"
+            class="my-2"
         >
-        <v-expansion-panel>
-            <v-expansion-panel-header disable-icon-rotate>
-                <div class="d-flex flex-column">
-                    <p class="fs-med">{{transaction.created_at}}</p>
-                    <p class="fs-med">{{transaction.transaction_code}}</p>
-                </div>
-                <span class="text-center">
-                    <template v-if="transaction.stated === 4">
-                        <!-- using stop cause expansion have event click to if we dont stop it, it will open detail -->
-                        <v-chip class="fs-med" color="teal" dark @click.stop="show(transaction.id)">
-                            {{ checkTransactionState(transaction.stated) }}
-                        </v-chip>
-                    </template>
-                    <template v-else-if="transaction.stated === 3">
-                        <v-chip class="fs-med" color="orange" dark >
-                            {{ checkTransactionState(transaction.stated) }}
-                        </v-chip>
-                    </template>
-                    <template v-else>
-                        <v-chip class="fs-med">
-                            {{ checkTransactionState(transaction.stated) }}
-                        </v-chip>
-                    </template>
-                </span>
-                <template v-slot:actions v-if="transaction.stated === 4">
-                    <v-icon color="teal">mdi-check</v-icon>
+            <v-card-title class="text-body-1 font-weight-bold">
+                {{transaction.transaction_code}}
+            </v-card-title>
+            <v-card-text class="text-body-2">
+                <template v-if="transaction.stated === 5">
+                    <p>Batas Pengembalian</p>
+                    {{ transaction.returned_at }}
                 </template>
-                <template v-slot:actions v-else-if="transaction.stated === 3">
-                    <v-icon color="orange">mdi-close</v-icon>
+                <template v-else>
+                    {{ transaction.created_at }}
                 </template>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-                <div>
-                    <h5 class="mb-2 ">Detail Pengambilan</h5>
-                    <p class="fs-med">
-                        {{transaction.add_info == null || transaction.add_info == '' ? 'Tunggu hingga status siap diambil' : transaction.add_info}}
-                    </p>
+            </v-card-text>
+            <v-card-actions>
+                <template v-if="transaction.stated === 4">
+                <!-- using stop cause expansion have event click to if we dont stop it, it will open detail -->
+                    <v-chip class="fs-med" color="teal" dark @click.stop="show(transaction.id)">
+                        {{ checkTransactionState(transaction.stated) }}
+                    </v-chip>
+                </template>
+                <template v-else-if="transaction.stated === 3">
+                    <v-chip class="fs-med" color="red" dark >
+                        {{ checkTransactionState(transaction.stated) }}
+                    </v-chip>
+                </template>
+                <template v-else-if="transaction.stated === 5">
+                    <v-chip class="fs-med" color="#FFCB36">
+                        {{ checkTransactionState(transaction.stated) }}
+                    </v-chip>
+                    <v-chip class="fs-med ml-2" color="#3285C0" dark>
+                        {{ transaction.is_late}}
+                    </v-chip>
+                </template>
+                <template v-else>
+                     <v-chip class="fs-med">
+                        {{ checkTransactionState(transaction.stated) }}
+                    </v-chip>
+                </template>
+                <v-spacer></v-spacer>
+                <v-btn
+                    icon
+                    @click="detail = !detail"
+                    >
+                        <v-icon>{{ detail ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+            </v-card-actions>
+            <v-expand-transition>
+                <div v-show="detail">
+                    <v-divider></v-divider>
+                    <template v-if="transaction.stated == 4">
+                        <div>
+                            <h5 class="mb-2 ">Detail Pengambilan</h5>
+                            <p class="fs-med">
+                                {{transaction.add_info == null || transaction.add_info == '' ? 'Tunggu hingga status siap diambil' : transaction.add_info}}
+                            </p>
+                        </div>
+                    </template>
+                    <v-card class="pa-4">
+                        <h5 class="mb-2 text-body-1 font-weight-bold">Detail Buku</h5>
+                        <div class="d-flex mb-2" v-for="detail in transaction.transaction_details" :key="detail.id">
+                            <img :src="detail.details.cover" width="55px" height="80px">
+                            <v-card-title class="text-body-1">{{ detail.details.title }}</v-card-title>
+                        </div>
+                    </v-card>
                 </div>
-                <div>
-                    <h5 class="mb-2">Detail Buku</h5>
-                    <div class="d-flex" v-for="detail in transaction.transaction_details" :key="detail.id">
-                        <p class="fs-med">{{ detail.details.title }} x </p>
-                        <p class="fs-med ml-1">{{ detail.qty }}</p>
-                    </div>
-                </div>
-                
-            </v-expansion-panel-content>
-        </v-expansion-panel>
+            </v-expand-transition>
+        </v-card>
     </v-expansion-panels>
 </template>
 
 <script>
     import store from "@/store"
     export default {
+        data (){
+            return {
+                detail: false
+            }
+        },
         props : {
             transaction: {
                 type: Object

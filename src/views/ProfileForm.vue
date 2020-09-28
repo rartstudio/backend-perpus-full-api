@@ -280,7 +280,7 @@ import { mapState } from 'vuex';
 
 //datepicker
 .mx-datepicker {
-  width: 305px;
+  width: 100%;
   margin-bottom: 20px;
 }
 .mx-input {
