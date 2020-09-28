@@ -7,9 +7,20 @@
             <v-container>
                 <v-row class="user-container user-width">
                     <v-col cols="2" class="ml-5">
-                        <v-avatar color="white" size="48">
+                        <template v-if="user.userData.details.image != null">
+                            <v-img width="60px" height="60px" :src="link(user.userData.details.image)"></v-img>
+                        </template>
+                        <template v-else>
+                            <v-avatar color="white" size="48">
                             <span class="white--text headline"></span>
                         </v-avatar>
+                        </template>
+                        <v-file-input
+                        prepend-icon="ri ri-camera-line"
+                        hide-input
+                        truncate-length="50"
+                        @change=uploadImage
+                        ></v-file-input>
                     </v-col>
                     <v-col cols="9">
                         <div class="text-h6 text-capitalize font-color">
@@ -67,19 +78,35 @@ function getUser(){
 }
 
 import {mapGetters, mapState} from "vuex"
+import {bookMixin} from "@/mixins/bookMixin.js";
 import store from "@/store";
 import DashboardLoader from "@/components/DashboardLoader.vue";
 import TransactionTab from "@/components/TransactionTab.vue";
 
 export default {
+    mixins: [bookMixin],
     components: {
         DashboardLoader,
         TransactionTab
+    },
+    data(){
+        return {
+            photo: null
+        }
     },
     created() {
         getUser()
     },
     methods: {
+        uploadImage(e){
+            this.photo = e
+
+            const data = new FormData();
+            data.append('image', this.photo);
+
+            store.dispatch('user/fetchImage',data)
+                .then(() => {})
+        },
         submitVerified(){
             this.$swal.fire({
                     title: 'Apakah kamu yakin sudah mengisi form profil?',
@@ -114,6 +141,9 @@ export default {
 </script>
 
 <style lang="scss">
+.theme--light.v-icon.ri.ri-camera-line {
+    color: white !important;
+}
 .btn-profile.text-capitalize {
     height: 25px !important;
     padding: 0 12px;

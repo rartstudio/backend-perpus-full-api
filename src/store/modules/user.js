@@ -65,6 +65,7 @@ export const state = {
     transactionsInProcess: null,
     transactionsInBorrow: null,
     transactionsInHistory: null,
+    image: null
 }
 
 export const mutations = {
@@ -106,6 +107,9 @@ export const mutations = {
     },
     updateMemberCode(state,data){
         state.userData.details.no_cst = data
+    },
+    updateImage(state,data){
+        state.image = data
     }
 }
 
@@ -138,12 +142,17 @@ export const actions = {
             .then(() => {})
             .catch(error => {console.log(error)})
     },
+    fetchImage({commit,state},data){
+        commit('updateImage',data);
+        console.log(state.image);
+        return UserService.postImage(state.image)
+            .then(()=>{})
+            .catch(error => {console.log(error)})
+    },
     fetchSubmission(){
         //0 belum verifikasi
         //1 sedang pengajuan verifikasi
         //2 sukses verifikasi
-
-
         return UserService.setSubmission({submission: 1})
                 .then((response) => {console.log(response)})
                 .catch(error => {console.log(error)})
