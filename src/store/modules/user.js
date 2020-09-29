@@ -65,7 +65,8 @@ export const state = {
     transactionsInProcess: null,
     transactionsInBorrow: null,
     transactionsInHistory: null,
-    image: null
+    image: null,
+    loadingImage: false
 }
 
 export const mutations = {
@@ -93,6 +94,8 @@ export const mutations = {
     SET_LOCAL_STORAGE(state,data){
         state.userData = data
     },
+
+    //for profile-form
     updateAddress(state,data){
         state.userData.details.address = data
     },
@@ -143,13 +146,13 @@ export const actions = {
             .catch(error => {console.log(error)})
     },
     fetchImage({commit,state},data){
+        state.loadingImage = true
         commit('updateImage',data);
-        console.log(state.image);
         return UserService.postImage(state.image)
-            .then(()=>{})
+            .then(()=>{state.loadingImage = false})
             .catch(error => {console.log(error)})
     },
-    fetchSubmission(){
+    fetchSubmission({state}){
         //0 belum verifikasi
         //1 sedang pengajuan verifikasi
         //2 sukses verifikasi

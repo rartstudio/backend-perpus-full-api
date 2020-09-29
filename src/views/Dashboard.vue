@@ -6,20 +6,32 @@
         <template v-else>
             <v-container>
                 <v-row class="user-container user-width">
-                    <v-col cols="2" class="ml-5">
-                        <template v-if="user.userData.details.image != null">
-                            <v-img width="60px" height="60px" :src="link(user.userData.details.image)"></v-img>
+                    <v-col cols="2" class="ml-5 pa-0">
+                        <template v-if="user.loadingImage == true">
+                            <v-skeleton-loader
+                            type="avatar"
+                            class="mt-5 ml-2 profile-image"
+                            width="60"
+                            height="60"
+                            >
+                            </v-skeleton-loader>
                         </template>
                         <template v-else>
-                            <v-avatar color="white" size="48">
-                            <span class="white--text headline"></span>
-                        </v-avatar>
+                            <template v-if="user.userData.details.image != null && user.loadingImage == false">
+                            <v-img width="60px" height="60px" :src="link(user.userData.details.image)" class="rounded-circle mt-5 ml-2"></v-img>
+                            </template>
+                            <template v-else>
+                                <v-avatar color="white" size="48" class="mt-5 ml-2">
+                                <span class="white--text headline"></span>
+                            </v-avatar>
+                            </template>
                         </template>
                         <v-file-input
                         prepend-icon="ri ri-camera-line"
                         hide-input
                         truncate-length="50"
                         @change=uploadImage
+                        class="input-image"
                         ></v-file-input>
                     </v-col>
                     <v-col cols="9">
@@ -105,7 +117,9 @@ export default {
             data.append('image', this.photo);
 
             store.dispatch('user/fetchImage',data)
-                .then(() => {})
+                .then(() => {
+                    location.reload()
+                })
         },
         submitVerified(){
             this.$swal.fire({
@@ -143,6 +157,14 @@ export default {
 <style lang="scss">
 .theme--light.v-icon.ri.ri-camera-line {
     color: white !important;
+}
+.profile-image .v-skeleton-loader__avatar {
+    width: 60px !important;
+    height: 60px !important; 
+    background-color: rgba(255, 255, 255, .5) !important;
+}
+.input-image .v-input__prepend-outer {
+    margin: 0 auto !important;
 }
 .btn-profile.text-capitalize {
     height: 25px !important;
