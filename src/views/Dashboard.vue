@@ -18,12 +18,12 @@
                         </template>
                         <template v-else>
                             <template v-if="user.userData.details.image != null && user.loadingImage == false">
-                            <v-img width="60px" height="60px" :src="link(user.userData.details.image)" class="rounded-circle mt-5 ml-2"></v-img>
+                                <v-img width="60px" height="60px" :src="link(user.userData.details.image)" class="rounded-circle mt-5 ml-2"></v-img>
                             </template>
                             <template v-else>
                                 <v-avatar color="white" size="48" class="mt-5 ml-2">
-                                <span class="white--text headline"></span>
-                            </v-avatar>
+                                    <span class="white--text headline"></span>
+                                </v-avatar>
                             </template>
                         </template>
                         <v-file-input
@@ -31,7 +31,7 @@
                         hide-input
                         truncate-length="50"
                         @change=uploadImage
-                        class="input-image"
+                        class="input-image ml-2"
                         ></v-file-input>
                     </v-col>
                     <v-col cols="9">
@@ -43,6 +43,12 @@
                                 <template v-if="user.userData.details.is_verified == 1">
                                     <i class="ri ri-checkbox-circle-line verified"></i>
                                 </template>
+                                <v-spacer></v-spacer>
+                                <router-link to="/profile-form">
+                                    <v-btn depressed x-small color="transparent" class="mt-n1">
+                                        <v-icon color="#fff">ri ri-settings-4-line</v-icon>
+                                    </v-btn>
+                                </router-link>
                             </div>
                             
                         </div>

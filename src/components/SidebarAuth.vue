@@ -1,24 +1,28 @@
 <template>
     <v-list-item-group>
-        <v-list-item class="d-flex justify-center mb-4 mt-2">
-            <v-avatar color="blue" size="72">
-                        <span class="white--text headline"></span>
-            </v-avatar>
-        </v-list-item>
         <router-link to="/dashboard" text class="sidebar__link">
             <v-list-item>
                 <v-list-item-icon>
-                    <i class="ri ri-home-line" style="font-size: 24px"></i>
+                    <i class="ri ri-home-2-line" style="font-size: 24px"></i>
                 </v-list-item-icon>
                 <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
         </router-link>
-        <router-link to="/profile-form">
+        <router-link to="/profile-user">
             <v-list-item>
                 <v-list-item-icon>
                     <i class="ri ri-user-line" style="font-size: 24px"></i>
                 </v-list-item-icon>
                 <v-list-item-title>Profil</v-list-item-title>
+            </v-list-item>
+        </router-link>
+        <router-link to="/inbox">
+            <v-list-item class="w-85">
+                <v-list-item-icon>
+                    <i class="ri ri-mail-line" style="font-size: 24px"></i>
+                </v-list-item-icon>
+                <v-list-item-title>Kotak Masuk</v-list-item-title>
+                <v-badge bordered overlap content="10" class="mt-n1"></v-badge>
             </v-list-item>
         </router-link>
         <div class="text-center mt-4">
@@ -63,5 +67,8 @@
 .v-list-item__icon {
     margin-top: 6px !important;
     margin-bottom: 6px !important;
+}
+.w-85 {
+    width: 85% !important;
 }
 </style>
