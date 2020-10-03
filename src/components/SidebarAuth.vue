@@ -8,14 +8,6 @@
                 <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
         </router-link>
-        <router-link to="/profile-user">
-            <v-list-item>
-                <v-list-item-icon>
-                    <i class="ri ri-user-line" style="font-size: 24px"></i>
-                </v-list-item-icon>
-                <v-list-item-title>Profil</v-list-item-title>
-            </v-list-item>
-        </router-link>
         <router-link to="/inbox">
             <v-list-item class="w-85">
                 <v-list-item-icon>

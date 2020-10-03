@@ -1,7 +1,8 @@
 <template>
-    <v-card class="mt-10 mx-4" elevation=0>
-        <v-card-title class="mb-4 justify-center">
-            <h1 class="header__login">Login</h1>
+    <v-card class="mt-8 mx-4" elevation=0>
+        <v-card-title class="mb-4">
+            <h1 class="header__login">Log In</h1>
+            <p class="text-body-2 mt-1">Mohon login terlebih dahulu sebelum meminjam</p>
         </v-card-title>
         <v-card-text class="mt-4">
             <v-form @submit.prevent="login">
@@ -13,6 +14,7 @@
                     @blur="$v.details.email.$touch()"
                     required
                     clearable
+                    dense
                     :error="isEmailError"
                     :loading="isLoading"
                     :disabled="disabled"
@@ -32,6 +34,7 @@
                     @blur="$v.details.password.$touch()"
                     required
                     clearable
+                    dense
                     :error="isPassError"
                     :loading="isLoading"
                     :disabled="disabled"
@@ -46,9 +49,10 @@
                 <div v-if="$v.details.password.$error">
                     <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
                 </div>
-                <v-card-actions class="d-flex justify-center align-center pb-3">
+                <router-link to="/forgot-password" class="text-right d-block sidebar__link font-weight-bold">Lupa Password ?</router-link>
+                <v-card-actions class="d-flex justify-center align-center pa-0 mt-6">
                     <template v-if="isSubmitted">
-                        <v-btn color="#1976D2" dark large class="ml-2" type="submit" disabled elevation="3">
+                        <v-btn color="#0a369d" dark large type="submit" disabled block elevation="3">
                             <v-progress-circular
                                 :indeterminate="indeterminate"
                                 size="24"
@@ -60,7 +64,7 @@
                         </v-btn>
                     </template>
                     <template v-else>
-                        <v-btn color="#1976D2" dark large class="ml-2" type="submit" :disabled="$v.$invalid">
+                        <v-btn color="#0a369d" dark large type="submit" block :disabled="$v.$invalid">
                             <v-icon left color="#fff">mdi-login-variant</v-icon>
                                 Sign In
                         </v-btn>
@@ -68,9 +72,18 @@
                 </v-card-actions>
             </v-form>
         </v-card-text>
+        <v-card-text>
+            <div class="d-flex link__container">
+                <p>Belum punya akun ? &nbsp;</p>
+                <router-link to="/register" class="sidebar__link ml-1 font-weight-bold">Daftar Disini</router-link>
+            </div>
+        </v-card-text>
     </v-card>
 </template>
 <style>
+.header__login {
+    color: #0a369d !important;
+}
 .theme--dark.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
     background-color: rgba(0,0,0,0.2) !important;
 }

@@ -10,6 +10,7 @@
         </v-stepper-header>
         <v-stepper-items class="mt-2">
           <v-stepper-content step="1" >
+            <label for="" style="font-size: 12px">Tanggal Lahir</label>
             <DatePicker v-model="dateOfBirth" valueType="format"></DatePicker>
             <v-text-field
                 class="profile-form mt-2"

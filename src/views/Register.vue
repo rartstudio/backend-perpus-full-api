@@ -1,8 +1,8 @@
 <template>
     <v-card class="mt-10 mx-4" elevation=0>
-        <v-card-title class="mb-4 justify-center">
+        <v-card-title class="mb-4">
             <h1 class="header__login mb-4">Join Perpus GKKB</h1>
-            <p class="text-body-2 text--secondary">Registrasi untuk meminjam buku</p>
+            <p class="text-body-2 text--secondary">Silahkan registrasi menggunakan email dan Daftar untuk meminjam buku</p>
         </v-card-title>
         <v-card-text class="mt-4">
             <v-form @submit.prevent="register">
@@ -14,6 +14,8 @@
                     @blur="$v.details.name.$touch()"
                     clearable
                     required
+                    dense
+                    class="mb-2"
                     :error="isNameError"
                     :loading="isLoading"
                     :disabled="disabled"
@@ -30,6 +32,8 @@
                     @blur="$v.details.email.$touch()"
                     clearable
                     required
+                    dense
+                    class="mb-2"
                     :error="isEmailError"
                     :loading="isLoading"
                     :disabled="disabled"
@@ -54,6 +58,8 @@
                     @blur="$v.details.password.$touch()"
                     clearable
                     required
+                    dense
+                    class="mb-2"
                     :error="isPassError"
                     :loading="isLoading"
                     :disabled="disabled"
@@ -79,6 +85,8 @@
                     @blur="$v.details.password_confirmation.$touch()"
                     clearable
                     required
+                    dense
+                    class="mb-2"
                     :error="isConfirmPassError"
                     :loading="isLoading"
                     :disabled="disabled"
@@ -88,9 +96,9 @@
                 <div v-if="$v.details.password_confirmation.$error">
                     <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25 fs-12">Konfirmasi password harap diisi.</p>
                 </div>
-                <v-card-actions class="d-flex justify-center align-center pb-3">
+                <v-card-actions class="d-flex justify-center align-center pa-0 mt-6">
                     <template v-if="isSubmitted">
-                        <v-btn color="#1976D2" dark large class="ml-2" type="submit" disabled elevation="3">
+                        <v-btn color="#0a369d" dark large type="submit" disabled elevation="3">
                             <v-progress-circular
                                 :indeterminate="indeterminate"
                                 size="24"
@@ -102,7 +110,7 @@
                         </v-btn>
                     </template>
                     <template v-else>
-                        <v-btn color="#1976D2" dark large class="ml-2" type="submit" :disabled="$v.$invalid">
+                        <v-btn color="#0a369d" dark large block type="submit" :disabled="$v.$invalid">
                             <v-icon left color="#fff !important">mdi-pencil</v-icon>
                                 Sign Up
                         </v-btn>
@@ -110,7 +118,12 @@
                 </v-card-actions>
             </v-form>
         </v-card-text>
-        <v-divider></v-divider>
+        <v-card-text>
+            <div class="d-flex link__container">
+                <p>Sudah punya akun ? &nbsp;</p>
+                <router-link to="/login" class="sidebar__link ml-1 font-weight-bold">Masuk Disini</router-link>
+            </div>
+        </v-card-text>
         
     </v-card>
 </template>

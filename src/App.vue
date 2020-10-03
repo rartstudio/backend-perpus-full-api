@@ -53,6 +53,14 @@
   margin-bottom: 8px !important;
 }
 
+.v-list-item__icon {
+  align-self: initial;
+}
+
+.v-icon {
+  font-size: 20px !important;
+}
+
 .fs-med{
   font-size: 13px !important;
 }
@@ -72,7 +80,7 @@ a {
 
 .sidebar__link {
   text-decoration: none;
-  color: #616161 !important;
+  color: #0a369d !important;
 }
 
 .main-content {
