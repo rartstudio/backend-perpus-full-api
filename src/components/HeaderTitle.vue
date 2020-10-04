@@ -7,7 +7,7 @@
                 buku apa hari ini ?</h2>
             </v-col>
         </v-row>
-        <v-chip class="ml-4 mb-6 mt-2" color="#e6eaf5">
+        <v-chip class="ml-4 mb-6 mt-2" color="#FFCB36">
             Rekomendasi Kami
         </v-chip>
     </div>

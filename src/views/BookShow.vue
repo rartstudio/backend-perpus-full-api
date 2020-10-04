@@ -47,7 +47,7 @@
                     <template v-if="enabledSnackbar">
                         <Snackbar :snackbarText="text"/>
                     </template>
-                    <v-btn class="book__btn" dark color="#ca0b64" @click="addToCart()">
+                    <v-btn class="book__btn" color="#FFCB36" @click="addToCart()">
                         <v-icon>ri ri-add-line</v-icon>
                         <span class="book__btn--text">Keranjang</span>
                     </v-btn>

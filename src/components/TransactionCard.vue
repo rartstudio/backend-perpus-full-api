@@ -21,7 +21,7 @@
             <v-card-actions>
                 <template v-if="transaction.stated === 4">
                 <!-- using stop cause expansion have event click to if we dont stop it, it will open detail -->
-                    <v-chip class="fs-med" color="teal" dark @click.stop="show(transaction.id)">
+                    <v-chip class="fs-med" color="teal" dark @click.stop="accept(transaction.id)">
                         {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
                 </template>
@@ -34,9 +34,16 @@
                     <v-chip class="fs-med" color="#FFCB36">
                         {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
-                    <v-chip class="fs-med ml-2" color="#3285C0" dark>
-                        {{ transaction.is_late}}
-                    </v-chip>
+                    <template v-if="transaction.is_late == '0 hari'">
+                        <v-chip class="fs-med ml-2" color="red" dark>
+                            Telat
+                        </v-chip>
+                    </template>
+                    <template v-else>
+                        <v-chip class="fs-med ml-2" color="#3285C0" dark>
+                            {{ transaction.is_late}}
+                        </v-chip>
+                    </template>
                 </template>
                 <template v-else>
                      <v-chip class="fs-med">
@@ -89,7 +96,7 @@
             }
         },
         methods : {
-            show(id){
+            accept(id){
                 this.$swal.fire({
                     title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
                     icon: 'success',
