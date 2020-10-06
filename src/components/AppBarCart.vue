@@ -3,7 +3,7 @@
         <v-btn icon class="btn__cart">
             <template v-if="getCartLength != 0">
                 <v-badge
-                color="#ca0b64"
+                color="#FFCB36"
                 :content="getCartLength"
                 overlap>
                 <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>

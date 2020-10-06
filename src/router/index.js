@@ -99,6 +99,11 @@ const routes = [
     path: '/cart',
     name: 'cart',
     component: () => import('../views/ShoppingCart.vue')
+  },
+  {
+    path: '/inbox',
+    name: 'inbox-user',
+    component: () => import('../views/InboxUser.vue')
   }
 ];
 

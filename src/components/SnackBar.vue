@@ -2,7 +2,7 @@
     <v-snackbar
         v-model="snackbar"
         :timeout="timeout"
-        color="#ca0b64"
+        color="#FFCB36"
         top="top"
         >
         {{ snackbarText }}

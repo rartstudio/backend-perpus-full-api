@@ -21,7 +21,7 @@
                                 <v-img width="60px" height="60px" :src="link(user.userData.details.image)" class="rounded-circle mt-5 ml-2"></v-img>
                             </template>
                             <template v-else>
-                                <v-avatar color="white" size="48" class="mt-5 ml-2">
+                                <v-avatar color="white" size="60" class="mt-5 ml-2">
                                     <span class="white--text headline"></span>
                                 </v-avatar>
                             </template>
@@ -45,8 +45,22 @@
                                 </template>
                                 <v-spacer></v-spacer>
                                 <router-link to="/profile-form">
-                                    <v-btn depressed x-small color="transparent" class="mt-n1">
+                                    <v-btn icon class="mt-n1">
                                         <v-icon color="#fff">ri ri-settings-4-line</v-icon>
+                                    </v-btn>
+                                </router-link>
+                                <router-link to="/inbox">
+                                    <v-btn icon class="mt-n1">
+                                        <template v-if="getCartLength != 0">
+                                            <v-badge
+                                            color="#FFCB36"
+                                            overlap>
+                                            <v-icon color="#fff">ri ri-mail-line</v-icon>
+                                        </v-badge>
+                                        </template>
+                                        <template v-else>
+                                            <v-icon color="#fff">ri ri-mail-line</v-icon>
+                                        </template>
                                     </v-btn>
                                 </router-link>
                             </div>
@@ -78,7 +92,6 @@
                                     Verifikasi Saya
                                 </v-btn>
                             </template>
-                            
                         </div>
                     </v-col>
                 </v-row>
