@@ -8,8 +8,8 @@ export default {
             }
         })
     },
-    postReadMessage(id, isRead = 1){
-        return apiClient.post(`/api/user/messages/${id}`,isRead,{
+    postReadMessage(id){
+        return apiClient.post(`/api/user/messages/${id}`,id,{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`
             }

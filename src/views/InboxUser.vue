@@ -15,8 +15,8 @@
       v-for="message in messages"
       :key="message.id"
       >
-      <v-card-title>{{ message.header }}</v-card-title>
-      <v-card-subtitle>AdminPerpus@gkkb.com | {{ message.created_at }}</v-card-subtitle>
+      <v-card-title class="inbox-user__title">{{ message.header }}</v-card-title>
+      <v-card-subtitle class="inbox-user__subtitle">AdminPerpus@gkkb.com | {{ message.created_at }}</v-card-subtitle>
       <v-card-text>{{ message.message}}</v-card-text>
       <v-card-actions class="pt-0 justify-space-between">
         <template v-if="message.is_read == 0">
@@ -48,7 +48,12 @@
     methods: {
       readMessage(id){
         store.dispatch('message/readMessage',id)
-        .then(response => console.log(response))
+        .then(() => {
+            if(this.$store.state.message.status == 200) {
+              location.reload()
+            }
+          }
+        )
       }
     },
     computed : {
@@ -60,5 +65,12 @@
 </script>
 
 <style lang="scss" scoped>
-
+.inbox-user {
+  &__title {
+    font-size: 1rem;
+  }
+  &__subtitle {
+    font-size: 0.8rem;
+  }
+}
 </style>

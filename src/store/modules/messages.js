@@ -31,8 +31,7 @@ export const actions = {
     readMessage({commit}, id){
         return MessageService.postReadMessage(id)
             .then(response => {
-                console.log(response);
-                commit('SET_STATUS',response.status)
+               commit('SET_STATUS',response.status)
             })
             .catch(error => {
                 console.log(error)
