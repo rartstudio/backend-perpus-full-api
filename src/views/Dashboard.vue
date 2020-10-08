@@ -51,12 +51,15 @@
                                 </router-link>
                                 <router-link to="/inbox">
                                     <v-btn icon class="mt-n1">
-                                        <template v-if="getCartLength != 0">
+                                        <template v-if="getNotRead != 0">
                                             <v-badge
+                                            :content="getNotRead"
                                             color="#FFCB36"
-                                            overlap>
-                                            <v-icon color="#fff">ri ri-mail-line</v-icon>
-                                        </v-badge>
+                                            overlap
+                                            dark
+                                            >
+                                                <v-icon color="#fff">ri ri-mail-line</v-icon>
+                                            </v-badge>
                                         </template>
                                         <template v-else>
                                             <v-icon color="#fff">ri ri-mail-line</v-icon>
@@ -167,6 +170,7 @@ export default {
     computed : {
         ...mapState(['user']),
         ...mapGetters('user',['getProgressValue']),
+        ...mapGetters('message',['getNotRead']),
     }   
 }
 
@@ -174,6 +178,9 @@ export default {
 </script>
 
 <style lang="scss">
+.v-badge__badge{
+    color: #000;
+}
 .theme--light.v-icon.ri.ri-camera-line {
     color: white !important;
 }

@@ -5,7 +5,8 @@
                 <v-badge
                 color="#FFCB36"
                 :content="getCartLength"
-                overlap>
+                overlap
+                >
                 <v-icon color="#fff">ri ri-shopping-cart-line</v-icon>
             </v-badge>
             </template>
@@ -25,6 +26,8 @@
     }
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+.v-badge__badge {
+    color: #000 !important;
+}
 </style>

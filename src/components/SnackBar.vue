@@ -19,6 +19,12 @@
     </v-snackbar>
 </template>
 
+<style>
+.v-snack__content {
+    color: #000
+}
+</style>
+
 <script>
     export default {
         data(){
@@ -31,7 +37,6 @@
             snackbarText : {
                 type : String
             },
-            
         }
     }
 </script>

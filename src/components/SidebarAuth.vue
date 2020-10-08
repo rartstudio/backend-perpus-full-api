@@ -8,15 +8,6 @@
                 <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item>
         </router-link>
-        <router-link to="/inbox">
-            <v-list-item class="w-85">
-                <v-list-item-icon>
-                    <i class="ri ri-mail-line" style="font-size: 24px"></i>
-                </v-list-item-icon>
-                <v-list-item-title>Kotak Masuk</v-list-item-title>
-                <v-badge bordered overlap content="10" class="mt-n1"></v-badge>
-            </v-list-item>
-        </router-link>
         <div class="text-center mt-4">
             <v-btn color=#0a369d dark large @click="logout">
                 <v-icon>mdi-logout-variant</v-icon>

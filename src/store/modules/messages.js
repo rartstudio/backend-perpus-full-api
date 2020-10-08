@@ -4,7 +4,7 @@ import MessageService from "@/services/MessagesService.js"
 export const namespaced = true
 
 export const state = {
-    messages: null,
+    messages: [],
     status : null
 }
 
@@ -40,10 +40,8 @@ export const actions = {
 }
 
 export const getters = {
-    getBooks: state => {
-        return state.books
-    },
-    getLinkServer : state => {
-        return state.linkServer
+    getNotRead : state => {
+        let notReadMessage = state.messages.filter(message => message.is_read == 0)
+        return notReadMessage.length
     }
 }

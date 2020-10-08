@@ -20,20 +20,20 @@
             height="48"
         >
             <template v-if="isSubmitted">
-                <v-btn color="#ca0b64" class="pa-2 ml-auto btn__cart" @click="processToCheckout" :disabled="isSubmitted">
-                    <span class="text-white">Proses..</span>
+                <v-btn color="#FFCB36" class="pa-2 ml-auto btn__cart" @click="processToCheckout" :disabled="isSubmitted">
+                    <span style="color: #000">Proses..</span>
                     <v-progress-circular
                         indeterminate
                         size="20"
-                        color="#fff"
+                        color="#000"
                         >
                     </v-progress-circular>
                 </v-btn>
             </template>
             <template v-else>
-                <v-btn color="#ca0b64" class="pa-2 ml-auto btn__cart" @click="processToCheckout" :disabled="checkCart">
-                    <span class="text-white">Checkout</span>
-                    <v-icon color="#fff">ri ri-arrow-right-line</v-icon>
+                <v-btn color="#FFCB36" class="pa-2 ml-auto btn__cart" @click="processToCheckout" :disabled="checkCart">
+                    <span style="color: #000">Checkout</span>
+                    <v-icon color="#000">ri ri-arrow-right-line</v-icon>
                 </v-btn>
             </template>
         </v-bottom-navigation>

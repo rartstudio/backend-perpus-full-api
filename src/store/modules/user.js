@@ -117,7 +117,7 @@ export const mutations = {
 }
 
 export const actions = {
-    fetchUser({commit,state}){
+    fetchUser({commit,dispatch,state}){
         return UserService.getUser()
             .then(response => {
                 let userData = response.data.data
@@ -135,6 +135,7 @@ export const actions = {
                     commit('SET_TRANSACTIONS_BORROW',borrow)
                     commit('SET_TRANSACTIONS_HISTORY',history)
 
+                    dispatch('message/fetchMessages',null,{root:true})
                 }
                 state.isLoading = false
             })
