@@ -137,8 +137,6 @@ export const actions = {
                     commit('SET_TO_NULL')
                     //set it to array again with data
                     commit('SET_TO_ARRAY',JSON.parse(localStorage.getItem('book-cart')))
-                    
-                    console.log(state.finalCart);
 
                     return TransactionService.postCartItem(state.finalCart)
                     .then(response => {
@@ -178,7 +176,7 @@ export const actions = {
         //get transaction detail
         let trxDetailsRaw = choosenTrx[0].transaction_details;
 
-        //loop throught it (structure depend on data)
+        //loop throught it (structure depend on table)
         for(let i = 0; i < trxDetailsRaw.length ; i++){
                         
             //add transaction code

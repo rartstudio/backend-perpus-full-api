@@ -10,7 +10,7 @@
         </template>
         <template v-else>
             <div class="text-center mt-50">
-                <img src="../assets/cart-empty.svg" alt="" width="280px" />
+                <img src="../assets/cart-empty2.svg" alt="" width="280px" />
                 <p class="font-weight-bold">Maaf Keranjang peminjaman masih kosong</p>
             </div>
         </template>
