@@ -30,8 +30,7 @@
                 </div>
                 <div class="pl-4">
                     <p class="font-weight-bold text-h6">Sinopsis</p>
-                    <p class="book__description text-body-2 mt-2">
-                        {{ book.book.description }}
+                    <p class="book__description text-body-2 mt-2" v-html="book.book.description">
                     </p>
                 </div>
                 <div class="pl-4">

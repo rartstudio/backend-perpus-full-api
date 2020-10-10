@@ -138,6 +138,8 @@ export const actions = {
                     //set it to array again with data
                     commit('SET_TO_ARRAY',JSON.parse(localStorage.getItem('book-cart')))
                     
+                    console.log(state.finalCart);
+
                     return TransactionService.postCartItem(state.finalCart)
                     .then(response => {
 
@@ -164,9 +166,32 @@ export const actions = {
             router.push({name: 'login'})
         }
     },
-    processBorrow({commit},trxid){
+    processBorrow({commit,rootState},trxid){
         commit('TRX_ID',trxid);
-        return TransactionService.postProcessBorrow(state.trxid)
+
+        //get transaction in process
+        let processTrx = rootState.user.transactionsInProcess
+        
+        //get choosen trx
+        let choosenTrx = processTrx.filter(trx => trx.id == state.trxid);
+
+        //get transaction detail
+        let trxDetailsRaw = choosenTrx[0].transaction_details;
+
+        //loop throught it (structure depend on data)
+        for(let i = 0; i < trxDetailsRaw.length ; i++){
+                        
+            //add transaction code
+            trxDetailsRaw[i].add_info = choosenTrx[0].transaction_code
+            
+            //delete key state and id
+            delete trxDetailsRaw[i].state
+            delete trxDetailsRaw[i].id
+            delete trxDetailsRaw[i].details             
+        }
+
+        // console.log(trxDetailsRaw);
+        return TransactionService.postProcessBorrow(state.trxid, trxDetailsRaw)
                     .then((response) => {
                         console.log(response)
                     })

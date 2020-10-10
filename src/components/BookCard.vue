@@ -8,7 +8,7 @@
           <v-img
             :src="link(book.cover)"
             height="140px"
-            width="90px"
+            width="107px"
           ></v-img>
           <div class="text-body-2 mt-2 book-title">
             <!-- {{ book.title.slice(0,30) + '...' }} -->

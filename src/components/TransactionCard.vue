@@ -24,6 +24,9 @@
                     <v-chip class="fs-med" color="teal" dark @click.stop="accept(transaction.id)">
                         {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
+                    <v-chip class="fs-med ml-3" color="red" dark @click.stop="accept(transaction.id)">
+                        Batalkan Peminjaman
+                    </v-chip>
                 </template>
                 <template v-else-if="transaction.stated === 3">
                     <v-chip class="fs-med" color="red" dark >
@@ -72,7 +75,7 @@
                     <v-card class="pa-4">
                         <h5 class="mb-2 text-body-1 font-weight-bold">Detail Buku</h5>
                         <div class="d-flex mb-2" v-for="detail in transaction.transaction_details" :key="detail.id">
-                            <img :src="detail.details.cover" width="55px" height="80px">
+                            <img :src="link(detail.details.cover)" width="55px" height="80px">
                             <v-card-title class="text-body-1">{{ detail.details.title }}</v-card-title>
                         </div>
                     </v-card>
@@ -83,64 +86,66 @@
 </template>
 
 <script>
-    import store from "@/store"
-    export default {
-        data (){
-            return {
-                detail: false
-            }
+import {bookMixin} from "@/mixins/bookMixin.js";
+import store from "@/store"
+export default {
+    mixins: [bookMixin],
+    data (){
+        return {
+            detail: false
+        }
+    },
+    props : {
+        transaction: {
+            type: Object
+        }
+    },
+    methods : {
+        accept(id){
+            this.$swal.fire({
+                title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
+                icon: 'success',
+                text: 'pastikan buku yang diterima sudah sesuai dengan buku yang dipinjam',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Belum',
+                confirmButtonText: 'Sudah diterima'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    store.dispatch('transaction/processBorrow',id)
+                    .then(()=> {    
+                        this.$swal.fire(
+                        'Sukses!',
+                        'Buku berhasil pinjam',
+                        location.reload()    
+                        )
+                    });
+                }
+            });
         },
-        props : {
-            transaction: {
-                type: Object
+        checkTransactionState (data) {
+            if (data == 1){
+                return 'Menunggu'
             }
-        },
-        methods : {
-            accept(id){
-                this.$swal.fire({
-                    title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
-                    icon: 'success',
-                    text: 'pastikan buku yang diterima sudah sesuai dengan buku yang dipinjam',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Belum',
-                    confirmButtonText: 'Sudah diterima'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        store.dispatch('transaction/processBorrow',id)
-                        .then(()=> {    
-                            this.$swal.fire(
-                            'Sukses!',
-                            'Buku berhasil pinjam',
-                            location.reload()
-                            )
-                        });
-                    }
-                });
-            },
-            checkTransactionState (data) {
-                if (data == 1){
-                    return 'Menunggu'
-                }
-                if (data == 2){
-                    return 'Diterima'
-                }
-                if (data == 3){
-                    return 'Ditolak'
-                }
-                if (data == 4){
-                    return 'Siap diambil'
-                }
-                if (data == 5){
-                    return 'Sedang dipinjam'
-                }
-                if (data == 6){
-                    return 'Sudah dikembalikan'
-                }
+            if (data == 2){
+                return 'Diterima'
+            }
+            if (data == 3){
+                return 'Ditolak'
+            }
+            if (data == 4){
+                return 'Siap diambil'
+            }
+            if (data == 5){
+                return 'Sedang dipinjam'
+            }
+            if (data == 6){
+                return 'Sudah dikembalikan'
             }
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
