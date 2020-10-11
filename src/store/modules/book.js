@@ -8,6 +8,7 @@ export const state = {
     booksByOne : [],
     booksByTwo : [],
     relatedBooks: [],
+    searchResult: [],
     recommendationBooks: [],
     book: {},
     isLoading: true,
@@ -18,6 +19,9 @@ export const state = {
 export const mutations = {
     SET_BOOK(state,book){
         state.book = book
+    },
+    SET_SEARCH_RESULT(state, result){
+        state.searchResult = result
     },
     SET_RELATED_BOOKS(state,data){
         state.relatedBooks = data
@@ -34,6 +38,17 @@ export const mutations = {
 }
 
 export const actions = {
+    fetchSearchBooks({commit,state},{query,value}){
+        return BookService.getBooksBy(query, value)
+            .then(response => {
+                commit('SET_SEARCH_RESULT', response.data)
+                //set loader to false so data can appear immediately
+                state.isLoading = false
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
     fetchRecommendationBooks({commit}){
         return BookService.getRecommendationBooks()
             .then(response => {

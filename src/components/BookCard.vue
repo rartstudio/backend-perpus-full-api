@@ -5,7 +5,7 @@
           class="mx-auto card-book"
           max-width="120"
         >
-          <v-img
+          <v-img class="d-inline-block"
             :src="link(book.cover)"
             height="140px"
             width="107px"
@@ -31,7 +31,6 @@
                   <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
                 </v-chip>
             </template>
-            
           </div>
         </v-card>
     </v-flex>

@@ -19,7 +19,8 @@
             placeholder="Cari buku atau penulis" 
             class="mt-4 mx-4 search-form" 
             solo
-            append-icon="ri ri-search-line"/>
+            v-model="search"
+            append-icon="ri ri-search-line" @keyup.enter="searchBooks()"/>
         <!-- end search bar -->
 
         <!--icon start here-->
@@ -143,9 +144,24 @@ export default {
     HeaderTitle,
     RecommendationCardLayout
   },
+  data(){
+      return {
+        search: '',
+      }
+  },
   mounted () {
     getBooksBy('sort','desc')
     getRecommendationBooks()
+  },
+  methods : {
+    searchBooks(){
+        store.dispatch('book/fetchSearchBooks',{
+            query: 'name',
+            value : this.search})
+            .then(()=> {
+                this.$router.push({ name: 'search-result', query: {name: this.search}})
+            })
+    }
   },
   updated () {
     // gsap.from('.card-book',{

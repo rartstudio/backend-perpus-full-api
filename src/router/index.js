@@ -54,7 +54,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/Login.vue'),
+    component: () => import(/* webpackChunkName: "login" */  '../views/Login.vue'),
     //check if user have a token
     beforeEnter(routeTo, routeFrom, next){
       let getUser = localStorage.getItem('usacco')
@@ -86,24 +86,29 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import('../views/Dashboard.vue'),
+    component: () => import( /* webpackChunkName: "dashboard" */  '../views/Dashboard.vue'),
     meta: {requiresAuth:true}
   },
   {
     path: '/profile-form',
     name: 'profile-form',
-    component: () => import('../views/ProfileForm.vue'),
+    component: () => import(/* webpackChunkName: "profile-form" */  '../views/ProfileForm.vue'),
     meta: {requiresAuth:true}
   },
   {
     path: '/cart',
     name: 'cart',
-    component: () => import('../views/ShoppingCart.vue')
+    component: () => import(/* webpackChunkName: "shopping-cart" */  '../views/ShoppingCart.vue')
   },
   {
     path: '/inbox',
     name: 'inbox-user',
-    component: () => import('../views/InboxUser.vue')
+    component: () => import(/* webpackChunkName: "inbox-user" */  '../views/InboxUser.vue')
+  },
+  {
+    path: '/search-result',
+    name: 'search-result',
+    component: () => import(/* webpackChunkName: "search-result" */  '../views/SearchResult.vue')
   }
 ];
 
