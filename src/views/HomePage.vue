@@ -1,5 +1,9 @@
 <template>
     <div class="main">
+
+        <template v-if="book.snackbarState">
+            <Snackbar :snackbarText="snackbarText"/>
+        </template>
         <!-- header -->
         <v-container class="hero-container">
             <HeaderTitle/>
@@ -108,6 +112,7 @@ import HeaderTitle from "@/components/HeaderTitle.vue";
 import HeaderCard from "@/components/HeaderCard.vue";
 import HeaderCardLoader from "@/components/HeaderCardLoader.vue";
 // import HomePageIcon from "@/components/HomePageIcon.vue";
+import Snackbar from "@/components/SnackBar.vue";
 
 import BookCardLayout from "@/layout/BookCardLayout.vue";
 import RecommendationCardLayout from "@/layout/RecommendationCardLayout.vue";
@@ -138,6 +143,7 @@ export default {
     BookCardLoader,
     BookCardLayout,
     // HomePageIcon,
+    Snackbar,
     TitleBook,
     HeaderCard,
     HeaderCardLoader,
@@ -147,6 +153,7 @@ export default {
   data(){
       return {
         search: '',
+        snackbarText: 'Pencarian tidak ditemukan'
       }
   },
   mounted () {
@@ -155,13 +162,20 @@ export default {
   },
   methods : {
     searchBooks(){
+        this.$store.state.book.snackbarState= false
         store.dispatch('book/fetchSearchBooks',{
             query: 'name',
             value : this.search})
             .then(()=> {
-                this.$router.push({ name: 'search-result', query: {name: this.search}})
+                if(this.$store.state.book.searchResult.data.length != 0){
+                    this.$router.push({ name: 'search-result', query: {name: this.search}})
+                }
+                this.$store.state.book.snackbarState= true
             })
     }
+  },
+  beforeDestroy(){
+      this.$store.state.book.snackbarState= false
   },
   updated () {
     // gsap.from('.card-book',{

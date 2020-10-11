@@ -44,6 +44,9 @@ import {bookMixin} from "@/mixins/bookMixin.js";
             book: {
                 type: Object
             }
+        },
+        mounted() {
+            window.scrollTo(0,0);
         }
     }
 </script>

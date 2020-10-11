@@ -44,7 +44,7 @@
                     <p class="book__description text-body-2 mt-2" v-html="book.book.description">
                     </p>
                 </div>
-                <div class="pl-4">
+                <div class="pl-4 mt-5">
                     <p class="text-h6 font-weight-bold">Buku lainnya</p>
                 </div>
                 <BookCardLayout>

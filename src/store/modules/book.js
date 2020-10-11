@@ -5,6 +5,7 @@ export const namespaced = true
 
 export const state = {
     books: [],
+    snackbarState: false,
     booksByOne : [],
     booksByTwo : [],
     relatedBooks: [],
@@ -39,6 +40,7 @@ export const mutations = {
 
 export const actions = {
     fetchSearchBooks({commit,state},{query,value}){
+        state.isLoading = true
         return BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_SEARCH_RESULT', response.data)
