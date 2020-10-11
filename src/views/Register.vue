@@ -98,7 +98,7 @@
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pa-0 mt-6">
                     <template v-if="isSubmitted">
-                        <v-btn color="#0a369d" dark large type="submit" disabled elevation="3">
+                        <v-btn color="#0a369d" dark large block type="submit" disabled elevation="3">
                             <v-progress-circular
                                 :indeterminate="indeterminate"
                                 size="24"

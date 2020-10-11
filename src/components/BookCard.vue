@@ -15,15 +15,23 @@
             {{ book.title }}
           </div>
           <div class="text-caption text--disabled d-flex align-center justify-space-between">
-            <div class="d-flex align-center review__book pa-1">
-              <v-icon color="#fff" size="24px">
-                ri ri-check-line
-              </v-icon>
-              <div class="ml-1 review__number">
-                <!-- {{ rating(book.reviews) }} -->
-                <!-- Tersedia -->
-              </div>
-            </div>
+            <template v-if="book.stock.qty != 0">
+                <v-chip class="d-flex justify-center align-center" color="#3285C0">
+                  <v-icon color="#fff" size="24px">
+                    ri ri-check-line
+                  </v-icon>
+                  <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
+                </v-chip>
+            </template>
+            <template v-else>
+              <v-chip class="d-flex justify-center align-center" color="#e31a1a">
+                  <v-icon color="#fff" size="24px">
+                    ri ri-indeterminate-circle-line
+                  </v-icon>
+                  <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
+                </v-chip>
+            </template>
+            
           </div>
         </v-card>
     </v-flex>
@@ -42,16 +50,6 @@
   }
   .book-title {
     min-height: 4.2rem;
-  }
-  .review__book {
-    background: #0a369d;
-    width: 2.2rem;
-    height: 1.6rem;
-    border-radius: 10px;
-  }
-  .review__number {
-    color: #fff;
-    font-size: .7rem;
   }
 </style>
 

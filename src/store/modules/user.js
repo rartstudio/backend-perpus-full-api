@@ -50,7 +50,14 @@ function getHistory(base){
         return el.stated == 6
     })
 
-    let sorted = sortZtoA(history)
+    let archive = base.filter(el => {
+        return el.stated == 7
+    })
+
+    //concat it
+    let final = history.concat(archive)
+
+    let sorted = sortZtoA(final)
 
     return sorted
 }

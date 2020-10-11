@@ -65,14 +65,27 @@ export default {
     },
     methods : {
         processToCheckout(){
-            store.dispatch('transaction/checkoutItem')
-                .then(()=>{
-                    if (this.$store.state.transaction.status == 200){
-                        this.$router.push({ name: 'dashboard'})
-                    }
-                }) 
-            this.isSubmitted = false
-            this.enabledSnackbar = false
+            this.$swal.fire({
+                title: 'Apakah kamu yakin sudah mengecek buku yang dipinjam?',
+                icon: 'success',
+                text: 'pastikan buku yang dipinjam sudah sesuai dengan yang diinginkan',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Belum',
+                confirmButtonText: 'Sudah diterima'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    store.dispatch('transaction/checkoutItem')
+                    .then(()=>{
+                        if (this.$store.state.transaction.status == 200){
+                            this.$router.push({ name: 'dashboard'})
+                        }
+                    });
+                }
+            });
+            
+            this.isSubmitted = false 
         }
     },
     computed : {

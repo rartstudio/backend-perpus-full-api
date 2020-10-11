@@ -13,11 +13,22 @@
                     <div class="ml-4">
                         <h4 class="book__title mt-4">{{book.book.title}}</h4>
                         <p class="text-caption mt-2">{{book.book.author.name}}</p>
-                        <div>
-                            <ChipDefault>
-                                Tersedia
-                            </ChipDefault>
-                        </div>
+                        <template v-if="book.book.stock.qty != 0">
+                            <v-chip class="d-flex justify-center align-center" color="#3285C0">
+                            <v-icon color="#fff" size="24px">
+                                ri ri-check-line
+                            </v-icon>
+                            <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
+                            </v-chip>
+                        </template>
+                        <template v-else>
+                            <v-chip class="d-flex justify-center align-center" color="#e31a1a">
+                                <v-icon color="#fff" size="24px">
+                                    ri ri-indeterminate-circle-line
+                                </v-icon>
+                                <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
+                            </v-chip>
+                        </template>
                     <!-- <div class="d-flex align-center review__book pa-1 mt-n2">
                         <v-icon color="#fff" size="13px">
                             mdi-star
@@ -46,10 +57,18 @@
                     <template v-if="enabledSnackbar">
                         <Snackbar :snackbarText="text"/>
                     </template>
-                    <v-btn class="book__btn" color="#FFCB36" @click="addToCart()">
-                        <v-icon>ri ri-add-line</v-icon>
-                        <span class="book__btn--text">Keranjang</span>
-                    </v-btn>
+                    <template v-if="book.book.stock.qty != 0">
+                        <v-btn class="book__btn" color="#FFCB36" @click="addToCart()">
+                            <v-icon>ri ri-add-line</v-icon>
+                            <span class="book__btn--text">Keranjang</span>
+                        </v-btn>
+                    </template>
+                    <template v-else>
+                        <v-btn class="book__btn" color="#FFCB36" @click="addToCart()" disabled>
+                            <v-icon>ri ri-add-line</v-icon>
+                            <span class="book__btn--text">Keranjang</span>
+                        </v-btn>
+                    </template>
                 </v-footer>
             </div>
         </template>
@@ -148,7 +167,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
+    background: #f5f5f5 !important;
+}
     .book {
         color: #0a369d;
 

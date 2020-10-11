@@ -24,7 +24,7 @@
                     <v-chip class="fs-med" color="teal" dark @click.stop="accept(transaction.id)">
                         {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
-                    <v-chip class="fs-med ml-3" color="red" dark @click.stop="accept(transaction.id)">
+                    <v-chip class="fs-med ml-3" color="red" dark @click.stop="reject(transaction.id)">
                         Batalkan Peminjaman
                     </v-chip>
                 </template>
@@ -65,14 +65,14 @@
                 <div v-show="detail">
                     <v-divider></v-divider>
                     <template v-if="transaction.stated == 4">
-                        <div>
-                            <h5 class="mb-2 ">Detail Pengambilan</h5>
+                        <v-card class="pa-4 elevation-0">
+                            <h5 class="mb-2 text-body-1 font-weight-bold">Detail Pengambilan</h5>
                             <p class="fs-med">
                                 {{transaction.add_info == null || transaction.add_info == '' ? 'Tunggu hingga status siap diambil' : transaction.add_info}}
                             </p>
-                        </div>
+                        </v-card>
                     </template>
-                    <v-card class="pa-4">
+                    <v-card class="pa-4 elevation-0">
                         <h5 class="mb-2 text-body-1 font-weight-bold">Detail Buku</h5>
                         <div class="d-flex mb-2" v-for="detail in transaction.transaction_details" :key="detail.id">
                             <img :src="link(detail.details.cover)" width="55px" height="80px">
@@ -101,6 +101,32 @@ export default {
         }
     },
     methods : {
+        async reject(id){
+            const { value: add_info } = await this.$swal.fire({
+                title: 'Kenapa yah dibatalin ?',
+                input: 'textarea',
+                inputPlaceholder: 'Type your message here...',
+                inputAttributes: {
+                    'aria-label': 'Type your message here'
+                },
+                showCancelButton: true
+                })
+
+                if (add_info) {
+                    let rejectData = {
+                        add_info,
+                        id
+                    } 
+                    store.dispatch('transaction/rejectBorrow',rejectData)
+                    .then(()=> {    
+                        this.$swal.fire(
+                        'Sukses!',
+                        'Pembatalan pinjaman buku berhasil',
+                        location.reload()    
+                        )
+                    });
+                }
+        },
         accept(id){
             this.$swal.fire({
                 title: 'Apakah kamu yakin sudah menerima buku yang dipinjam?',
@@ -142,6 +168,9 @@ export default {
             }
             if (data == 6){
                 return 'Sudah dikembalikan'
+            }
+            if (data == 7){
+                return 'Dibatalkan Member'
             }
         }
     }

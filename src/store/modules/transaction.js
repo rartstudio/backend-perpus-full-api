@@ -196,6 +196,16 @@ export const actions = {
                     .catch(error => {
                         console.log(error)
                     })    
+    },
+    rejectBorrow({commit},data){
+        commit('TRX_ID',data.id);
+        return TransactionService.rejectBorrow(state.trxid, data)
+                    .then((response) => {
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })    
     }
 }
 

@@ -16,6 +16,13 @@ export default {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`
             }
         })
+    },
+    rejectBorrow(id,data){
+        return apiClient.post(`api/transaction-reject/${id}`,data, {
+            headers : {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`
+            }
+        })
     }
 }
 

@@ -23,7 +23,7 @@
         <!-- end search bar -->
 
         <!--icon start here-->
-        <HomePageIcon/>
+        <!-- <HomePageIcon/> -->
         <!--icon end here -->
         
         <v-divider></v-divider>
@@ -106,7 +106,7 @@ import TitleBook from "@/components/TitleBook.vue";
 import HeaderTitle from "@/components/HeaderTitle.vue";
 import HeaderCard from "@/components/HeaderCard.vue";
 import HeaderCardLoader from "@/components/HeaderCardLoader.vue";
-import HomePageIcon from "@/components/HomePageIcon.vue";
+// import HomePageIcon from "@/components/HomePageIcon.vue";
 
 import BookCardLayout from "@/layout/BookCardLayout.vue";
 import RecommendationCardLayout from "@/layout/RecommendationCardLayout.vue";
@@ -136,7 +136,7 @@ export default {
     BookCard,
     BookCardLoader,
     BookCardLayout,
-    HomePageIcon,
+    // HomePageIcon,
     TitleBook,
     HeaderCard,
     HeaderCardLoader,
