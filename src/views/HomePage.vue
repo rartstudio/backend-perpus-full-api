@@ -20,7 +20,7 @@
 
         <!--search bar-->
         <v-text-field 
-            placeholder="Cari buku atau penulis" 
+            placeholder="Cari buku disini" 
             class="mt-4 mx-4 search-form" 
             solo
             v-model="search"
