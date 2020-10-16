@@ -5,7 +5,7 @@
             <p class="text-body-2 text--secondary">Silahkan diisi form nya sesuai data yang dibutuhkan yah </p>
         </v-card-title>
         <v-card-text class="mt-4">
-            <v-form @submit.prevent="register" autocomplete="off">
+            <v-form @submit.prevent="forgot" autocomplete="off">
                 <v-text-field
                     outlined
                     prepend-inner-icon="mdi-email-outline"
@@ -47,23 +47,9 @@
                 <div v-if="$v.details.member_code.$error">
                     <p v-if="!$v.details.member_code.required" class="text-red mt-m-25 fs-12">No Member harap diisi.</p>
                 </div>
-                <v-text-field
-                    outlined
-                    prepend-inner-icon="mdi-account-circle-outline"
-                    label="Tanggal Baptis"
-                    v-model.trim="details.date_of_baptism"
-                    @blur="$v.details.date_of_baptism.$touch()"
-                    clearable
-                    required
-                    dense
-                    class="mb-2"
-                    :error="isDateOfBaptismError"
-                    :loading="isLoading"
-                    :disabled="disabled"
-                />
-                <p v-if="!$v.details.date_of_baptism.minLength" class="text-red mt-m-25 fs-12">Format tanggal dd-mm-yyyy (ex: 12-12-2012).</p>
-                <div v-if="$v.details.date_of_baptism.$error">
-                    <p v-if="!$v.details.date_of_baptism.required" class="text-red mt-m-25 fs-12">Tanggal Baptis harap diisi.</p>
+                <div class="mt-n2">
+                    <label for="" style="font-size: 12px">Tanggal Baptis</label>
+                    <DatePicker v-model="details.date_of_baptism" valueType="format"></DatePicker>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pa-0 mt-6">
                     <template v-if="isSubmitted">
@@ -113,6 +99,15 @@
 .v-text-field__slot > .v-label:focus {
     left: -28px !important
 }
+
+/* datepicker */
+.mx-datepicker {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.mx-input {
+  padding: 20px 30px;
+}
 </style>
 
 <script>
@@ -120,10 +115,14 @@
 import store from "@/store"
 import { required, email, minLength } from "vuelidate/lib/validators"
 import { mapState } from "vuex";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 
 export default {
-    name: "Register",
-
+    name: "Forgot",
+    components :{
+        DatePicker
+    },
     data: () => ({
         //if any error when typing text field
         isMemberCodeError: false,
@@ -157,10 +156,6 @@ export default {
                 required,
                 minLength: minLength(4)
             },
-            date_of_baptism : {
-                required,
-                minLength: minLength(10)
-            },
             email : {
                 required,email
             }
@@ -189,14 +184,6 @@ export default {
             this.isMemberCodeError = false
         }
 
-        //check name if doesnt match with minlength
-        if(!this.$v.details.date_of_baptism.minLength){
-            this.isDateOfBaptismError = true
-        }
-        else {
-            this.isDateOfBaptismError = false
-        }
-
         //check email if doesnt match with minlength
         if(this.$v.details.email.email == true){
             this.isEmailError = false
@@ -204,8 +191,6 @@ export default {
         else {
             this.isEmailError = true
         }
-
-
     },
     methods: {
         disabledBackendValidationAny(){
@@ -230,18 +215,18 @@ export default {
             .then(()=> {
                 //checking promise from auth
                 //state.auth.status
-                if(this.auth.status == 200){
-                    this.$router.push({ name: 'dashboard' })
-                }
-                else if(this.auth.status == 422){
-                    this.passError = true
-                    this.afterFetchForgot()
-                }
-                else if(this.auth.status == 500){
-                    this.emailError = true
-                    this.afterFetchForgot()
-                    this.details.email = null
-                }
+                // if(this.auth.status == 200){
+                //     this.$router.push({ name: 'dashboard' })
+                // }
+                // else if(this.auth.status == 422){
+                //     this.passError = true
+                //     this.afterFetchForgot()
+                // }
+                // else if(this.auth.status == 500){
+                //     this.emailError = true
+                //     this.afterFetchForgot()
+                //     this.details.email = null
+                // }
             })
         }
     }

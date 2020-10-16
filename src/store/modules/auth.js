@@ -29,12 +29,13 @@ export const mutations = {
 
 export const actions = {
     fetchForgot({commit},data){
+        // console.log(data);
         return AuthService.getForgot(data)
             .then(response => {
-
+                console.log(response.status)
             })
             .catch(error => {
-
+                console.log(error.response.status)
             })
     },
     fetchReset({commit},data){

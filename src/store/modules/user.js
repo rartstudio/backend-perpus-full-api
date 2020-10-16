@@ -112,6 +112,9 @@ export const mutations = {
     updateDateOfBirth(state,data){
         state.userData.details.date_of_birth = data
     },
+    updateDateOfBaptism(state,data){
+        state.userData.details.date_of_baptism = data
+    },
     updateGender(state,data){
         state.userData.details.gender = data
     },

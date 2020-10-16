@@ -71,7 +71,8 @@
               <v-btn text>Cancel</v-btn>
             </router-link>
           </v-stepper-content>
-          <v-stepper-content step="2" class="mt-2">
+          <v-stepper-content step="2" class="mt-2 pt-0">
+            <p class="text-caption font-italic blue-grey lighten-5 text-center px-2 py-2 mb-5">Untuk Bagian ini akan digunakan sebagai verifikasi saat lupa password,mohon diisi dengan benar</p>
             <v-text-field
               outlined
               class="profile-form mt-4"
@@ -82,19 +83,8 @@
               @blur="$v.details.memberCode.$touch()"
               clearable
             />
-            <!-- 
-              :error="isMemberCodeError"
-              :loading="isLoading"
-              :disabled="disabled"
-              <v-file-input
-              class="profile-form__image"
-              v-model="files"
-              label="File input"
-              dense
-              placeholder="Select your files"
-              outlined
-            >
-            </v-file-input> -->
+            <label for="" style="font-size: 12px">Tanggal Baptis</label>
+            <DatePicker v-model="dateOfBaptism" valueType="format"></DatePicker>
             <template v-if="isSubmitted">
                 <v-btn color="#1976D2" dark large class="ml-2" type="submit" disabled elevation="3">
                     <v-progress-circular
@@ -222,8 +212,15 @@ import { mapState } from 'vuex';
           return this.$store.state.user.userData.details.date_of_birth
         },
         set(value){
-
           this.$store.commit('user/updateDateOfBirth', value)
+        }
+      },
+      dateOfBaptism : {
+        get(){
+          return this.$store.state.user.userData.details.date_of_baptism
+        },
+        set(value){
+          this.$store.commit('user/updateDateOfBaptism',value);
         }
       },
       gender : {
