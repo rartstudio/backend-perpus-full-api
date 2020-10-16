@@ -1,5 +1,9 @@
 <template>
     <div class="h-full">
+        <div class="px-4 mt-6">
+            <v-chip @click="back">Kembali</v-chip>
+            <h6 class="text-body-2 font-italic text-center mt-4">Hasil Pencarian buku dengan kata kunci : {{ querySearch }}</h6>
+        </div>
         <template v-if="book.isLoading">
             <SearchCardLoader/>
         </template>
@@ -20,6 +24,14 @@ export default {
     },
     computed : {
         ...mapState(['book']),
+        querySearch (){
+            return this.$route.query.name
+        }
+    },
+    methods: {
+        back(){
+            return this.$router.go(-1);
+        }
     }
 }
 </script>

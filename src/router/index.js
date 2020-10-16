@@ -109,6 +109,16 @@ const routes = [
     path: '/search-result',
     name: 'search-result',
     component: () => import(/* webpackChunkName: "search-result" */  '../views/SearchResult.vue')
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-passwprd',
+    component: () => import(/* webpackChunkName: "forgot-password" */  '../views/ForgotPassword.vue')
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import(/* webpackChunkName: "reset-password" */ '../views/ResetPassword.vue')
   }
 ];
 

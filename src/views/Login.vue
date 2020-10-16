@@ -5,7 +5,7 @@
             <p class="text-body-2 mt-1">Mohon login terlebih dahulu sebelum meminjam</p>
         </v-card-title>
         <v-card-text class="mt-4">
-            <v-form @submit.prevent="login">
+            <v-form @submit.prevent="login" autocomplete="off">
                 <v-text-field
                     outlined
                     prepend-inner-icon="mdi-email-outline"
@@ -21,7 +21,7 @@
                 />
                 <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
                 <div v-if="$v.details.email.$error">
-                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email is required.</p>
+                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email wajib diisi.</p>
                 </div>
                 <v-text-field
                     outlined

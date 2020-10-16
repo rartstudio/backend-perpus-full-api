@@ -1,29 +1,11 @@
 <template>
     <v-card class="mt-10 mx-4" elevation=0>
         <v-card-title class="mb-4">
-            <h1 class="header__login mb-4">Join Perpus GKKB</h1>
-            <p class="text-body-2 text--secondary">Silahkan registrasi menggunakan email dan Daftar untuk meminjam buku</p>
+            <h1 class="header__login mb-4">Reset Password</h1>
+            <p class="text-body-2 text--secondary">Silahkan isi password yang baru</p>
         </v-card-title>
         <v-card-text class="mt-4">
-            <v-form @submit.prevent="register" autocomplete="off">
-                <v-text-field
-                    outlined
-                    prepend-inner-icon="mdi-account-circle-outline"
-                    label="Nama"
-                    v-model.trim="details.name"
-                    @blur="$v.details.name.$touch()"
-                    clearable
-                    required
-                    dense
-                    class="mb-2"
-                    :error="isNameError"
-                    :loading="isLoading"
-                    :disabled="disabled"
-                />
-                <p v-if="!$v.details.name.minLength" class="text-red mt-m-25 fs-12">Nama minimal 3 huruf.</p>
-                <div v-if="$v.details.name.$error">
-                    <p v-if="!$v.details.name.required" class="text-red mt-m-25 fs-12">Nama harap diisi.</p>
-                </div>
+            <v-form @submit.prevent="resetPassword" autocomplete="off">
                 <v-text-field
                     outlined
                     prepend-inner-icon="mdi-email-outline"
@@ -38,15 +20,6 @@
                     :loading="isLoading"
                     :disabled="disabled"
                 />
-                <div v-if="emailError" class="mb-20">
-                    <p class="text-red mt-m-25 fs-12">
-                        Email tersebut sudah pernah registrasi
-                    </p>
-                </div>
-                <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
-                <div v-if="$v.details.email.$error" class="mt-2">
-                    <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email wajib diisi.</p>
-                </div>
                 <v-text-field
                     outlined
                     label="Password" 
@@ -112,7 +85,7 @@
                     <template v-else>
                         <v-btn color="#0a369d" dark large block type="submit" :disabled="$v.$invalid">
                             <v-icon left color="#fff !important">mdi-pencil</v-icon>
-                                Sign Up
+                                Submit
                         </v-btn>
                     </template>
                 </v-card-actions>
@@ -164,7 +137,6 @@ export default {
 
     data: () => ({
         //if any error when typing text field
-        isNameError: false,
         isEmailError: false,
         isPassError: false,
         isConfirmPassError: false,
@@ -195,7 +167,6 @@ export default {
         emailError: false,
         passError: false,
         details : {
-            name : null,
             email : null,
             password : null,
             password_confirmation: null,
@@ -203,10 +174,6 @@ export default {
     }),
     validations: {
         details : {
-            name : {
-                required,
-                minLength: minLength(3)
-            },
             email : {
                 required,email
             },
@@ -233,14 +200,6 @@ export default {
         //checking type data after backend validation return true
         if(this.details.email != null){
             this.disabledBackendValidationEmail()
-        }
-
-        //check name if doesnt match with minlength
-        if(!this.$v.details.name.minLength){
-            this.isNameError = true
-        }
-        else {
-            this.isNameError = false
         }
 
         //check emailif doesnt match with minlength
@@ -276,21 +235,21 @@ export default {
         disabledBackendValidationEmail(){
             return this.emailError = false
         },
-        beforeFetchRegister(){
+        beforeFetchReset(){
             this.isSubmitted = true
             this.isLoading = true
             this.disabled = true
         },
-        afterFetchRegister(){
+        afterFetchReset(){
             this.isLoading = false
             this.disabled = false
             this.isSubmitted = false
             this.details.password_confirmation = null
             this.details.password = null
         },
-        register(){
-            this.beforeFetchRegister()
-            store.dispatch('auth/fetchRegister', this.details)
+        resetPassword(){
+            this.beforeFetchReset()
+            store.dispatch('auth/fetchResetPassword', this.details)
             .then(()=> {
                 //checking promise from auth
                 //state.auth.status
@@ -299,11 +258,11 @@ export default {
                 }
                 else if(this.auth.status == 422){
                     this.passError = true
-                    this.afterFetchRegister()
+                    this.afterFetchReset()
                 }
                 else if(this.auth.status == 500){
                     this.emailError = true
-                    this.afterFetchRegister()
+                    this.afterFetchReset()
                     this.details.email = null
                 }
             })

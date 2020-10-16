@@ -28,6 +28,24 @@ export const mutations = {
 }
 
 export const actions = {
+    fetchForgot({commit},data){
+        return AuthService.getForgot(data)
+            .then(response => {
+
+            })
+            .catch(error => {
+
+            })
+    },
+    fetchReset({commit},data){
+        return AuthService.getReset(data)
+            .then(response => {
+
+            })
+            .catch(error => {
+                
+            })
+    },
     fetchRegister({commit},credential){
         return AuthService.getRegister(credential)
             .then(response => {

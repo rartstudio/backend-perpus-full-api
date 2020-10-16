@@ -1,29 +1,11 @@
 <template>
     <v-card class="mt-10 mx-4" elevation=0>
         <v-card-title class="mb-4">
-            <h1 class="header__login mb-4">Join Perpus GKKB</h1>
-            <p class="text-body-2 text--secondary">Silahkan registrasi menggunakan email dan Daftar untuk meminjam buku</p>
+            <h1 class="header__login mb-4">Lupa Password</h1>
+            <p class="text-body-2 text--secondary">Silahkan diisi form nya sesuai data yang dibutuhkan yah </p>
         </v-card-title>
         <v-card-text class="mt-4">
             <v-form @submit.prevent="register" autocomplete="off">
-                <v-text-field
-                    outlined
-                    prepend-inner-icon="mdi-account-circle-outline"
-                    label="Nama"
-                    v-model.trim="details.name"
-                    @blur="$v.details.name.$touch()"
-                    clearable
-                    required
-                    dense
-                    class="mb-2"
-                    :error="isNameError"
-                    :loading="isLoading"
-                    :disabled="disabled"
-                />
-                <p v-if="!$v.details.name.minLength" class="text-red mt-m-25 fs-12">Nama minimal 3 huruf.</p>
-                <div v-if="$v.details.name.$error">
-                    <p v-if="!$v.details.name.required" class="text-red mt-m-25 fs-12">Nama harap diisi.</p>
-                </div>
                 <v-text-field
                     outlined
                     prepend-inner-icon="mdi-email-outline"
@@ -40,7 +22,7 @@
                 />
                 <div v-if="emailError" class="mb-20">
                     <p class="text-red mt-m-25 fs-12">
-                        Email tersebut sudah pernah registrasi
+                        Email yang dimasukkan salah
                     </p>
                 </div>
                 <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
@@ -49,52 +31,39 @@
                 </div>
                 <v-text-field
                     outlined
-                    label="Password" 
-                    :type="showPassword ? 'text' : 'password'" 
-                    prepend-inner-icon="mdi-lock"
-                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPassword = !showPassword"
-                    v-model="details.password"
-                    @blur="$v.details.password.$touch()"
+                    prepend-inner-icon="mdi-account-circle-outline"
+                    label="No Member Gereja"
+                    v-model.trim="details.member_code"
+                    @blur="$v.details.member_code.$touch()"
                     clearable
                     required
                     dense
                     class="mb-2"
-                    :error="isPassError"
+                    :error="isMemberCodeError"
                     :loading="isLoading"
                     :disabled="disabled"
-                    :counter="counterPassword ? countPass : false"
                 />
-                <div v-if="passError" class="mb-20">
-                    <p class="text-red mt-m-25 fs-12">
-                        Konfirmasi Password beda dengan password
-                    </p>
-                </div>
-                <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
-                <div v-if="$v.details.password.$error" class="mt-2">
-                    <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
+                <p v-if="!$v.details.member_code.minLength" class="text-red mt-m-25 fs-12">No Member minimal 3 huruf.</p>
+                <div v-if="$v.details.member_code.$error">
+                    <p v-if="!$v.details.member_code.required" class="text-red mt-m-25 fs-12">No Member harap diisi.</p>
                 </div>
                 <v-text-field
                     outlined
-                    label="Konfirmasi Password" 
-                    :type="showPasswordConfirm ? 'text' : 'password'" 
-                    prepend-inner-icon="mdi-lock"
-                    :append-icon="showPasswordConfirm ? 'mdi-eye' : 'mdi-eye-off'"
-                    @click:append="showPasswordConfirm = !showPasswordConfirm"
-                    v-model="details.password_confirmation"
-                    @blur="$v.details.password_confirmation.$touch()"
+                    prepend-inner-icon="mdi-account-circle-outline"
+                    label="Tanggal Baptis"
+                    v-model.trim="details.date_of_baptism"
+                    @blur="$v.details.date_of_baptism.$touch()"
                     clearable
                     required
                     dense
                     class="mb-2"
-                    :error="isConfirmPassError"
+                    :error="isDateOfBaptismError"
                     :loading="isLoading"
                     :disabled="disabled"
-                    :counter="counterConfirm ? countConfirm : false"
                 />
-                <p v-if="!$v.details.password_confirmation.minLength" class="text-red mt-m-25 fs-12">Konfirmasi password harus sesuai dengan password.</p>
-                <div v-if="$v.details.password_confirmation.$error">
-                    <p v-if="!$v.details.password_confirmation.required" class="text-red mt-m-25 fs-12">Konfirmasi password harap diisi.</p>
+                <p v-if="!$v.details.date_of_baptism.minLength" class="text-red mt-m-25 fs-12">Format tanggal dd-mm-yyyy (ex: 12-12-2012).</p>
+                <div v-if="$v.details.date_of_baptism.$error">
+                    <p v-if="!$v.details.date_of_baptism.required" class="text-red mt-m-25 fs-12">Tanggal Baptis harap diisi.</p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pa-0 mt-6">
                     <template v-if="isSubmitted">
@@ -112,19 +81,12 @@
                     <template v-else>
                         <v-btn color="#0a369d" dark large block type="submit" :disabled="$v.$invalid">
                             <v-icon left color="#fff !important">mdi-pencil</v-icon>
-                                Sign Up
+                                Submit
                         </v-btn>
                     </template>
                 </v-card-actions>
             </v-form>
         </v-card-text>
-        <v-card-text>
-            <div class="d-flex link__container">
-                <p>Sudah punya akun ? &nbsp;</p>
-                <router-link to="/login" class="sidebar__link ml-1 font-weight-bold">Masuk Disini</router-link>
-            </div>
-        </v-card-text>
-        
     </v-card>
 </template>
 <style>
@@ -164,10 +126,9 @@ export default {
 
     data: () => ({
         //if any error when typing text field
-        isNameError: false,
+        isMemberCodeError: false,
         isEmailError: false,
-        isPassError: false,
-        isConfirmPassError: false,
+        isDateOfBaptismError: false,
 
         //loading bar text field
         isLoading: false,
@@ -181,42 +142,27 @@ export default {
         //spinner
         indeterminate: true,
 
-        //using show passowrd
-        showPassword: false,
-        showPasswordConfirm: false,
-
-        //using counter
-        counterPassword: true,
-        counterConfirm: true,
-        countPass: 0,
-        countConfirm: 0,
-
         //using backend validation
         emailError: false,
-        passError: false,
+        anyError: false,
         details : {
-            name : null,
+            date_of_baptism : null,
             email : null,
-            password : null,
-            password_confirmation: null,
+            member_code : null
         },
     }),
     validations: {
         details : {
-            name : {
+            member_code : {
                 required,
-                minLength: minLength(3)
+                minLength: minLength(4)
+            },
+            date_of_baptism : {
+                required,
+                minLength: minLength(10)
             },
             email : {
                 required,email
-            },
-            password : {
-                required,
-                minLength: minLength(8)
-            },
-            password_confirmation : {
-                required,
-                minLength: minLength(8)
             }
         }
     },
@@ -226,8 +172,8 @@ export default {
     updated(){
 
         //checking type data after backend validation return true
-        if(this.details.password != null) {
-            this.disabledBackendValidationPass()
+        if(this.details.date_of_baptism != null || this.details.member_code != null) {
+            this.disabledBackendValidationAny()
         }
 
         //checking type data after backend validation return true
@@ -236,14 +182,22 @@ export default {
         }
 
         //check name if doesnt match with minlength
-        if(!this.$v.details.name.minLength){
-            this.isNameError = true
+        if(!this.$v.details.member_code.minLength){
+            this.isMemberCodeError = true
         }
         else {
-            this.isNameError = false
+            this.isMemberCodeError = false
         }
 
-        //check emailif doesnt match with minlength
+        //check name if doesnt match with minlength
+        if(!this.$v.details.date_of_baptism.minLength){
+            this.isDateOfBaptismError = true
+        }
+        else {
+            this.isDateOfBaptismError = false
+        }
+
+        //check email if doesnt match with minlength
         if(this.$v.details.email.email == true){
             this.isEmailError = false
         }
@@ -251,46 +205,28 @@ export default {
             this.isEmailError = true
         }
 
-        //check password if doesnt match with minlength
-        if(!this.$v.details.password.minLength ){
-            this.isPassError = true
-        }
-        else {
-            this.isPassError = false
-        }
 
-        //check password confirmation if doesnt match with minlength
-        if(!this.$v.details.password_confirmation.minLength ){
-            //set border to red
-            this.isConfirmPassError = true
-        }
-        else {
-            //set border to blue (default)
-            this.isConfirmPassError = false
-        }
     },
     methods: {
-        disabledBackendValidationPass(){
-            return this.passError = false
+        disabledBackendValidationAny(){
+            return this.anyError = false
         },
         disabledBackendValidationEmail(){
             return this.emailError = false
         },
-        beforeFetchRegister(){
+        beforeFetchForgot(){
             this.isSubmitted = true
             this.isLoading = true
             this.disabled = true
         },
-        afterFetchRegister(){
+        afterFetchForgot(){
             this.isLoading = false
             this.disabled = false
             this.isSubmitted = false
-            this.details.password_confirmation = null
-            this.details.password = null
         },
-        register(){
-            this.beforeFetchRegister()
-            store.dispatch('auth/fetchRegister', this.details)
+        forgot(){
+            this.beforeFetchForgot()
+            store.dispatch('auth/fetchForgot', this.details)
             .then(()=> {
                 //checking promise from auth
                 //state.auth.status
@@ -299,11 +235,11 @@ export default {
                 }
                 else if(this.auth.status == 422){
                     this.passError = true
-                    this.afterFetchRegister()
+                    this.afterFetchForgot()
                 }
                 else if(this.auth.status == 500){
                     this.emailError = true
-                    this.afterFetchRegister()
+                    this.afterFetchForgot()
                     this.details.email = null
                 }
             })

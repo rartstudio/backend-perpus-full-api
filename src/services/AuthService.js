@@ -20,6 +20,12 @@ export default {
     getLogin(credential){
         return apiClient.post('/api/login',credential)
     },
+    getForgot(credential){
+        return apiClient.post('/api/forgot-password',credential)
+    },
+    getReset(credential){
+        return apiClient.post('/api/reset-password',credential)
+    },
     getLogout(){
         return apiClient.post('/api/logout',[],{
             headers: {
