@@ -1,5 +1,8 @@
 <template>
     <v-card class="mt-8 mx-4" elevation=0>
+        <template v-if="auth.enabledSnackbar">
+            <Snackbar :snackbarText="auth.message"/>
+        </template>
         <v-card-title class="mb-4">
             <h1 class="header__login">Log In</h1>
             <p class="text-body-2 mt-1">Mohon login terlebih dahulu sebelum meminjam</p>
@@ -107,7 +110,8 @@
 
 <script>
 /* eslint-disable */
-import store from "@/store"
+import store from "@/store";
+import Snackbar from "@/components/SnackBar.vue";
 import { mapState } from 'vuex';
 import { required, email, minLength } from "vuelidate/lib/validators"
 
@@ -115,6 +119,7 @@ export default {
     name: "Login",
 
     components: {
+        Snackbar
     },
 
     data: () => ({
@@ -178,6 +183,12 @@ export default {
         else {
             this.isPassError = false
         }
+    },
+    destroyed(){
+        this.$store.commit('auth/SET_USER',null);
+        this.$store.commit('auth/SET_STATUS_CODE',null);
+        this.$store.commit('auth/SET_MESSAGE',null);
+        this.$store.commit('auth/SET_SNACKBAR',false);
     },
     methods: {
         disabledBackendValidation(){

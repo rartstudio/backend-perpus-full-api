@@ -22,10 +22,10 @@
                 />
                 <div v-if="emailError" class="mb-20">
                     <p class="text-red mt-m-25 fs-12">
-                        Email yang dimasukkan salah
+                        {{ messageError }}
                     </p>
                 </div>
-                <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12">Masukkan email valid</p>
+                <p v-if="!$v.details.email.email" class="text-red mt-m-25 fs-12 mb-5">Masukkan email valid</p>
                 <div v-if="$v.details.email.$error" class="mt-2">
                     <p v-if="!$v.details.email.required" class="text-red mt-m-25 fs-12">Email wajib diisi.</p>
                 </div>
@@ -45,11 +45,16 @@
                 />
                 <p v-if="!$v.details.member_code.minLength" class="text-red mt-m-25 fs-12">No Member minimal 3 huruf.</p>
                 <div v-if="$v.details.member_code.$error">
-                    <p v-if="!$v.details.member_code.required" class="text-red mt-m-25 fs-12">No Member harap diisi.</p>
+                    <p v-if="!$v.details.member_code.required" class="text-red mt-m-25 fs-12 mb-5">No Member harap diisi.</p>
                 </div>
                 <div class="mt-n2">
                     <label for="" style="font-size: 12px">Tanggal Baptis</label>
                     <DatePicker v-model="details.date_of_baptism" valueType="format"></DatePicker>
+                </div>
+                <div v-if="anyError" class="mb-20 mt-3">
+                    <p class="text-red mt-m-25 fs-12">
+                        {{ messageError }}
+                    </p>
                 </div>
                 <v-card-actions class="d-flex justify-center align-center pa-0 mt-6">
                     <template v-if="isSubmitted">
@@ -163,9 +168,11 @@ export default {
     },
     computed : {
         ...mapState(['auth']),
+        messageError(){
+            return this.$store.state.auth.message
+        }
     },
     updated(){
-
         //checking type data after backend validation return true
         if(this.details.date_of_baptism != null || this.details.member_code != null) {
             this.disabledBackendValidationAny()
@@ -193,6 +200,14 @@ export default {
         }
     },
     methods: {
+        resetValidation(){
+            this.$v.$reset()
+        },
+        setDefault (){
+            this.details.date_of_baptism = null
+            this.details.email = null
+            this.details.member_code = null
+        },
         disabledBackendValidationAny(){
             return this.anyError = false
         },
@@ -213,20 +228,31 @@ export default {
             this.beforeFetchForgot()
             store.dispatch('auth/fetchForgot', this.details)
             .then(()=> {
-                //checking promise from auth
-                //state.auth.status
-                // if(this.auth.status == 200){
-                //     this.$router.push({ name: 'dashboard' })
-                // }
-                // else if(this.auth.status == 422){
-                //     this.passError = true
-                //     this.afterFetchForgot()
-                // }
-                // else if(this.auth.status == 500){
-                //     this.emailError = true
-                //     this.afterFetchForgot()
-                //     this.details.email = null
-                // }
+                // checking promise from auth
+                if(this.$store.state.auth.status == 200){
+                    this.$router.push({ name: 'reset-password' })
+                }
+
+                if(this.$store.state.auth.status == 503){
+                    this.emailError = true
+                    this.afterFetchForgot()
+                    this.setDefault()
+                    this.resetValidation()
+                }
+                
+                if(this.$store.state.auth.status == 403){
+                    this.anyError = true
+                    this.afterFetchForgot()
+                    this.setDefault()
+                    this.resetValidation()
+                }
+
+                if(this.$store.state.auth.status == 409) {
+                    this.anyError = true
+                    this.afterFetchForgot()
+                    this.setDefault()
+                    this.resetValidation()
+                }
             })
         }
     }

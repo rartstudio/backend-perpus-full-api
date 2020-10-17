@@ -8,20 +8,6 @@
             <v-form @submit.prevent="resetPassword" autocomplete="off">
                 <v-text-field
                     outlined
-                    prepend-inner-icon="mdi-email-outline"
-                    label="Email"
-                    v-model.trim="details.email"
-                    @blur="$v.details.email.$touch()"
-                    clearable
-                    required
-                    dense
-                    class="mb-2"
-                    :error="isEmailError"
-                    :loading="isLoading"
-                    :disabled="disabled"
-                />
-                <v-text-field
-                    outlined
                     label="Password" 
                     :type="showPassword ? 'text' : 'password'" 
                     prepend-inner-icon="mdi-lock"
@@ -44,7 +30,7 @@
                     </p>
                 </div>
                 <p v-if="!$v.details.password.minLength" class="text-red mt-m-25 fs-12">Password minimal 8 huruf.</p>
-                <div v-if="$v.details.password.$error" class="mt-2">
+                <div v-if="$v.details.password.$error" class="mt-4">
                     <p v-if="!$v.details.password.required" class="text-red mt-m-25 fs-12">Password harap diisi.</p>
                 </div>
                 <v-text-field
@@ -91,13 +77,6 @@
                 </v-card-actions>
             </v-form>
         </v-card-text>
-        <v-card-text>
-            <div class="d-flex link__container">
-                <p>Sudah punya akun ? &nbsp;</p>
-                <router-link to="/login" class="sidebar__link ml-1 font-weight-bold">Masuk Disini</router-link>
-            </div>
-        </v-card-text>
-        
     </v-card>
 </template>
 <style>
@@ -133,11 +112,10 @@ import { required, email, minLength } from "vuelidate/lib/validators"
 import { mapState } from "vuex";
 
 export default {
-    name: "Register",
+    name: "Reset",
 
     data: () => ({
         //if any error when typing text field
-        isEmailError: false,
         isPassError: false,
         isConfirmPassError: false,
 
@@ -164,19 +142,14 @@ export default {
         countConfirm: 0,
 
         //using backend validation
-        emailError: false,
         passError: false,
         details : {
-            email : null,
             password : null,
             password_confirmation: null,
         },
     }),
     validations: {
         details : {
-            email : {
-                required,email
-            },
             password : {
                 required,
                 minLength: minLength(8)
@@ -187,27 +160,17 @@ export default {
             }
         }
     },
-    computed : {
+    computed : {    
         ...mapState(['auth']),
+    },
+    destroyed(){
+        this.$store.commit('auth/SET_USER',null);
     },
     updated(){
 
         //checking type data after backend validation return true
         if(this.details.password != null) {
             this.disabledBackendValidationPass()
-        }
-
-        //checking type data after backend validation return true
-        if(this.details.email != null){
-            this.disabledBackendValidationEmail()
-        }
-
-        //check emailif doesnt match with minlength
-        if(this.$v.details.email.email == true){
-            this.isEmailError = false
-        }
-        else {
-            this.isEmailError = true
         }
 
         //check password if doesnt match with minlength
@@ -229,11 +192,11 @@ export default {
         }
     },
     methods: {
+        resetValidation(){
+            this.$v.$reset()
+        },
         disabledBackendValidationPass(){
             return this.passError = false
-        },
-        disabledBackendValidationEmail(){
-            return this.emailError = false
         },
         beforeFetchReset(){
             this.isSubmitted = true
@@ -249,21 +212,18 @@ export default {
         },
         resetPassword(){
             this.beforeFetchReset()
-            store.dispatch('auth/fetchResetPassword', this.details)
+            store.dispatch('auth/fetchReset', this.details)
             .then(()=> {
                 //checking promise from auth
                 //state.auth.status
-                if(this.auth.status == 200){
-                    this.$router.push({ name: 'dashboard' })
+                if(this.$store.state.auth.status == 200){
+                    this.resetValidation()
+                    this.$router.push({ name: 'login' })
                 }
-                else if(this.auth.status == 422){
+                else {
                     this.passError = true
                     this.afterFetchReset()
-                }
-                else if(this.auth.status == 500){
-                    this.emailError = true
-                    this.afterFetchReset()
-                    this.details.email = null
+                    this.resetValidation()
                 }
             })
         }

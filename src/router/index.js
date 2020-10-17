@@ -118,7 +118,15 @@ const routes = [
   {
     path: '/reset-password',
     name: 'reset-password',
-    component: () => import(/* webpackChunkName: "reset-password" */ '../views/ResetPassword.vue')
+    component: () => import(/* webpackChunkName: "reset-password" */ '../views/ResetPassword.vue'),
+    beforeEnter(routeTo,routeFrom,next){
+      if(store.state.auth.user){
+        next()
+      }
+      else {
+        next({name: 'home'})
+      }
+    }
   }
 ];
 

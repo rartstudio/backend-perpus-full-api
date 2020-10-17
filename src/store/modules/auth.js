@@ -6,11 +6,13 @@ export const namespaced = true
 
 export const state = {
     error : null,
-
+    user : null,
+    enabledSnackbar: false,
     //status 500 unique email
     //status 200 sukses
     //status 422 confirm password does not match
-    status: null
+    status: null,
+    message: null
 }
 
 export const mutations = {
@@ -19,11 +21,20 @@ export const mutations = {
         localStorage.setItem('user',JSON.stringify(data.user))
         localStorage.setItem('usacco',data.access_token)
     },
+    SET_SNACKBAR(state, data){
+        state.enabledSnackbar = data
+    },
     SET_USER_ERROR_NOTIF(state,error){
         state.error = error
     },
     SET_STATUS_CODE(state,status){
         state.status = status
+    },
+    SET_USER(state,data){
+        state.user = data
+    },
+    SET_MESSAGE(state,data){
+        state.message = data
     }
 }
 
@@ -32,19 +43,26 @@ export const actions = {
         // console.log(data);
         return AuthService.getForgot(data)
             .then(response => {
-                console.log(response.status)
+                commit('SET_STATUS_CODE',response.status);
+                commit('SET_USER',response.data.data.email);
             })
             .catch(error => {
-                console.log(error.response.status)
+                commit('SET_STATUS_CODE',error.response.status);
+                commit('SET_MESSAGE',error.response.data.message);
             })
     },
     fetchReset({commit},data){
+        //add key email from state
+        data.email = state.user
         return AuthService.getReset(data)
             .then(response => {
-
+                commit('SET_STATUS_CODE',response.status);
+                commit('SET_MESSAGE',response.data.message);
+                commit('SET_SNACKBAR',true);
             })
             .catch(error => {
-                
+                commit('SET_STATUS_CODE',error.response.status);
+                commit('SET_MESSAGE',error.response.data.message);
             })
     },
     fetchRegister({commit},credential){
