@@ -38,6 +38,11 @@
             <template v-slot:header>
                 Baru ditambahkan
             </template>
+            <template v-slot:button-side>
+                <v-btn text color="grey lighten-1" @click="viewAllBooks">
+                    Lihat Semua
+                </v-btn>
+            </template>
         </TitleBook>
         <template v-if="book.isLoading">
             <BookCardLayout>
@@ -47,9 +52,6 @@
         <template v-else>
             <BookCardLayout>
                 <BookCard class="card-book" v-for="book in book.booksByOne.data" :key="book.slug" :book="book"/>
-                <v-btn fab color="#0a369d" class="mt-11">
-                    <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
-                </v-btn>
             </BookCardLayout>
         </template>
         <!-- end of section bar -->
@@ -122,14 +124,18 @@ import { mapState } from "vuex";
 
 import store from "@/store";
 
-function getBooksBy(q, v){
-  const query = q;
-  const value = v;
+function getBooksBy(q, v, m , t){
+    const query = q;
+    const value = v;
+    const max = m;
+    const take = t;
 
-  store.dispatch('book/fetchBooksBy',{
-      query: query,
-      value : value})
-        .then(()=> {})
+    store.dispatch('book/fetchBooksByMax',{
+        query: query,
+        value : value,
+        max : max,
+        take: take,
+    }).then(()=> {})
 }
 
 function getRecommendationBooks(){
@@ -157,7 +163,7 @@ export default {
       }
   },
   mounted () {
-    getBooksBy('sort','desc')
+    getBooksBy('sort','desc','max',10)
     getRecommendationBooks()
   },
   methods : {
@@ -172,6 +178,9 @@ export default {
                 }
                 this.$store.state.book.snackbarState= true
             })
+    },
+    viewAllBooks(){
+        this.$router.push({name : 'books-page'});
     }
   },
   beforeDestroy(){

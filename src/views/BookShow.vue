@@ -8,7 +8,22 @@
                 <h3 class="text-center mt-6">Detail Buku</h3>
                 <div class="d-flex justify-between align-start mt-4 pa-4">
                     <div>
-                        <img class="book__img elevation-4 ml-0" :src="link(book.book.cover)" height="200px" width="140px"> 
+                        <template v-if="book.book.cover">
+                            <img class="book__img elevation-4 ml-0" :src="link(book.book.cover)" height="200px" width="140px"> 
+                        </template>
+                        <template v-else>
+                            <image-placeholder class="image-placeholder"
+                                :width="140"
+                                :height="200"
+                                :show-ratio="true"
+                                :backgroundColour="backgroundColour"
+                                :borderColour="borderColour"
+                                :font-size="12"
+                                :fontFamily="fontFamily"
+                                    >
+                                    Belum ada foto
+                            </image-placeholder>
+                        </template>
                     </div>
                     <div class="ml-4">
                         <h4 class="book__title mt-4">{{book.book.title}}</h4>
@@ -49,9 +64,6 @@
                 </div>
                 <BookCardLayout>
                     <BookCard class="card-book" v-for="book in book.relatedBooks.data" :key="book.slug" :book="book"/>
-                    <v-btn fab color="#0a369d" class="mt-11">
-                        <v-icon color="#fff">ri ri-arrow-drop-right-line</v-icon>
-                    </v-btn>
                 </BookCardLayout>
                 <v-footer fixed class="book__footer">
                     <template v-if="enabledSnackbar">
@@ -77,6 +89,7 @@
 
 <script>
 /* eslint-disable */
+import imagePlaceholder from 'vuejs-image-placeholder'
 import store from "@/store";
 import {mapActions, mapState} from "vuex";
 import Snackbar from "@/components/SnackBar.vue";
@@ -106,7 +119,8 @@ export default {
         BookCard,
         BookCardLoader,
         BookCardLayout,
-        BookShowLoader
+        BookShowLoader,
+        imagePlaceholder
     },
     props: {
         slug: {
@@ -115,7 +129,10 @@ export default {
     },
     data: () => ({
         rates: 0,
-        timeout: 1500
+        timeout: 1500,
+        borderColour: '#fff',
+        backgroundColour: '#dcdee8',
+        fontFamily: 'Nunito, sans-serif'
     }),
     created(){
         //recreate component after user clicking related book

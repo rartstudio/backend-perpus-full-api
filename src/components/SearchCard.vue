@@ -3,12 +3,27 @@
     <div class="pa-4">
         <v-card class="pa-4 elevation-2 mb-n5">
             <div class="d-flex">
-                <v-img
+                <template v-if="book.cover">
+                    <v-img
                     :src="link(book.cover)"
                     height="140px"
                     width="107px"
                     class="flex-grow-0"
                 ></v-img>
+                </template>
+                <template v-else>
+                    <image-placeholder class="image-placeholder"
+                    :width="107"
+                    :height="140"
+                    :show-ratio="true"
+                    :backgroundColour="backgroundColour"
+                    :borderColour="borderColour"
+                    :font-size="12"
+                    :fontFamily="fontFamily"
+                        >
+                        Belum ada foto
+                    </image-placeholder>
+                </template>
                 <div class="d-flex flex-column pl-4 flex-grow-1">
                     <p class="text-subtitle-1 font-weight-bold">{{book.title}}</p>
                     <p class="text-body-2 mb-3">{{book.author.name}}</p>
@@ -30,25 +45,35 @@
                     </template>
                 </div>
             </div>
-          
         </v-card>
     </div>
     </router-link>
 </template>
 
 <script>
+import imagePlaceholder from 'vuejs-image-placeholder'
 import {bookMixin} from "@/mixins/bookMixin.js";
-    export default {
-        mixins: [bookMixin],
-        props : {
-            book: {
-                type: Object
-            }
-        },
-        mounted() {
-            window.scrollTo(0,0);
+export default {
+    data() {
+        return {
+        borderColour: '#fff',
+        backgroundColour: '#dcdee8',
+        fontFamily: 'Nunito, sans-serif'
         }
+    },
+    mixins: [bookMixin],
+    props : {
+        book: {
+            type: Object
+        }
+    },
+    mounted() {
+        window.scrollTo(0,0);
+    },
+    components : {
+        imagePlaceholder
     }
+}
 </script>
 
 <style lang="scss" scoped>

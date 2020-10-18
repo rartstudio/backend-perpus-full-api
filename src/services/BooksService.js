@@ -20,10 +20,16 @@ export default {
     getBooksBy(query, value){
         return apiClient.get(`/api/book?${query}=${value}`)
     },
+    getBooksMax(query, value, max, take){
+        return apiClient.get(`/api/book?${query}=${value}&${max}=${take}`)
+    },
     getBook(slug){
         return apiClient.get(`/api/book/${slug}`)
     },
     getRecommendationBooks(){
         return apiClient.get('api/recommendation-books')
+    },
+    getCategories(){
+        return apiClient.get('api/categories-book')
     }
 }

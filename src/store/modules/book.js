@@ -5,6 +5,8 @@ export const namespaced = true
 
 export const state = {
     books: [],
+    categories: [],
+    allBooks: [],
     snackbarState: false,
     booksByOne : [],
     booksByTwo : [],
@@ -18,6 +20,9 @@ export const state = {
 }
 
 export const mutations = {
+    SET_ALL_BOOKS(state,book){
+        state.allBooks = book
+    },
     SET_BOOK(state,book){
         state.book = book
     },
@@ -35,10 +40,49 @@ export const mutations = {
     },
     SET_RECOMMENDATION_BOOKS(state, books){
         state.recommendationBooks = books
+    },
+    SET_CATEGORIES(state,data){
+        state.categories = data
     }
 }
 
 export const actions = {
+    fetchCategoriesBook({commit}){
+        state.isLoading = true
+        return BookService.getCategories()
+            .then(response => {
+                commit('SET_CATEGORIES',response.data)
+                state.isLoading = false
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
+    fetchAllBooks({commit},data = null){
+        state.isLoading = true
+        // console.log(data)
+        if(data){
+            let {sort: value} = data
+            return BookService.getBooksBy('sort',value)
+            .then(response => {
+                commit('SET_ALL_BOOKS', response.data)
+                state.isLoading = false
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+        else {
+            return BookService.getBooks()
+            .then(response => {
+                commit('SET_ALL_BOOKS', response.data)
+                state.isLoading = false
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    },
     fetchSearchBooks({commit,state},{query,value}){
         state.isLoading = true
         return BookService.getBooksBy(query, value)
@@ -60,8 +104,8 @@ export const actions = {
                 console.log(error)
             })
     },
-    fetchRelatedBooks({commit},{query,value}){
-        return BookService.getBooksBy(query, value)
+    fetchRelatedBooks({commit}){
+        return BookService.getBooks()
             .then(response => {
                 commit('SET_RELATED_BOOKS', response.data)
             })
@@ -69,8 +113,8 @@ export const actions = {
                 console.log(error)
             })
     },
-    fetchBooks({commit, state}){
-        return BookService.getBooks(state)
+    fetchBooks({commit}){
+        return BookService.getBooks()
             .then(response => {
                 commit('SET_BOOKS', response.data)
             })
@@ -89,9 +133,21 @@ export const actions = {
                 console.log(error)
             })
     },
+    fetchBooksByMax({commit,state},{query,value,max,take}){
+        return BookService.getBooksMax(query, value,max,take)
+            .then(response => {
+                commit('SET_BOOKS_BY_ONE', response.data)
+                //set loader to false so data can appear immediately
+                state.isLoading = false
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },
     //set a second parameter for slug
     fetchBook({commit,dispatch},slug){
         //add return to wait response bookservice
+        state.isLoading = true
         return BookService.getBook(slug)
             .then(response => {
                 //commiting data to state and return it to router index
@@ -99,7 +155,7 @@ export const actions = {
                 state.isLoading = false
                 commit('transaction/SET_TEXT',null,{ root: true })
                 commit('transaction/SET_SNACKBAR',false,{ root: true })
-                dispatch('fetchRelatedBooks','cat',response.data.data.categories.name)
+                dispatch('fetchRelatedBooks')
             })
     }
 }
@@ -110,5 +166,10 @@ export const getters = {
     },
     getLinkServer : state => {
         return state.linkServer
+    },
+    getCategories: state => {
+        let cat = state.categories.data
+        let textCat = cat.map(item => item.name);
+        return textCat
     }
 }

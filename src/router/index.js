@@ -127,6 +127,11 @@ const routes = [
         next({name: 'home'})
       }
     }
+  },
+  {
+    path: '/books',
+    name: 'books-page',
+    component : () => import (/* webpackChunkName: "reset-password" */ '../views/BooksPage.vue')
   }
 ];
 
