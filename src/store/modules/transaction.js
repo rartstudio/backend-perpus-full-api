@@ -110,8 +110,8 @@ export const actions = {
         if(rootState.user.userData){
             //checking if user verified
             if(rootState.user.userData.details.is_verified == 1 ){
-                //checking is user transaction borrow
-                if(rootState.user.transactionsInBorrow.length == 0){
+                //checking is user transaction process
+                if(rootState.user.transactionsInProcess.length == 0){
                     //mutation state cart before send it to database
                     let tempCart = state.cart
                     for(let i = 0; i < tempCart.length ; i++){
@@ -152,7 +152,7 @@ export const actions = {
                 }
                 else {
                     commit('SET_SNACKBAR',true);
-                    commit('SET_TEXT','Untuk melakukan transaksi peminjaman baru harap transaksi peminjaman sebelumnya diselesaikan terlebih dahulu') 
+                    commit('SET_TEXT','Selesaikan terlebih dahulu peminjaman buku sebelumnya atau batalkan peminjaman yang sedang proses') 
                 }
             }
             else{

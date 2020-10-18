@@ -8,6 +8,28 @@ function sortZtoA(base){
     return sorted
 }
 
+function getDetailsBook(trx){
+    //filtering data with history state
+    let history = trx.filter(el => {
+        return el.stated == 6
+    })
+
+    //loop details transaction
+    let details = history.map(item => item.transaction_details);
+
+    return details
+}
+
+// function getDetailsBook(trx) {
+//     let temp;
+//     for(i = 0; i < trx.length ; i++){
+//         for(j = 0; j < trx[i].length; j++){
+//             temp.push(trx[i][j])
+//         }
+//     }
+//     return temp;
+// }
+
 function getProcess(base){
 
     //filtering by state
@@ -74,10 +96,14 @@ export const state = {
     transactionsInBorrow: null,
     transactionsInHistory: null,
     image: null,
-    loadingImage: false
+    loadingImage: false,
+    detailsBook: []
 }
 
 export const mutations = {
+    SET_DETAILS_BOOK(state,data){
+        state.detailsBook = data
+    },
     SET_TRANSACTIONS_PROCESS(state,data){
         state.transactionsInProcess = data
         localStorage.setItem('process',JSON.stringify(data))
@@ -146,6 +172,11 @@ export const actions = {
                     commit('SET_TRANSACTIONS_PROCESS',process)
                     commit('SET_TRANSACTIONS_BORROW',borrow)
                     commit('SET_TRANSACTIONS_HISTORY',history)
+
+                    let details = getDetailsBook(state.transactionsInHistory);
+
+                    commit('SET_DETAILS_BOOK',details)
+                    console.log(state.detailsBook);
 
                     dispatch('message/fetchMessages',null,{root:true})
                 }

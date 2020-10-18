@@ -33,6 +33,14 @@
                         {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
                 </template>
+                <template v-else-if="transaction.stated === 2">
+                    <v-chip class="fs-med" color="#0a369d" dark >
+                        {{ checkTransactionState(transaction.stated) }}
+                    </v-chip>
+                    <v-chip class="fs-med ml-3" color="red" dark @click.stop="reject(transaction.id)">
+                        Batalkan Peminjaman
+                    </v-chip>
+                </template>
                 <template v-else-if="transaction.stated === 5">
                     <v-chip class="fs-med" color="#FFCB36">
                         {{ checkTransactionState(transaction.stated) }}
@@ -49,7 +57,7 @@
                     </template>
                 </template>
                 <template v-else>
-                     <v-chip class="fs-med">
+                     <v-chip class="fs-med" color="#0a369d" dark>
                         {{ checkTransactionState(transaction.stated) }}
                     </v-chip>
                 </template>

@@ -81,9 +81,14 @@
                                 color="#FFCB36"
                             />
                             <template v-if="user.userData.details.submission == 2">
-                                <v-btn dense class="fs-med mt-4" depressed disabled dark>
-                                    User Terverifikasi
-                                </v-btn>
+                                <div class="d-flex justify-center align-center">
+                                    <v-btn dense class="fs-med mt-4 flex-grow-1" depressed disabled dark>
+                                        User Terverifikasi
+                                    </v-btn>
+                                    <v-btn dense class="mt-4 ml-2" dark color="#FFCB36">
+                                        <v-icon color="#fff">ri ri-bar-chart-line</v-icon>
+                                    </v-btn>
+                                </div>
                             </template>
                             <template v-else-if="user.userData.details.submission == 1">
                                 <v-btn dense class="fs-med mt-4" depressed disabled dark>
