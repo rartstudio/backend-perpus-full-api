@@ -1,5 +1,7 @@
 /* eslint-disable */
 import BookService from "@/services/BooksService.js"
+import NProgress from 'nprogress';
+
 
 export const namespaced = true
 
@@ -60,39 +62,59 @@ export const actions = {
     },
     fetchAllBooks({commit},data = null){
         state.isLoading = true
+        NProgress.start()
         // console.log(data)
         if(data){
-            let {sort: value} = data
-            return BookService.getBooksBy('sort',value)
-            .then(response => {
-                commit('SET_ALL_BOOKS', response.data)
-                state.isLoading = false
-            })
-            .catch(error => {
-                console.log(error)
-            })
+            //except sort
+            if(data.sort == undefined){
+                let {cat: value} = data
+                return BookService.getBooksBy('cat',value)
+                .then(response => {
+                    commit('SET_ALL_BOOKS', response.data)
+                    state.isLoading = false
+                    NProgress.done();
+                })
+                .catch(() => {
+                    NProgress.done();
+                })
+            }
+            else {
+                let {sort: value} = data
+                return BookService.getBooksBy('sort',value)
+                .then(response => {
+                    commit('SET_ALL_BOOKS', response.data)
+                    state.isLoading = false
+                    NProgress.done();
+                })
+                .catch(() => {
+                    NProgress.done();
+                })
+            }
         }
         else {
             return BookService.getBooks()
             .then(response => {
                 commit('SET_ALL_BOOKS', response.data)
                 state.isLoading = false
+                NProgress.done();
             })
-            .catch(error => {
-                console.log(error)
+            .catch(() => {
+                NProgress.done();
             })
         }
     },
     fetchSearchBooks({commit,state},{query,value}){
         state.isLoading = true
+        NProgress.start()
         return BookService.getBooksBy(query, value)
             .then(response => {
                 commit('SET_SEARCH_RESULT', response.data)
                 //set loader to false so data can appear immediately
                 state.isLoading = false
+                NProgress.done()
             })
-            .catch(error => {
-                console.log(error)
+            .catch(() => {
+                NProgress.done()
             })
     },
     fetchRecommendationBooks({commit}){
@@ -148,6 +170,7 @@ export const actions = {
     fetchBook({commit,dispatch},slug){
         //add return to wait response bookservice
         state.isLoading = true
+        NProgress.start()
         return BookService.getBook(slug)
             .then(response => {
                 //commiting data to state and return it to router index
@@ -155,6 +178,7 @@ export const actions = {
                 state.isLoading = false
                 commit('transaction/SET_TEXT',null,{ root: true })
                 commit('transaction/SET_SNACKBAR',false,{ root: true })
+                NProgress.done()
                 dispatch('fetchRelatedBooks')
             })
     }

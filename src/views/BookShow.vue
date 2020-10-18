@@ -100,6 +100,7 @@ import BookCardLoader from "@/components/BookCardLoader.vue";
 import BookShowLoader from "@/components/BookShowLoader.vue";
 
 import {bookMixin} from "@/mixins/bookMixin.js";
+import 'nprogress/nprogress.css';
 
 function getBooksBy(q, v){
   const query = q;
@@ -185,6 +186,9 @@ export default {
 </script>
 
 <style lang="scss">
+#nprogress .bar {
+background: #FFCB36 !important;
+}
 .theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined){
     background: #f5f5f5 !important;
 }

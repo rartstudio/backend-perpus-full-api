@@ -120,7 +120,6 @@ import BookCardLayout from "@/layout/BookCardLayout.vue";
 import RecommendationCardLayout from "@/layout/RecommendationCardLayout.vue";
 
 import { mapState } from "vuex";
-// import { gsap } from "gsap";
 
 import store from "@/store";
 
@@ -185,16 +184,6 @@ export default {
   },
   beforeDestroy(){
       this.$store.state.book.snackbarState= false
-  },
-  updated () {
-    // gsap.from('.card-book',{
-    //       duration: 0.5,
-    //       opacity: 0,
-    //       scale: 0,
-    //       x: 200,
-    //       ease: 'power1',
-    //       stagger: 0.1
-    // })
   },
   computed : {
     ...mapState(['book']),

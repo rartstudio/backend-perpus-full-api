@@ -1,5 +1,6 @@
 /* eslint-disable */
 import UserService from "@/services/UserService.js"
+import NProgress from 'nprogress';
 
 function sortZtoA(base){
     let sorted = base.sort((a,b) => b.stated - a.stated)
@@ -128,6 +129,7 @@ export const mutations = {
 
 export const actions = {
     fetchUser({commit,dispatch,state}){
+        NProgress.start()
         return UserService.getUser()
             .then(response => {
                 let userData = response.data.data
@@ -148,8 +150,9 @@ export const actions = {
                     dispatch('message/fetchMessages',null,{root:true})
                 }
                 state.isLoading = false
+                NProgress.done()
             })
-            .catch(error => {console.log(error)})
+            .catch(() => {NProgress.done()})
     },
     fetchProfile({state}){
         return UserService.getProfile(state.userData.details)
