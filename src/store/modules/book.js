@@ -11,7 +11,6 @@ export const state = {
     allBooks: [],
     snackbarState: false,
     booksByOne : [],
-    booksByTwo : [],
     relatedBooks: [],
     searchResult: [],
     recommendationBooks: [],
@@ -45,6 +44,9 @@ export const mutations = {
     },
     SET_CATEGORIES(state,data){
         state.categories = data
+    },
+    SET_ON_PAGE(state,data){
+        state.onPage = data
     }
 }
 
@@ -60,47 +62,49 @@ export const actions = {
                 console.log(error)
             })
     },
-    fetchAllBooks({commit},data = null){
+    fetchAllBooks({commit},data){
         state.isLoading = true
         NProgress.start()
-        // console.log(data)
-        if(data){
-            //except sort
-            if(data.sort == undefined){
-                let {cat: value} = data
-                return BookService.getBooksBy('cat',value)
-                .then(response => {
-                    commit('SET_ALL_BOOKS', response.data)
-                    state.isLoading = false
-                    NProgress.done();
-                })
-                .catch(() => {
-                    NProgress.done();
-                })
-            }
-            else {
-                let {sort: value} = data
-                return BookService.getBooksBy('sort',value)
-                .then(response => {
-                    commit('SET_ALL_BOOKS', response.data)
-                    state.isLoading = false
-                    NProgress.done();
-                })
-                .catch(() => {
-                    NProgress.done();
-                })
-            }
-        }
-        else {
-            return BookService.getBooks()
+
+        //except sort
+        if(data.sort != undefined){
+            let {sort: value} = data;
+            return BookService.getBooksBy('sort',value)
             .then(response => {
                 commit('SET_ALL_BOOKS', response.data)
                 state.isLoading = false
+                console.log('running from sort')
                 NProgress.done();
             })
             .catch(() => {
                 NProgress.done();
             })
+        }
+        if(data.cat != undefined){
+            let {cat: value} = data
+            return BookService.getBooksBy('cat',value)
+            .then(response => {
+                commit('SET_ALL_BOOKS', response.data)
+                state.isLoading = false
+                console.log('running from cat')
+                NProgress.done();
+            })
+            .catch(() => {
+                NProgress.done();
+            })
+        }
+        else {
+            console.log(data);
+            return BookService.getBooks()
+                .then(response => {
+                    console.log('running from pagination')
+                    commit('SET_ALL_BOOKS', response.data)
+                    state.isLoading = false
+                    NProgress.done();
+                })
+                .catch(() => {
+                    NProgress.done();
+                })
         }
     },
     fetchSearchBooks({commit,state},{query,value}){

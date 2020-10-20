@@ -235,5 +235,13 @@ export const getters = {
         }
 
         return baseState + "%"
+    },
+
+    getImage : state => {
+        return state.userData.details.image;
+    },
+
+    getName : state => {
+        return state.userData.name;
     }
 }

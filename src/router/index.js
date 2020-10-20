@@ -132,6 +132,11 @@ const routes = [
     path: '/books',
     name: 'books-page',
     component : () => import (/* webpackChunkName: "reset-password" */ '../views/BooksPage.vue')
+  },
+  {
+    path: '/statistic',
+    name : 'profile-user',
+    component : () => import (/* webpackChunkName: "profile-form" */ '../views/ProfileUser.vue')
   }
 ];
 

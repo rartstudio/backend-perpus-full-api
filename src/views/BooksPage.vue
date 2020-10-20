@@ -1,6 +1,6 @@
 <template>
     <div class="h-full">
-        <div class="px-4 pt-4">
+        <div class="px-4 pt-4 mt-2">
             <v-select dense solo label="Filter" :items="items" v-model="selectedFilter" class="text-body-2 select-filter"/>
             <v-select dense solo label="Kategori" :items="getCategories" v-if="selectedFilter == 'Kategori'" class="mt-n3 text-body-2 select-filter" v-model="selectedCategories"/>
             <template v-if="book.isLoading">
@@ -8,7 +8,7 @@
                 </v-btn>
             </template>
             <template v-else>
-                <v-btn class="mt-n3 mb-4 btn-filter" color="#FFCB36" block @click="filterSearch">
+                <v-btn class="mt-n3 mb-4 btn-filter" color="#FFCB36" block @click="filterSearch" :disabled="checkFilter">
                     <v-icon class="icon-filter mr-1">
                         ri ri-search-line
                     </v-icon>Cari
@@ -20,24 +20,28 @@
         </template>
         <template v-else>
             <SearchCard v-for="book in book.allBooks.data" :key="book.slug" :book="book"/>
+            <!-- <Pagination v-model="page" :records="3" ></Pagination> -->
         </template>
     </div>
 </template>
 
 <script>
+
 import store from "@/store";
 import { mapGetters, mapState } from "vuex";
 import SearchCard from "@/components/SearchCard.vue";
 import SearchCardLoader from "@/components/SearchCardLoader.vue";
+
 export default {
     name: "books-page",
     data(){
         return {
+            page: 1,
             items : [
                 'Terbaru','Terlama','Kategori'
             ],
             selectedFilter : null,
-            selectedCategories: null
+            selectedCategories: null,
         }
     },
     methods: {
@@ -66,7 +70,18 @@ export default {
     },
     computed: {
         ...mapState(['book']),
-        ...mapGetters('book',['getBooks','getLinkServer','getCategories'])
+        ...mapGetters('book',['getBooks','getLinkServer','getCategories']),
+        checkFilter(){
+            if(this.selectedFilter == null){
+                return true
+            }
+
+            if(this.selectedFilter == 'Kategori' && this.selectedCategories == null){
+                return true
+            }
+
+            return false
+        }
     },
     //using watch to see change from route
     watch: {

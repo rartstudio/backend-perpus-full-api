@@ -85,7 +85,7 @@
                                     <v-btn dense class="fs-med mt-4 flex-grow-1" depressed disabled dark>
                                         User Terverifikasi
                                     </v-btn>
-                                    <v-btn dense class="mt-4 ml-2" dark color="#FFCB36">
+                                    <v-btn dense class="mt-4 ml-2" dark color="#FFCB36" @click="statisticUser">
                                         <v-icon color="#fff">ri ri-bar-chart-line</v-icon>
                                     </v-btn>
                                 </div>
@@ -137,6 +137,9 @@ export default {
         getUser()
     },
     methods: {
+        statisticUser(){
+            this.$router.push({name: 'profile-user'})
+        },
         uploadImage(e){
             this.photo = e
 
