@@ -14,8 +14,11 @@
 import {apiClient} from '@/services/ConfigService.js'
 
 export default {
-    getBooks(limit = null, max = null, page = null, onPage = null){
-        return apiClient.get(`/api/book?${limit}=${max}&${page}=${onPage}`);
+    getBooks(){
+        return apiClient.get(`/api/book`);
+    },
+    getBooksPage(page,value){
+        return apiClient.get(`/api/book?${page}=${value}`)
     },
     getBooksBy(query, value){
         return apiClient.get(`/api/book?${query}=${value}`)

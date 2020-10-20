@@ -20,8 +20,9 @@
         </template>
         <template v-else>
             <SearchCard v-for="book in book.allBooks.data" :key="book.slug" :book="book"/>
-            <!-- <Pagination v-model="page" :records="3" ></Pagination> -->
         </template>
+        <v-btn @click="prevPage">Prev</v-btn>
+        <v-btn @click="nextPage">Next</v-btn>
     </div>
 </template>
 
@@ -31,6 +32,8 @@ import store from "@/store";
 import { mapGetters, mapState } from "vuex";
 import SearchCard from "@/components/SearchCard.vue";
 import SearchCardLoader from "@/components/SearchCardLoader.vue";
+// import Pagination from 'vue-pagination-2';
+
 
 export default {
     name: "books-page",
@@ -45,6 +48,20 @@ export default {
         }
     },
     methods: {
+        nextPage(){
+            let from = this.book.allBooks.meta.current_page;
+            let curPage = from + 1;
+            this.$router.push({name: 'books-page', query: {
+                    page : curPage
+            }})
+        },
+        prevPage(){
+            let from = this.book.allBooks.meta.current_page;
+            let curPage = from - 1;
+            this.$router.push({name: 'books-page', query: {
+                    page : curPage
+            }})
+        },
         filterSearch(){
             if(this.selectedFilter == 'Terbaru'){
                 this.$router.push({name: 'books-page', query: {
@@ -88,17 +105,45 @@ export default {
         async $route(to){
             //get query params
             let data = to.query
-            await store.dispatch('book/fetchAllBooks',data).then(()=> {})
+            if(data.page == undefined){
+                await store.dispatch('book/fetchAllBooks',data).then(()=> {})
+            }
+            else {
+                await store.dispatch('book/fetchPerPage',data).then(()=> {})
+            }
+            // console.log(data)
         }
     },
     async mounted(){
-        await store.dispatch('book/fetchAllBooks').then(()=> {})
-        await store.dispatch('book/fetchCategoriesBook').then(()=> {})
-    }   
-}
+        let query = this.$route.query 
+        await store.dispatch('book/fetchCategoriesBook').then(()=> {})          
+        await store.dispatch('book/fetchPerPage',query).then(()=> {
+        })
+      
+            // await store.dispatch('book/fetchAllBooks').then(()=> {
+            // })
+    },
+    created(){
+        this.$router.push({name: 'books-page'}).catch(err => { 
+        // Ignore the vuex err regarding  navigating to the page they are already on.
+        if (err.name != "NavigationDuplicated") {
+        // But print any other errors to the console
+            console.error(err);
+        }
+        })
+    }
+}   
+
 </script>
 
 <style lang="scss">
+.pagination {
+    display: flex;
+    margin-top: 20px;
+    padding-left: 0px !important;
+    list-style: none;
+    justify-content: space-evenly;
+}
 .btn-filter {
     height: 38px !important;
 }

@@ -179,7 +179,7 @@ export default {
             })
     },
     viewAllBooks(){
-        this.$router.push({name : 'books-page'});
+        this.$router.push({name : 'books-page', query: {page: 1}});
     }
   },
   beforeDestroy(){
