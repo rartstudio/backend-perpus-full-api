@@ -97,7 +97,8 @@ export const state = {
     transactionsInHistory: null,
     image: null,
     loadingImage: false,
-    detailsBook: []
+    detailsBook: [],
+    statistic : []
 }
 
 export const mutations = {
@@ -127,6 +128,9 @@ export const mutations = {
     },
     SET_LOCAL_STORAGE(state,data){
         state.userData = data
+    },
+    SET_STATISTIC(state,data){
+        state.statistic = data
     },
 
     //for profile-form
@@ -190,6 +194,15 @@ export const actions = {
             .then(() => {})
             .catch(error => {console.log(error)})
     },
+    fetchStatistic({commit}){
+        NProgress.start()
+        return UserService.getStatistic()
+            .then(response => {
+                commit('SET_STATISTIC',response.data.data)
+                NProgress.done()
+            })
+            .catch(() => {NProgress.done()})
+    },
     fetchImage({commit,state},data){
         state.loadingImage = true
         commit('updateImage',data);
@@ -236,12 +249,25 @@ export const getters = {
 
         return baseState + "%"
     },
-
     getImage : state => {
         return state.userData.details.image;
     },
-
     getName : state => {
         return state.userData.name;
+    },
+    getHistory : state => {
+        let data = state.statistic
+        let history = data.filter(item => item.state == 6)
+
+        return history
+    },
+    getTotal : state => {
+        return state.statistic
+    },
+    getBorrow : state => {
+        let data = state.statistic
+        let borrow = data.filter(item => item.state == 5)
+
+        return borrow
     }
 }

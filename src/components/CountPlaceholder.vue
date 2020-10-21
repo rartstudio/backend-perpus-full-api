@@ -2,15 +2,21 @@
     <div>
         <div class="d-flex justify-center white rounded-lg elevation-2 statistic">
             <div class="px-4 py-2 item-box d-flex justify-center align-center flex-column">
-                <span class="statistic__count">2</span>
+                <span class="statistic__count">
+                    <slot name="borrow"></slot>
+                </span>
                 <p class="statistic__title">Pinjam</p>
             </div>
             <div class="px-4 py-2 item-box d-flex justify-center align-center flex-column">
-                <span class="statistic__count">998</span>
+                <span class="statistic__count">
+                    <slot name="history"></slot>
+                </span>
                 <p class="statistic__title">Riwayat</p>
             </div>
             <div class="px-4 py-2 item-box d-flex justify-center align-center flex-column">
-                <span class="statistic__count">1000</span>
+                <span class="statistic__count">
+                    <slot name="total"></slot>
+                </span>
                 <p class="statistic__title">Total</p>
             </div>
         </div>

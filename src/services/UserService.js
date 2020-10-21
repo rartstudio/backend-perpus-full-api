@@ -13,6 +13,12 @@ const apiClient = axios.create({
 })
 
 export default {
+    getStatistic(){
+        return apiClient.get('/api/user/statistic',{headers: {
+            'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
+            'Content-Type' : 'application/json',
+          }});
+    },
     getUser(){
         return apiClient.get('/api/user',{headers: {
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`,

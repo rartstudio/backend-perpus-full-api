@@ -1,0 +1,36 @@
+awal
+
+from created hook
+from async $route page undefined
+from mounted categories book
+actions per page
+from mounted per page
+
+nextpage / previous page
+actions per page
+from async $route page defined
+
+
+masuk ke filter (terbaru / terlama)
+
+awal
+
+actions all books sort
+from async $route page undefined
+
+nextpage /previous page
+
+actions per page sort
+from async $route page defined
+
+
+masuk ke kategori
+actions all books cat
+from async $route page undefined
+
+
+proses f5
+from created hook
+from mounted categories book
+actions per page
+from mounted per page
