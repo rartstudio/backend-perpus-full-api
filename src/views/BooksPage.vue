@@ -20,8 +20,7 @@
         </template>
         <template v-else>
             <SearchCard v-for="book in book.allBooks.data" :key="book.slug" :book="book"/>
-        </template>
-        <template v-if="getPagination">
+            <template v-if="getPagination">
             <div class="d-flex justify-center items-center mt-4">
                 <template v-if="getPreviousPage">
                     <v-btn @click="prevPage" class="mx-2" text>Prev</v-btn>
@@ -30,6 +29,7 @@
                     <v-btn @click="nextPage" class="mx-2" text>Next</v-btn>
                 </template>
             </div>
+        </template>
         </template>
         <div class="px-4 text-center mt-4">
             <p class="text-body-2 font-italic">Hasil pencarian {{getBookPagination}} dari {{getTotal}} buku</p>

@@ -62,21 +62,6 @@ export const actions = {
                 console.log(error)
             })
     },
-    // fetchPerPage({commit},data){
-    //     state.isLoading = true
-    //     let {page: value} = data;
-    //     NProgress.start()
-    //     return BookService.getBooksPage('page',value)
-    //             .then(response => {
-    //                 commit('SET_ALL_BOOKS', response.data)
-    //                 state.isLoading = false
-    //                 NProgress.done();
-    //                 console.log('run from per page')
-    //             })
-    //             .catch(() => {
-    //                 NProgress.done();
-    //             })
-    // },
     fetchPerPage({commit}, data){
         state.isLoading = true;
         let {page: value} = data;
