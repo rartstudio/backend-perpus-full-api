@@ -62,20 +62,64 @@ export const actions = {
                 console.log(error)
             })
     },
-    fetchPerPage({commit},data){
-        state.isLoading = true
+    // fetchPerPage({commit},data){
+    //     state.isLoading = true
+    //     let {page: value} = data;
+    //     NProgress.start()
+    //     return BookService.getBooksPage('page',value)
+    //             .then(response => {
+    //                 commit('SET_ALL_BOOKS', response.data)
+    //                 state.isLoading = false
+    //                 NProgress.done();
+    //                 console.log('run from per page')
+    //             })
+    //             .catch(() => {
+    //                 NProgress.done();
+    //             })
+    // },
+    fetchPerPage({commit}, data){
+        state.isLoading = true;
         let {page: value} = data;
         NProgress.start()
-        return BookService.getBooksPage('page',value)
+        
+        if (data.sort != undefined){
+            let {sort: by} = data;
+            
+            return BookService.getBooksByPage('sort',by,'page',value)
                 .then(response => {
-                    commit('SET_ALL_BOOKS', response.data)
-                    state.isLoading = false
+                    commit('SET_ALL_BOOKS', response.data);
+                    state.isLoading = false;
                     NProgress.done();
-                    console.log('run from per page')
+                    console.log('running from sort');
                 })
-                .catch(() => {
+                .catch(()=> {
+                    NProgress.done()
+                })
+            
+        }
+        else if (data.cat != undefined){
+            let {cat : by} = data;
+            
+            return BookService.getBooksByPage('cat',by,'page',value)
+                .then(response => {
+                    commit('SET_ALL_BOOKS',response.data);
+                    state.isLoading = false;
                     NProgress.done();
+                    console.log('running from cat')
                 })
+        }
+        else {
+            return BookService.getBooksPage('page',value)
+                .then(response => {
+                    commit('SET_ALL_BOOKS',response.data);
+                    state.isLoading = false;
+                    NProgress.done();
+                    console.log('running from else')
+                })
+                .catch(()=> {
+                    NProgress.done()
+                })
+        }
     },
     fetchAllBooks({commit},data){
         state.isLoading = true

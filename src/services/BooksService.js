@@ -23,6 +23,9 @@ export default {
     getBooksBy(query, value){
         return apiClient.get(`/api/book?${query}=${value}`)
     },
+    getBooksByPage(query,value,page,by){
+        return apiClient.get(`/api/book?${query}=${value}&${page}=${by}`);
+    },
     getBooksMax(query, value, max, take){
         return apiClient.get(`/api/book?${query}=${value}&${max}=${take}`)
     },

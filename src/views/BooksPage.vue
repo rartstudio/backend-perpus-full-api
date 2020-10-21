@@ -21,8 +21,19 @@
         <template v-else>
             <SearchCard v-for="book in book.allBooks.data" :key="book.slug" :book="book"/>
         </template>
-        <v-btn @click="prevPage">Prev</v-btn>
-        <v-btn @click="nextPage">Next</v-btn>
+        <template v-if="getPagination">
+            <div class="d-flex justify-center items-center mt-4">
+                <template v-if="getPreviousPage">
+                    <v-btn @click="prevPage" class="mx-2" text>Prev</v-btn>
+                </template>
+                <template v-if="getNextPage">
+                    <v-btn @click="nextPage" class="mx-2" text>Next</v-btn>
+                </template>
+            </div>
+        </template>
+        <div class="px-4 text-center mt-4">
+            <p class="text-body-2 font-italic">Hasil pencarian {{getBookPagination}} dari {{getTotal}} buku</p>
+        </div>
     </div>
 </template>
 
@@ -32,8 +43,6 @@ import store from "@/store";
 import { mapGetters, mapState } from "vuex";
 import SearchCard from "@/components/SearchCard.vue";
 import SearchCardLoader from "@/components/SearchCardLoader.vue";
-// import Pagination from 'vue-pagination-2';
-
 
 export default {
     name: "books-page",
@@ -49,18 +58,63 @@ export default {
     },
     methods: {
         nextPage(){
+            let query = this.$route.query;
             let from = this.book.allBooks.meta.current_page;
             let curPage = from + 1;
-            this.$router.push({name: 'books-page', query: {
+            
+            if(query.sort != undefined && query.sort == 'asc') {
+                this.$router.push({name: 'books-page', query :{
+                    sort : 'asc',
                     page : curPage
-            }})
+                }});
+            }
+            else if(query.sort != undefined && query.sort == 'desc'){
+                this.$router.push({name: 'books-page', query :{
+                    sort : 'desc',
+                    page : curPage
+                }});
+            }
+            else if(query.cat != undefined){
+                this.$router.push({name: 'books-page', query :{
+                    cat : this.selectedCategories,
+                    page : curPage
+                }});
+            }
+            else {
+                this.$router.push({name: 'books-page', query :{
+                    page : curPage
+                }});
+            }
         },
+
         prevPage(){
+            let query = this.$route.query;
             let from = this.book.allBooks.meta.current_page;
             let curPage = from - 1;
-            this.$router.push({name: 'books-page', query: {
+            
+            if(query.sort != undefined && query.sort == 'asc') {
+                this.$router.push({name: 'books-page', query :{
+                    sort : 'asc',
                     page : curPage
-            }})
+                }});
+            }
+            else if(query.sort != undefined && query.sort == 'desc'){
+                this.$router.push({name: 'books-page', query :{
+                    sort : 'desc',
+                    page : curPage
+                }});
+            }
+            else if(query.cat != undefined){
+                this.$router.push({name: 'books-page', query :{
+                    cat : this.selectedCategories,
+                    page : curPage
+                }});
+            }
+            else {
+                this.$router.push({name: 'books-page', query :{
+                    page : curPage
+                }});
+            }
         },
         filterSearch(){
             if(this.selectedFilter == 'Terbaru'){
@@ -89,15 +143,26 @@ export default {
         ...mapState(['book']),
         ...mapGetters('book',['getBooks','getLinkServer','getCategories']),
         checkFilter(){
-            if(this.selectedFilter == null){
-                return true
-            }
+            if(this.selectedFilter == null) return true
 
-            if(this.selectedFilter == 'Kategori' && this.selectedCategories == null){
-                return true
-            }
-
+            if(this.selectedFilter == 'Kategori' && this.selectedCategories == null) return true
+            
             return false
+        },
+        getPreviousPage(){
+            return this.book.allBooks.links.prev ? true : false
+        },
+        getNextPage(){
+            return this.book.allBooks.links.next ? true : false
+        },
+        getPagination(){
+            return this.book.allBooks.links.next != null || this.book.allBooks.links.prev != null ? true : false 
+        },
+        getBookPagination(){
+            return this.book.allBooks.meta.to
+        },
+        getTotal(){
+            return this.book.allBooks.meta.total
         }
     },
     //using watch to see change from route
@@ -105,31 +170,22 @@ export default {
         async $route(to){
             //get query params
             let data = to.query
-            if(data.page == undefined){
-                await store.dispatch('book/fetchAllBooks',data).then(()=> {})
-            }
-            else {
-                await store.dispatch('book/fetchPerPage',data).then(()=> {})
-            }
-            // console.log(data)
+            if(data.page == undefined) await store.dispatch('book/fetchAllBooks',data).then(()=> {})
+            else  await store.dispatch('book/fetchPerPage',data).then(()=> {})
         }
     },
     async mounted(){
         let query = this.$route.query 
         await store.dispatch('book/fetchCategoriesBook').then(()=> {})          
-        await store.dispatch('book/fetchPerPage',query).then(()=> {
-        })
-      
-            // await store.dispatch('book/fetchAllBooks').then(()=> {
-            // })
+        await store.dispatch('book/fetchPerPage',query).then(()=> {})
     },
     created(){
         this.$router.push({name: 'books-page'}).catch(err => { 
-        // Ignore the vuex err regarding  navigating to the page they are already on.
-        if (err.name != "NavigationDuplicated") {
-        // But print any other errors to the console
-            console.error(err);
-        }
+            // Ignore the vuex err regarding  navigating to the page they are already on.
+            if (err.name != "NavigationDuplicated") {
+            // But print any other errors to the console
+                console.error(err);
+            }
         })
     }
 }   
