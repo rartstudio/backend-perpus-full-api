@@ -170,14 +170,26 @@ export default {
         async $route(to){
             //get query params
             let data = to.query
-            if(data.page == undefined) await store.dispatch('book/fetchAllBooks',data).then(()=> {})
-            else  await store.dispatch('book/fetchPerPage',data).then(()=> {})
+            if(data.page == undefined) {
+                await store.dispatch('book/fetchAllBooks',data).then(()=> {
+                    console.log('from async $route page undefined')
+                })
+            }
+            else  {
+                await store.dispatch('book/fetchPerPage',data).then(()=> {
+                    console.log('from async $route page defined')
+                })
+            }
         }
     },
     async mounted(){
         let query = this.$route.query 
-        await store.dispatch('book/fetchCategoriesBook').then(()=> {})          
-        await store.dispatch('book/fetchPerPage',query).then(()=> {})
+        await store.dispatch('book/fetchCategoriesBook').then(()=> {
+            console.log('from mounted categories book')
+        })        
+        await store.dispatch('book/fetchPerPage',query).then(()=> {
+            console.log('from mounted per page')
+        })
     },
     created(){
         this.$router.push({name: 'books-page'}).catch(err => { 
@@ -187,6 +199,7 @@ export default {
                 console.error(err);
             }
         })
+        console.log('from created hook')
     }
 }   
 

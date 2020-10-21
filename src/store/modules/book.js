@@ -75,7 +75,7 @@ export const actions = {
                     commit('SET_ALL_BOOKS', response.data);
                     state.isLoading = false;
                     NProgress.done();
-                    console.log('running from sort');
+                    console.log('actions per page sort');
                 })
                 .catch(()=> {
                     NProgress.done()
@@ -90,7 +90,7 @@ export const actions = {
                     commit('SET_ALL_BOOKS',response.data);
                     state.isLoading = false;
                     NProgress.done();
-                    console.log('running from cat')
+                    console.log('actions per page cat');
                 })
         }
         else {
@@ -99,7 +99,7 @@ export const actions = {
                     commit('SET_ALL_BOOKS',response.data);
                     state.isLoading = false;
                     NProgress.done();
-                    console.log('running from else')
+                    console.log('actions per page');
                 })
                 .catch(()=> {
                     NProgress.done()
@@ -118,7 +118,7 @@ export const actions = {
                 .then(response => {
                     commit('SET_ALL_BOOKS', response.data)
                     state.isLoading = false
-                    console.log('running from sort')
+                    console.log('actions all books sort');
                     NProgress.done();
                 })
                 .catch(() => {
@@ -131,7 +131,7 @@ export const actions = {
                 .then(response => {
                     commit('SET_ALL_BOOKS', response.data)
                     state.isLoading = false
-                    console.log('running from cat')
+                    console.log('actions all books cat');
                     NProgress.done();
                 })
                 .catch(() => {
@@ -140,11 +140,11 @@ export const actions = {
             }
         }
         else {
-            console.log(data);
             return BookService.getBooks()
                 .then(response => {
                     commit('SET_ALL_BOOKS', response.data)
                     state.isLoading = false
+                    console.log('actions all books');
                     NProgress.done();
                 })
                 .catch(() => {
