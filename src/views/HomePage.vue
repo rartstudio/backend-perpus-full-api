@@ -138,55 +138,57 @@ function getBooksBy(q, v, m , t){
 }
 
 function getRecommendationBooks(){
-  store.dispatch('book/fetchRecommendationBooks')
-    .then(()=> {})
+    store.dispatch('book/fetchRecommendationBooks')
+        .then(()=> {})
 }
 
 export default {
-  components: {
-    BookCard,
-    BookCardLoader,
-    BookCardLayout,
-    // HomePageIcon,
-    Snackbar,
-    TitleBook,
-    HeaderCard,
-    HeaderCardLoader,
-    HeaderTitle,
-    RecommendationCardLayout
-  },
-  data(){
-      return {
-        search: '',
-        snackbarText: 'Pencarian tidak ditemukan'
-      }
-  },
-  mounted () {
-    getBooksBy('sort','desc','max',10)
-    getRecommendationBooks()
-  },
-  methods : {
-    searchBooks(){
-        this.$store.state.book.snackbarState= false
-        store.dispatch('book/fetchSearchBooks',{
-            query: 'name',
-            value : this.search})
-            .then(()=> {
-                if(this.$store.state.book.searchResult.data.length != 0){
-                    this.$router.push({ name: 'search-result', query: {name: this.search}})
-                }
-                this.$store.state.book.snackbarState= true
-            })
+    components: {
+        BookCard,
+        BookCardLoader,
+        BookCardLayout,
+        // HomePageIcon,
+        Snackbar,
+        TitleBook,
+        HeaderCard,
+        HeaderCardLoader,
+        HeaderTitle,
+        RecommendationCardLayout
     },
-    viewAllBooks(){
-        this.$router.push({name : 'books-page', query: {page: 1}});
+    data(){
+        return {
+            search: '',
+            snackbarText: 'Pencarian tidak ditemukan'
+        }
+    },
+    mounted () {
+        getBooksBy('sort','desc','max',10)
+        getRecommendationBooks()
+    },
+    methods : {
+        searchBooks(){
+            this.$store.state.book.snackbarState= false
+            let data = {
+                query: 'name',
+                value : this.search
+            }
+            store.dispatch('book/fetchSearchBooks',data)
+                .then(()=> {
+                    if(this.$store.state.book.searchResult.data.length != 0){
+                        this.$router.push({ name: 'search-result', query: {name: this.search}})
+                    }
+                    this.$store.state.book.snackbarState= true
+                })
+        },
+        viewAllBooks(){
+            this.$router.push({name : 'books-page', query: {page: 1}});
+        }
+    },
+    beforeDestroy(){
+        this.$store.state.book.snackbarState= false
+    },
+    computed : {
+        ...mapState(['book']),
     }
-  },
-  beforeDestroy(){
-      this.$store.state.book.snackbarState= false
-  },
-  computed : {
-    ...mapState(['book']),
-  }
 };
 </script>

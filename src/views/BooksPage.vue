@@ -30,6 +30,8 @@
                     </template>
                 </div>
             </template>
+        </template>
+        <template v-if="!book.isLoading">
             <div class="px-4 text-center mt-4">
                 <p class="text-body-2 font-italic">Hasil pencarian {{getBookPagination}} dari {{getTotal}} buku</p>
             </div>

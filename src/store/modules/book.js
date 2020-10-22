@@ -152,19 +152,41 @@ export const actions = {
                 })
         }
     },
-    fetchSearchBooks({commit,state},{query,value}){
+    fetchSearchBooks({commit,state},data){
         state.isLoading = true
+        let { page : by} = data;
         NProgress.start()
-        return BookService.getBooksBy(query, value)
-            .then(response => {
-                commit('SET_SEARCH_RESULT', response.data)
-                //set loader to false so data can appear immediately
-                state.isLoading = false
-                NProgress.done()
-            })
-            .catch(() => {
-                NProgress.done()
-            })
+        console.log('berhasil dispatch')
+        console.log(data)
+
+        if(by != undefined){
+            let {query : q} = data
+            let {value : v} = data
+            return BookService.getBooksByPage(q, v, 'page', by)
+                .then(response => {
+                    commit('SET_SEARCH_RESULT', response.data)
+                    //set loader to false so data can appear immediately
+                    state.isLoading = false
+                    NProgress.done()
+                })
+                .catch(() => {
+                    NProgress.done()
+                })
+        }
+        else {
+            let {query : q} = data
+            let {value : v} = data
+            return BookService.getBooksBy(q, v)
+                .then(response => {
+                    commit('SET_SEARCH_RESULT', response.data)
+                    //set loader to false so data can appear immediately
+                    state.isLoading = false
+                    NProgress.done()
+                })
+                .catch(() => {
+                    NProgress.done()
+                })
+        }
     },
     fetchRecommendationBooks({commit}){
         return BookService.getRecommendationBooks()
@@ -244,5 +266,6 @@ export const getters = {
         let cat = state.categories.data
         let textCat = cat.map(item => item.name);
         return textCat
-    }
+    },
+    
 }
