@@ -217,6 +217,28 @@ export const actions = {
         return UserService.setSubmission({submission: 1})
                 .then((response) => {console.log(response)})
                 .catch(error => {console.log(error)})
+    },
+    submitReview({commit},reviewData){
+        NProgress.start();
+        
+        //change key of previous object
+        reviewData.rating = parseInt(reviewData[0])
+        reviewData.comment = reviewData[1]
+
+        //delete previous key
+        delete reviewData[0]
+        delete reviewData[1]
+                        
+        return UserService.postReview(reviewData)
+                .then(response => {
+                    console.log(response)
+                    NProgress.done()
+                    commit('SET_STATUS_CODE',200);
+                })
+                .catch(error => {
+                    console.log(error)
+                    NProgress.done()
+                })
     }
 }
 

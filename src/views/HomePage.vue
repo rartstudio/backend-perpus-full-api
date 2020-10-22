@@ -34,16 +34,15 @@
         <v-divider></v-divider>
         
         <!-- section bar -->
-        <TitleBook>
-            <template v-slot:header>
-                Baru ditambahkan
-            </template>
+        <TitleHeader>
+            <template v-slot:title>Baru </template>
+            <template v-slot:subtitle>ditambahkan</template>
             <template v-slot:button-side>
                 <v-btn text color="grey lighten-1" @click="viewAllBooks">
                     Lihat Semua
                 </v-btn>
             </template>
-        </TitleBook>
+        </TitleHeader>
         <template v-if="book.isLoading">
             <BookCardLayout>
                 <BookCardLoader v-for="loop in book.skeletonCount" :key="loop"/>
@@ -109,7 +108,7 @@ i.ri {
 // @ is an alias to /src
 import BookCard from "@/components/BookCard.vue";
 import BookCardLoader from "@/components/BookCardLoader.vue";
-import TitleBook from "@/components/TitleBook.vue";
+import TitleHeader from "@/components/TitleHeader.vue";
 import HeaderTitle from "@/components/HeaderTitle.vue";
 import HeaderCard from "@/components/HeaderCard.vue";
 import HeaderCardLoader from "@/components/HeaderCardLoader.vue";
@@ -149,7 +148,7 @@ export default {
         BookCardLayout,
         // HomePageIcon,
         Snackbar,
-        TitleBook,
+        TitleHeader,
         HeaderCard,
         HeaderCardLoader,
         HeaderTitle,

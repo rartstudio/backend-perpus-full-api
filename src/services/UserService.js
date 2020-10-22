@@ -17,7 +17,15 @@ export default {
         return apiClient.get('/api/user/statistic',{headers: {
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
             'Content-Type' : 'application/json',
-          }});
+        }});
+    },
+    postReview(data){
+        return apiClient.post(`/api/review`,data,{
+            headers : {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
+                'Content-Type' : 'application/json',
+            }
+        })
     },
     getUser(){
         return apiClient.get('/api/user',{headers: {

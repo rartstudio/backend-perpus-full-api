@@ -50,7 +50,6 @@ export default {
     name: "books-page",
     data(){
         return {
-            page: 1,
             items : [
                 'Terbaru','Terlama','Kategori'
             ],

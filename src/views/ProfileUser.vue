@@ -15,28 +15,58 @@
                 {{ getTotal.length }}
             </template>
         </CountPlaceholder>
-        <h3 class="pl-4 mt-6 font-weight-bold">
-            <span class="color-title">Belum</span> 
-            <span class="color-subtitle"> diulas</span>
-        </h3>
+        <TitleHeader>
+            <template v-slot:title>Belum</template>
+            <template v-slot:subtitle> Diulas</template>
+            <template v-slot:button-side>
+                <v-btn text color="grey lighten-1">
+                    Lihat Semua
+                </v-btn>
+            </template>
+        </TitleHeader>
+        <ReviewCard v-for="(book,index) in user.statistic" :key="index" :book="book"/>
+        <TitleHeader>
+            <template v-slot:title>Sedang </template>
+            <template v-slot:subtitle>Dipinjam</template>
+            <template v-slot:button-side>
+                <v-btn text color="grey lighten-1">
+                    Lihat Semua
+                </v-btn>
+            </template>
+        </TitleHeader>
+        <TitleHeader>
+            <template v-slot:title>Riwayat </template>
+            <template v-slot:subtitle>Peminjaman</template>
+            <template v-slot:button-side>
+                <v-btn text color="grey lighten-1">
+                    Lihat Semua
+                </v-btn>
+            </template>
+        </TitleHeader>
+        
     </div>
 </template>
 
 <script>
 import store from "@/store";
-import {mapGetters} from "vuex"
+import {mapGetters, mapState} from "vuex";
 import {bookMixin} from "@/mixins/bookMixin.js";
-import CountPlaceholder from "@/components/CountPlaceholder.vue"
+import CountPlaceholder from "@/components/CountPlaceholder.vue";
+import TitleHeader from "@/components/TitleHeader.vue";
+import ReviewCard from "@/components/ReviewCard.vue";
 
 export default {
     mixins: [bookMixin],
     components : {
-        CountPlaceholder
+        CountPlaceholder,
+        TitleHeader,
+        ReviewCard
     },
     computed : {
+        ...mapState(['user']),
         ...mapGetters('user',['getImage','getName','getHistory','getTotal','getBorrow'])
     },
-    created(){
+    mounted(){
         store.dispatch('user/fetchStatistic')
             .then(()=> {})
     }
