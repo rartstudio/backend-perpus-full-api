@@ -98,10 +98,18 @@ export const state = {
     image: null,
     loadingImage: false,
     detailsBook: [],
-    statistic : []
+    statistic : [],
+    review : [],
+    unreview : [],
 }
 
 export const mutations = {
+    SET_REVIEW(state,data){
+        state.review = data
+    },
+    SET_UNREVIEW(state,data){
+        state.unreview = data
+    },
     SET_DETAILS_BOOK(state,data){
         state.detailsBook = data
     },
@@ -195,11 +203,9 @@ export const actions = {
             .catch(error => {console.log(error)})
     },
     fetchStatistic({commit}){
-        NProgress.start()
         return UserService.getStatistic()
             .then(response => {
                 commit('SET_STATISTIC',response.data.data)
-                NProgress.done()
             })
             .catch(() => {NProgress.done()})
     },
@@ -238,6 +244,26 @@ export const actions = {
                 .catch(error => {
                     console.log(error)
                     NProgress.done()
+                })
+    },
+    processDeleteReview({commit},data){
+        console.log(data)
+        return UserService.destroyReview(data)
+                .then(response => console.log(response))
+    },
+    fetchReview({commit}){
+        return UserService.getReview()
+                .then(response => {
+                    console.log(response.data.data)
+                    commit('SET_REVIEW',response.data.data)
+                })
+                .catch()
+    },
+    fetchUnreview({commit}){
+        return UserService.getUnreview()
+                .then(response => {
+                    console.log(response.data.data)
+                    commit('SET_UNREVIEW',response.data.data)
                 })
     }
 }

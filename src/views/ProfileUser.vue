@@ -24,35 +24,28 @@
                 </v-btn>
             </template>
         </TitleHeader>
-        <ReviewCard v-for="(book,index) in user.statistic" :key="index" :book="book"/>
+        <UserReviewCard v-for="(book) in user.unreview" :key="book.details.id" :book="book"/>
         <TitleHeader>
-            <template v-slot:title>Sedang </template>
-            <template v-slot:subtitle>Dipinjam</template>
+            <template v-slot:title>Ulasan </template>
+            <template v-slot:subtitle>Saya</template>
             <template v-slot:button-side>
                 <v-btn text color="grey lighten-1">
                     Lihat Semua
                 </v-btn>
             </template>
         </TitleHeader>
-        <TitleHeader>
-            <template v-slot:title>Riwayat </template>
-            <template v-slot:subtitle>Peminjaman</template>
-            <template v-slot:button-side>
-                <v-btn text color="grey lighten-1">
-                    Lihat Semua
-                </v-btn>
-            </template>
-        </TitleHeader>
-        
+        <ReviewCard v-for="(review) in user.review" :key="review.id" :review="review"/>
     </div>
 </template>
 
 <script>
+import NProgress from 'nprogress'
 import store from "@/store";
 import {mapGetters, mapState} from "vuex";
 import {bookMixin} from "@/mixins/bookMixin.js";
 import CountPlaceholder from "@/components/CountPlaceholder.vue";
 import TitleHeader from "@/components/TitleHeader.vue";
+import UserReviewCard from "@/components/UserReviewCard.vue";
 import ReviewCard from "@/components/ReviewCard.vue";
 
 export default {
@@ -60,15 +53,19 @@ export default {
     components : {
         CountPlaceholder,
         TitleHeader,
+        UserReviewCard,
         ReviewCard
     },
     computed : {
         ...mapState(['user']),
         ...mapGetters('user',['getImage','getName','getHistory','getTotal','getBorrow'])
     },
-    mounted(){
-        store.dispatch('user/fetchStatistic')
-            .then(()=> {})
+    async mounted(){
+        NProgress.start()
+        await store.dispatch('user/fetchStatistic').then()
+        await store.dispatch('user/fetchReview').then()
+        await store.dispatch('user/fetchUnreview').then()
+        NProgress.done()
     }
 }
 </script>

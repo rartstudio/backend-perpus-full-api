@@ -19,11 +19,35 @@ export default {
             'Content-Type' : 'application/json',
         }});
     },
+    getReview(){
+        return apiClient.get(`/api/review`,{
+            headers: {
+                'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
+                'Content-Type' : 'application/json'
+            }
+        })
+    },
+    getUnreview(){
+        return apiClient.get(`/api/user/unreview`, {
+            headers : {
+                'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
+                'Content-Type' : 'application/json'
+            }
+        })
+    },
     postReview(data){
         return apiClient.post(`/api/review`,data,{
             headers : {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
                 'Content-Type' : 'application/json',
+            }
+        })
+    },
+    destroyReview(id){
+        return apiClient.delete(`/api/review/${id}`,{
+            headers: {
+                'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
+                'Content-Type' : 'application/json'
             }
         })
     },
