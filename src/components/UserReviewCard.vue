@@ -80,7 +80,7 @@ export default {
                         this.$swal.fire(
                             'Sukses!',
                             'Submit Review Berhasil',
-                            // location.reload()
+                            location.reload()
                         )
                     })
             }

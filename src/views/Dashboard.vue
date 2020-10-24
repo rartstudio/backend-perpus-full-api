@@ -148,7 +148,11 @@ export default {
 
             store.dispatch('user/fetchImage',data)
                 .then(() => {
-                    location.reload()
+                    this.$swal.fire(
+                        'Sukses!',
+                        'Berhasil upload foto profil',
+                        location.reload()    
+                    )
                 })
         },
         submitVerified(){

@@ -4,7 +4,7 @@
             <v-img width="45px" height="60px" :src="link(review.book.cover)"></v-img>
         </div>
         <div class="d-flex flex-column justify-start ml-2 flex-grow-1">
-            <h5 class="font-weight-medium">{{review.book.title}}</h5>
+            <h5 class="font-weight-medium text-body-2">{{review.book.title}}</h5>
             <p class="text-body-2 mt-2">{{review.comment}}</p>
             <p class="text-caption">Rating : {{ review.rating}} / 5</p>
         </div>

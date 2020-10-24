@@ -24,7 +24,7 @@
                 </v-btn>
             </template>
         </TitleHeader>
-        <UserReviewCard v-for="(book) in user.unreview" :key="book.details.id" :book="book"/>
+        <UserReviewCard v-for="(book,index) in user.unreview" :key="index" :book="book"/>
         <TitleHeader>
             <template v-slot:title>Ulasan </template>
             <template v-slot:subtitle>Saya</template>
@@ -34,7 +34,7 @@
                 </v-btn>
             </template>
         </TitleHeader>
-        <ReviewCard v-for="(review) in user.review" :key="review.id" :review="review"/>
+        <ReviewCard v-for="(review,index) in user.review" :key="index" :review="review"/>
     </div>
 </template>
 

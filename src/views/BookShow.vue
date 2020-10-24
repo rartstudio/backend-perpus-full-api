@@ -5,8 +5,7 @@
         </template>
         <template v-else>
             <div class="book">
-                <h3 class="text-center mt-6">Detail Buku</h3>
-                <div class="d-flex justify-between align-start mt-4 pa-4">
+                <div class="d-flex justify-between align-start pa-4 mt-1">
                     <div>
                         <template v-if="book.book.cover">
                             <img class="book__img elevation-4 ml-0" :src="link(book.book.cover)" height="200px" width="140px"> 
@@ -25,9 +24,22 @@
                             </image-placeholder>
                         </template>
                     </div>
-                    <div class="ml-4">
-                        <h4 class="book__title mt-4">{{book.book.title}}</h4>
+                    <div class="ml-4 d-flex flex-column justify-start">
+                        <h4 class="book__title">{{book.book.title}}</h4>
                         <p class="text-caption mt-2">{{book.book.author.name}}</p>
+                        <template v-if="book.book.reviews.length != 0">
+                            <div class="d-flex mb-3">
+                                <v-icon color="#FFCB36" size="13px" v-for="(star,index) in inFive" :key="index">
+                                    mdi-star {{ star }}
+                                </v-icon>
+                                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="d-flex mb-3">
+                                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                            </div>
+                        </template>
                         <template v-if="book.book.stock.qty != 0">
                             <v-chip class="d-flex justify-center align-center" color="#3285C0">
                             <v-icon color="#fff" size="24px">
@@ -44,23 +56,26 @@
                                 <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
                             </v-chip>
                         </template>
-                    <!-- <div class="d-flex align-center review__book pa-1 mt-n2">
-                        <v-icon color="#fff" size="13px">
-                            mdi-star
-                        </v-icon>
-                        <div class="ml-1 review__number">
-                            {{ rating(book.reviews) }}
-                        </div>
-                    </div> -->
                     </div>
                 </div>
                 <div class="pl-4">
                     <p class="font-weight-bold text-h6">Sinopsis</p>
-                    <p class="book__description text-body-2 mt-2" v-html="book.book.description">
-                    </p>
+                    <p class="book__description text-body-1 mt-2" v-html="book.book.description"></p>
                 </div>
+                <TitleHeader>
+                    <template v-slot:title>Ulasan </template>
+                    <template v-slot:subtitle>Pembaca</template>
+                </TitleHeader>
+                <template v-if="book.book.reviews.length != 0">
+                    <BookReviewCard v-for="(review,index) in book.book.reviews" :key="index" :review="review"/>
+                </template>
+                <template v-else>
+                    <div class="pl-4">
+                        <p class="review__content text-body-2">Belum ada ulasan</p>
+                    </div>
+                </template>
                 <div class="pl-4 mt-5">
-                    <p class="text-h6 font-weight-bold">Buku lainnya</p>
+                    <p class="text-h6 font-weight-bold grey lighten-5">Buku lainnya</p>
                 </div>
                 <BookCardLayout>
                     <BookCard class="card-book" v-for="book in book.relatedBooks.data" :key="book.slug" :book="book"/>
@@ -97,7 +112,9 @@ import ChipDefault from "@/components/ChipDefault.vue";
 import BookCardLayout from "@/layout/BookCardLayout.vue";
 import BookCard from "@/components/BookCard.vue";
 import BookCardLoader from "@/components/BookCardLoader.vue";
+import BookReviewCard from "@/components/BookReviewCard.vue";
 import BookShowLoader from "@/components/BookShowLoader.vue";
+import TitleHeader from "@/components/TitleHeader.vue";
 
 import {bookMixin} from "@/mixins/bookMixin.js";
 import 'nprogress/nprogress.css';
@@ -118,10 +135,12 @@ export default {
         Snackbar,
         ChipDefault,
         BookCard,
+        BookReviewCard,
         BookCardLoader,
         BookCardLayout,
         BookShowLoader,
-        imagePlaceholder
+        imagePlaceholder,
+        TitleHeader
     },
     props: {
         slug: {
@@ -164,6 +183,14 @@ export default {
     computed : {
         ...mapState('transaction',['text','enabledSnackbar']),
         ...mapState(['book']),
+        notFive(){    
+            let allStar = 5
+            let leftStar = allStar - this.rating(this.book.book.reviews)
+            return leftStar
+        },
+        inFive(){
+            return this.rating(this.book.book.reviews)
+        }
     },
     methods : {
         ...mapActions('book',['fetchBook']),
@@ -208,7 +235,7 @@ background: #FFCB36 !important;
         }
 
         &__description {
-            color: #818181;
+            color: #242424;
         }
     }
     .review {
