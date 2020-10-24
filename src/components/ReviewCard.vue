@@ -6,7 +6,12 @@
         <div class="d-flex flex-column justify-start ml-2 flex-grow-1">
             <h5 class="font-weight-medium text-body-2">{{review.book.title}}</h5>
             <p class="text-body-2 mt-2">{{review.comment}}</p>
-            <p class="text-caption">Rating : {{ review.rating}} / 5</p>
+            <div class="d-flex">
+                <v-icon color="#FFCB36" size="13px" v-for="(star,index) in inFive" :key="index">
+                mdi-star {{ star }}
+            </v-icon>
+            <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+            </div>
         </div>
         <div class="d-flex flex-column">
             <v-btn @click.stop="deleteReview(review.id)" class="review-card__btn my-auto rounded-circle" color="#f4a599">
@@ -25,6 +30,16 @@ import store from "@/store";
         props : {
             review : {
                 type: Object
+            }
+        },
+        computed : {
+            notFive(){    
+                let allStar = 5
+                let leftStar = allStar - this.review.rating
+                return leftStar
+            },
+            inFive(){
+                return this.review.rating
             }
         },
         methods: {

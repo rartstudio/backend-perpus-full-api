@@ -7,9 +7,9 @@
             <p class="text-body-2 font-weight-medium">
                 {{book.details.title}}
             </p>
-            <p class="text-caption font-italic">
-                Rating : 0/5
-            </p>
+            <div class="d-flex">
+                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+            </div>
         </div>
         <v-btn class="review-card__btn my-auto rounded-circle" @click.stop="addReview(book.book_id)" color="#acf">
             <v-icon class="review-icon">ri ri-add-line</v-icon>
@@ -26,6 +26,11 @@ export default {
     props : {
         book : {
             type: Object
+        }
+    },
+    computed : {
+        notFive(){
+            return 5
         }
     },
     methods: {
@@ -90,6 +95,9 @@ export default {
 </script>
 
 <style lang="scss">
+.icon-star.v-icon{
+    color: rgba(0, 0, 0, 0.2);
+}
 .review-icon {
     font-size: 16px !important;
 }
