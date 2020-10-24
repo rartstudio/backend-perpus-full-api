@@ -29,15 +29,15 @@
                         <p class="text-caption mt-2">{{book.book.author.name}}</p>
                         <template v-if="book.book.reviews.length != 0">
                             <div class="d-flex mb-3">
-                                <v-icon color="#FFCB36" size="13px" v-for="(star,index) in inFive" :key="index">
+                                <v-icon color="#FFCB36" size="13px" v-for="star in inFive" :key="star+(Math.random()*10)">
                                     mdi-star {{ star }}
                                 </v-icon>
-                                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                                <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
                             </div>
                         </template>
                         <template v-else>
                             <div class="d-flex mb-3">
-                                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                                <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
                             </div>
                         </template>
                         <template v-if="book.book.stock.qty != 0">

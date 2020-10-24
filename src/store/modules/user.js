@@ -203,11 +203,16 @@ export const actions = {
             .catch(error => {console.log(error)})
     },
     fetchStatistic({commit}){
+        state.isLoading = true;
         return UserService.getStatistic()
             .then(response => {
+                state.isLoading = false
                 commit('SET_STATISTIC',response.data.data)
             })
-            .catch(() => {NProgress.done()})
+            .catch(() => {
+                state.isLoading = false
+                NProgress.done()
+            })
     },
     fetchImage({commit,state},data){
         state.loadingImage = true
@@ -252,18 +257,26 @@ export const actions = {
                 .then(response => console.log(response))
     },
     fetchReview({commit}){
+        state.isLoading = true;
         return UserService.getReview()
                 .then(response => {
-                    console.log(response.data.data)
+                    // console.log(response.data.data)
                     commit('SET_REVIEW',response.data.data)
+                    state.isLoading = false
                 })
-                .catch()
+                .catch(()=> {
+                    state.isLoading = false
+                })
     },
     fetchUnreview({commit}){
+        state.isLoading = true;
         return UserService.getUnreview()
                 .then(response => {
-                    console.log(response.data.data)
                     commit('SET_UNREVIEW',response.data.data)
+                    state.isLoading = false
+                })
+                .catch(()=> {
+                    state.isLoading = false
                 })
     }
 }

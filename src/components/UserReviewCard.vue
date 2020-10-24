@@ -8,7 +8,7 @@
                 {{book.details.title}}
             </p>
             <div class="d-flex">
-                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
             </div>
         </div>
         <v-btn class="review-card__btn my-auto rounded-circle" @click.stop="addReview(book.book_id)" color="#acf">

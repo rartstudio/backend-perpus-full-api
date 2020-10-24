@@ -10,7 +10,7 @@
                     <p class="text-caption">
                         {{ recommendation.book.title}}
                         <br>
-                        <!-- {{ rating(recommendation.book.reviews) }} -->
+                        <v-icon color="#FFCB36">mdi-star</v-icon>{{ rating(recommendation.book.reviews) }}
                     </p>
                 </v-card-title>
             </v-card>

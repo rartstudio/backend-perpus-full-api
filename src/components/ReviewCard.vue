@@ -7,11 +7,12 @@
             <h5 class="font-weight-medium text-body-2">{{review.book.title}}</h5>
             <p class="text-body-2 mt-2">{{review.comment}}</p>
             <div class="d-flex">
-                <v-icon color="#FFCB36" size="13px" v-for="(star,index) in inFive" :key="index">
+                <v-icon color="#FFCB36" size="13px" v-for="star in inFive" :key="star+(Math.random()*10)">
                 mdi-star {{ star }}
-            </v-icon>
-            <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                </v-icon>
+                <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
             </div>
+            <p class="text-caption font-italic mb-0 my-1">{{review.last}}</p>
         </div>
         <div class="d-flex flex-column">
             <v-btn @click.stop="deleteReview(review.id)" class="review-card__btn my-auto rounded-circle" color="#f4a599">

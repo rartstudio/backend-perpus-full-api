@@ -2,10 +2,10 @@
     <div class="d-flex justify-start flex-column mb-2 py-2 mx-4">
         <div class="d-flex flex-column justify-start flex-grow-1 mb-1">
             <div class="d-flex">
-                <v-icon color="#FFCB36" size="13px" v-for="(star,index) in inFive" :key="index">
+                <v-icon color="#FFCB36" size="13px" v-for="star in inFive" :key="star+(Math.random()*10)">
                     mdi-star {{ star }}
                 </v-icon>
-                <v-icon class="icon-star" v-for="(star,index) in notFive" :key="index">ri ri-star-line {{star}}</v-icon>
+                <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
             </div>
             <p class="text-body-1 mt-2 review__content">{{review.comment}}</p>
         </div>

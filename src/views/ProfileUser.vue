@@ -19,22 +19,90 @@
             <template v-slot:title>Belum</template>
             <template v-slot:subtitle> Diulas</template>
             <template v-slot:button-side>
-                <v-btn text color="grey lighten-1">
-                    Lihat Semua
-                </v-btn>
+                <template v-if="user.unreview.length != 0">
+                    <v-btn text color="grey lighten-1">
+                        Lihat Semua
+                    </v-btn>
+                </template>
             </template>
         </TitleHeader>
-        <UserReviewCard v-for="(book,index) in user.unreview" :key="index" :book="book"/>
+        <template v-if="!user.isLoading">
+            <template v-if="user.unreview.length != 0">
+                <UserReviewCard v-for="book in user.unreview" :key="book.book_id" :book="book"/>
+            </template>
+            <template v-else>
+                <p class="text-center font-italic text-body-2">
+                    Belum ada buku yang dipinjam
+                </p>
+            </template>
+        </template>
+        <template v-else>
+            <div class="text-center">
+                <v-progress-circular
+                    :size="40"
+                    color="primary"
+                    indeterminate
+                    >
+                </v-progress-circular>
+            </div>
+        </template>
+        <TitleHeader>
+            <template v-slot:title>Buku</template>
+            <template v-slot:subtitle> Dipinjam</template>
+        </TitleHeader>
+        <template v-if="!user.isLoading">
+            <template v-if="user.review.length != 0">
+                <BookCardLayout>
+                    <BookCard class="card-book" v-for="book in user.statistic" :key="book.slug" :book="book.details"/>
+                </BookCardLayout>
+            </template>
+            <template v-else>
+                <p class="text-center font-italic">
+                    Buku dipinjam belum ada
+                </p>
+            </template>
+        </template>
+        <template v-else>
+            <div class="text-center">
+                <v-progress-circular
+                    :size="40"
+                    color="primary"
+                    indeterminate
+                    >
+                </v-progress-circular>
+            </div>
+        </template>
         <TitleHeader>
             <template v-slot:title>Ulasan </template>
             <template v-slot:subtitle>Saya</template>
             <template v-slot:button-side>
-                <v-btn text color="grey lighten-1">
-                    Lihat Semua
-                </v-btn>
+                 <template v-if="user.review.length != 0">
+                    <v-btn text color="grey lighten-1">
+                        Lihat Semua
+                    </v-btn>
+                </template>
             </template>
         </TitleHeader>
-        <ReviewCard v-for="(review,index) in user.review" :key="index" :review="review"/>
+        <template v-if="!user.isLoading">
+            <template v-if="user.review.length != 0">
+                <ReviewCard v-for="review in user.review" :key="review.book_id" :review="review"/>
+            </template>
+            <template v-else>
+                <p class="text-center font-italic">
+                    Belum ada buku yang dipinjam
+                </p>
+            </template>
+        </template>
+        <template v-else>
+            <div class="text-center">
+                <v-progress-circular
+                    :size="40"
+                    color="primary"
+                    indeterminate
+                    >
+                </v-progress-circular>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -47,6 +115,8 @@ import CountPlaceholder from "@/components/CountPlaceholder.vue";
 import TitleHeader from "@/components/TitleHeader.vue";
 import UserReviewCard from "@/components/UserReviewCard.vue";
 import ReviewCard from "@/components/ReviewCard.vue";
+import BookCardLayout from "@/layout/BookCardLayout.vue";
+import BookCard from "@/components/BookCard.vue";
 
 export default {
     mixins: [bookMixin],
@@ -54,7 +124,9 @@ export default {
         CountPlaceholder,
         TitleHeader,
         UserReviewCard,
-        ReviewCard
+        ReviewCard,
+        BookCard,
+        BookCardLayout
     },
     computed : {
         ...mapState(['user']),
@@ -62,9 +134,9 @@ export default {
     },
     async mounted(){
         NProgress.start()
+        await store.dispatch('user/fetchUnreview').then()
         await store.dispatch('user/fetchStatistic').then()
         await store.dispatch('user/fetchReview').then()
-        await store.dispatch('user/fetchUnreview').then()
         NProgress.done()
     }
 }
