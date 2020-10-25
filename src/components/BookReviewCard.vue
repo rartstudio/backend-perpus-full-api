@@ -7,7 +7,7 @@
                 </v-icon>
                 <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
             </div>
-            <p class="text-body-1 mt-2 review__content">{{review.comment}}</p>
+            <p class="font-weight-light text-caption mt-2 review__content">{{review.comment}}</p>
         </div>
         <div class="flex-grow-0 d-flex">
             <v-img width="40px" height="40px" class="rounded-circle flex-grow-0" :src="link(review.user.details.image)"></v-img>

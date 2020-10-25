@@ -1,23 +1,15 @@
 <template>
-  <router-link class="home__link" :to="{name: 'book-show', params: {slug: book.slug}}">
     <v-flex xs12 class=" mx-2">
         <v-card
-          class="mx-auto card-book relative"
+          class="mx-auto card-book"
           max-width="120"
         >
-        
         <template v-if=book.cover> 
           <v-img class="d-inline-block image-book"
             :src="link(book.cover)"
             height="140px"
             width="107px"
           ></v-img>
-          <div class="rating">
-            <span class="font-weight-bold text-caption">
-                <v-icon color="#FFCB36">mdi-star</v-icon>
-                {{ rating(book.reviews) }}
-            </span>
-          </div>
         </template>
         <template v-else>
           <image-placeholder class="image-placeholder"
@@ -29,12 +21,6 @@
               :font-size="12"
               :fontFamily="fontFamily"
           >Belum ada foto</image-placeholder>
-          <div class="rating">
-            <span class="font-weight-bold text-caption">
-              <v-icon color="#FFCB36">mdi-star</v-icon>
-                {{ rating(book.reviews) }}
-            </span>
-          </div>
         </template>
           <div class="text-body-2 mt-2 book-title">
             <!-- {{ book.title.slice(0,30) + '...' }} -->
@@ -42,27 +28,13 @@
           </div>
           <div class="text-caption text--disabled d-flex align-center justify-space-between">
             <slot name="custom-bar">
-              <template v-if="book.stock.qty != 0">
-                <v-chip class="d-flex justify-center align-center" color="#3285C0">
-                  <v-icon color="#fff" size="24px">
-                    ri ri-check-line
-                  </v-icon>
-                  <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
+              <v-chip click color="red" @click.stop="deleteRecommendation(book.details.id)">
+                    <v-icon color="#fff">ri ri-delete-bin-7-line</v-icon>
                 </v-chip>
-              </template>
-              <template v-else>
-                <v-chip class="d-flex justify-center align-center" color="#e31a1a">
-                    <v-icon color="#fff" size="24px">
-                      ri ri-indeterminate-circle-line
-                    </v-icon>
-                    <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
-                  </v-chip>
-              </template>
             </slot>
           </div>
         </v-card>
     </v-flex>
-  </router-link>
 </template>
 
 <style>
@@ -84,17 +56,10 @@
   .image-book {
     border-radius: 5px !important;
   }
-  .rating {
-    position: absolute;
-    background: rgba(10, 54, 157,0.9);
-    color: white;
-    right: 0;
-    top: 55px;
-    padding: 4px;
-  }
 </style>
 
 <script>
+import store from "@/store";
 import imagePlaceholder from 'vuejs-image-placeholder'
 import {bookMixin} from "@/mixins/bookMixin.js";
 export default {
@@ -107,6 +72,33 @@ export default {
       borderColour: '#fff',
       backgroundColour: '#dcdee8',
       fontFamily: 'Nunito, sans-serif'
+    }
+  },
+  methods: {
+    deleteRecommendation(data){
+        this.$swal.fire({
+        title: 'Apakah kamu yakin akan menambah buku ini ke rekomendasi pembaca?',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Tidak',
+        confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let id = {
+                    book_id: data
+                }
+                store.dispatch('user/processAddRecommendation',id)
+                .then(()=> {
+                    this.$swal.fire(
+                    'Sukses!',
+                    'Berhasil Tambah ke Rekomendasi',
+                    location.reload()    
+                    )
+                });
+            }
+        });
     }
   },
   components : {

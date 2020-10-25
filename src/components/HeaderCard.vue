@@ -1,18 +1,23 @@
 <template>
     <router-link :to="{name: 'book-show', params: {slug: recommendation.book.slug}}">
         <v-flex>
-            <v-card class="d-flex">
-                <v-img :src="link(recommendation.book.cover)"
+            <v-card class="d-flex justify-start rounded-lg">
+                <div class="pa-2">
+                                    <v-img :src="link(recommendation.book.cover)"
                     height="110px"
                     width="90px"
+                    class="rounded-lg"
                 ></v-img>
-                <v-card-title class="card-column__title">
-                    <p class="text-caption">
+                </div>
+                <div class="card-column__title d-flex align-start flex-column pr-4">
+                    <p class="text-body-2 mt-4 font-weight-bold card-column__text">
                         {{ recommendation.book.title}}
-                        <br>
-                        <v-icon color="#FFCB36">mdi-star</v-icon>{{ rating(recommendation.book.reviews) }}
                     </p>
-                </v-card-title>
+                    <span class="font-weight-bold text-caption">
+                        <v-icon color="#FFCB36">mdi-star</v-icon>
+                        {{ rating(recommendation.book.reviews) }}
+                    </span>
+                </div>
             </v-card>
         </v-flex>
     </router-link>
@@ -32,12 +37,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .v-card {
     margin-left: 18px;
 }
-.v-card__title{
-    width: 80px;
-    padding: 5px 0px 0px 5px !important;
+.card-column__title {
+    width: 100px;
+}
+.card-column__text {
+    min-height: 67px;
 }
 </style>

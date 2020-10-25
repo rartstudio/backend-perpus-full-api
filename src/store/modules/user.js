@@ -101,9 +101,13 @@ export const state = {
     statistic : [],
     review : [],
     unreview : [],
+    recommendation : []
 }
 
 export const mutations = {
+    SET_RECOMMENDATION(state,data){
+        state.recommendation = data
+    },
     SET_REVIEW(state,data){
         state.review = data
     },
@@ -277,6 +281,32 @@ export const actions = {
                 })
                 .catch(()=> {
                     state.isLoading = false
+                })
+    },
+    processAddRecommendation({commit},data){
+        NProgress.start();
+        
+        return UserService.postRecommendation(data)
+                .then(response => {
+                    console.log(response)
+                    NProgress.done()
+                    commit('SET_STATUS_CODE',200);
+                })
+                .catch(error => {
+                    console.log(error)
+                    NProgress.done()
+                })
+    },
+    fetchRecommendation({commit}){
+        return UserService.getRecommendation()
+                .then(response => {
+                    console.log(response)
+                    // NProgress.done();
+                    commit('SET_RECOMMENDATION',response.data.recommendation);
+                })
+                .catch(error => {
+                    console.log(error)
+                    NProgress.done()
                 })
     }
 }

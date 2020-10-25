@@ -80,5 +80,21 @@ export default {
                 'Content-Type' : 'application/json',
             }
         });
-    }
+    },
+    getRecommendation(){
+        return apiClient.get('api/recommendation',{
+            headers : {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
+                'Content-Type' : 'application/json',
+            }
+        });
+    },
+    postRecommendation(data){
+        return apiClient.post(`/api/recommendation`,data,{
+            headers : {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
+                'Content-Type' : 'application/json',
+            }
+        })
+    },
 }

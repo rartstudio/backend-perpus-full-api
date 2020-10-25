@@ -1,5 +1,5 @@
 <template>
-    <div class="recommendation-book d-flex mt-0">
+    <div class="recommendation-book d-flex mt-0 mr-4">
         <slot></slot>
     </div>
 </template>

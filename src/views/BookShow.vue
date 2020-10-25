@@ -58,9 +58,9 @@
                         </template>
                     </div>
                 </div>
-                <div class="pl-4">
+                <div class="px-4">
                     <p class="font-weight-bold text-h6">Sinopsis</p>
-                    <p class="book__description text-body-1 mt-2" v-html="book.book.description"></p>
+                    <p class="book__description text-body-2 mt-2" v-html="book.book.description"></p>
                 </div>
                 <TitleHeader>
                     <template v-slot:title>Ulasan </template>
