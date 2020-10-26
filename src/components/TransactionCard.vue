@@ -80,6 +80,14 @@
                             </p>
                         </v-card>
                     </template>
+                    <template v-if="transaction.stated == 5">
+                        <v-card class="pa-4 elevation-0">
+                            <h5 class="mb-2 text-body-1 font-weight-bold">Detail Pengambilan</h5>
+                            <p class="fs-med">
+                                {{transaction.add_info == null || transaction.add_info == '' ? 'Tunggu hingga status siap diambil' : transaction.add_info}}
+                            </p>
+                        </v-card>
+                    </template>
                     <v-card class="pa-4 elevation-0">
                         <h5 class="mb-2 text-body-1 font-weight-bold">Detail Buku</h5>
                         <div class="d-flex mb-2" v-for="detail in transaction.transaction_details" :key="detail.id">

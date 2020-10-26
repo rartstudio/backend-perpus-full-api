@@ -97,4 +97,20 @@ export default {
             }
         })
     },
+    destroyRecommendation(id){
+        return apiClient.delete(`/api/recommendation/${id}`,{
+            headers: {
+                'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
+                'Content-Type' : 'application/json'
+            }
+        })
+    },
+    getBorrow(){
+        return apiClient.get('api/user/borrow',{
+            headers : {
+                'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
+                'Content-Type' : 'application/json',
+            }
+        });
+    }
 }

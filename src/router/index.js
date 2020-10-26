@@ -137,6 +137,11 @@ const routes = [
     path: '/statistic',
     name : 'profile-user',
     component : () => import (/* webpackChunkName: "profile-form" */ '../views/ProfileUser.vue')
+  },
+  {
+    path: '/ketentuan',
+    name: 'terms',
+    component : () => import (/* webpackChunkName: "terms" */ '../views/TermsCondition.vue')
   }
 ];
 

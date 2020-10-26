@@ -33,6 +33,13 @@
                         @change=uploadImage
                         class="input-image ml-2"
                         ></v-file-input>
+                        <div class="text-center btn-question mt-2">
+                            <v-btn color="#fff" text @click="question">
+                                <v-icon> 
+                                    ri ri-question-line
+                                </v-icon>
+                        </v-btn>
+                        </div>
                     </v-col>
                     <v-col cols="9">
                         <div class="text-h6 text-capitalize font-color">
@@ -46,7 +53,7 @@
                                 <v-spacer></v-spacer>
                                 <router-link to="/profile-form">
                                     <v-btn icon class="mt-n1">
-                                        <v-icon color="#fff">ri ri-settings-4-line</v-icon>
+                                        <v-icon color="#fff">ri ri-user-line</v-icon>
                                     </v-btn>
                                 </router-link>
                                 <router-link to="/inbox">
@@ -137,9 +144,12 @@ export default {
         getUser()
     },
     methods: {
+        question(){
+            this.$router.push({name: 'terms'})
+        },
         statisticUser(){
             this.$router.push({name: 'profile-user'})
-        },
+        },  
         uploadImage(e){
             this.photo = e
 
@@ -192,6 +202,9 @@ export default {
 <style lang="scss">
 .v-badge__badge{
     color: #000;
+}
+.btn-question {
+    margin-left: 5px !important;
 }
 .theme--light.v-icon.ri.ri-camera-line {
     color: white !important;

@@ -101,10 +101,14 @@ export const state = {
     statistic : [],
     review : [],
     unreview : [],
-    recommendation : []
+    recommendation : [],
+    borrow: []
 }
 
 export const mutations = {
+    SET_BORROW(state,data){
+        state.borrow = data
+    },
     SET_RECOMMENDATION(state,data){
         state.recommendation = data
     },
@@ -288,6 +292,20 @@ export const actions = {
         
         return UserService.postRecommendation(data)
                 .then(response => {
+                    // console.log(response)
+                    NProgress.done()
+                    commit('SET_STATUS_CODE',200);
+                })
+                .catch(error => {
+                    console.log(error)
+                    NProgress.done()
+                })
+    },
+    processDeleteRecommendation({commit},data){
+        NProgress.start();
+        
+        return UserService.destroyRecommendation(data)
+                .then(response => {
                     console.log(response)
                     NProgress.done()
                     commit('SET_STATUS_CODE',200);
@@ -300,9 +318,20 @@ export const actions = {
     fetchRecommendation({commit}){
         return UserService.getRecommendation()
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     // NProgress.done();
                     commit('SET_RECOMMENDATION',response.data.recommendation);
+                })
+                .catch(error => {
+                    console.log(error)
+                    NProgress.done()
+                })
+    },
+    fetchBorrow({commit}){
+        return UserService.getBorrow()
+                .then(response => {
+                    console.log(response)
+                    commit('SET_BORROW',response.data.data);
                 })
                 .catch(error => {
                     console.log(error)

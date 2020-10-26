@@ -53,20 +53,27 @@
                 </v-progress-circular>
             </div>
         </template>
-        <TitleHeader>
+        <TitleHeader style="margin-top: -55px">
             <template v-slot:title>Buku</template>
-            <template v-slot:subtitle> Dipinjam</template>
+            <template v-slot:subtitle></template>
         </TitleHeader>
         <template v-if="!user.isLoading">
-            <template v-if="user.review.length != 0">
+            <template v-if="user.borrow.length != 0">
                 <BookCardLayout>
-                    <BorrowedBookCard class="card-book" v-for="book in user.statistic" :key="book.slug" :book="book.details">
-                        <template v-slot:custom-bar>
-                            <v-chip color="#0a369d" @click.stop="recommended(book.details.id)">
-                                <v-icon color="#fff">ri ri-heart-add-line</v-icon>
-                            </v-chip>
-                        </template>
-                    </BorrowedBookCard>
+                    <BookCard class="card-book" v-for="book in user.borrow" :key="book.slug" :book="book.details">
+                        <!-- <template v-slot:custom-bar>
+                            <template v-if="book.details.is_recommendation_user == 1">
+                                <v-chip class="btn-love" color="red" @click.stop="deleteRecommendation(book.details.id)">
+                                    <v-icon color="#fff">ri ri-delete-bin-7-line</v-icon>
+                                </v-chip>
+                            </template>
+                            <template v-else>
+                                <v-chip class="btn-love" color="#0a369d" @click.stop="recommended(book.details.id)">
+                                    <v-icon color="#fff">ri ri-heart-add-line</v-icon>
+                                </v-chip>
+                            </template>
+                        </template> -->
+                    </BookCard>
                 </BookCardLayout>
             </template>
             <template v-else>
@@ -129,7 +136,7 @@ import TitleHeader from "@/components/TitleHeader.vue";
 import UserReviewCard from "@/components/UserReviewCard.vue";
 import ReviewCard from "@/components/ReviewCard.vue";
 import BookCardLayout from "@/layout/BookCardLayout.vue";
-import BorrowedBookCard from "@/components/BorrowedBookCard.vue";
+import BookCard from "@/components/BookCard.vue";
 
 export default {
     mixins: [bookMixin],
@@ -138,7 +145,7 @@ export default {
         TitleHeader,
         UserReviewCard,
         ReviewCard,
-        BorrowedBookCard,
+        BookCard,
         BookCardLayout
     },
     computed : {
@@ -150,10 +157,32 @@ export default {
         await store.dispatch('user/fetchUnreview').then()
         await store.dispatch('user/fetchStatistic').then()
         await store.dispatch('user/fetchReview').then()
-        await store.dispatch('user/getRecommendation').then()
+        await store.dispatch('user/fetchBorrow').then()
         NProgress.done()
     },
     methods : {
+        deleteRecommendation(data){
+            this.$swal.fire({
+            title: 'Apakah kamu yakin akan menghapus buku ini ke rekomendasi pembaca?',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Ya'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    store.dispatch('user/processDeleteRecommendation',data)
+                    .then(()=> {
+                        this.$swal.fire(
+                        'Sukses!',
+                        'Berhasil Hapus dari Rekomendasi',
+                        location.reload()    
+                        )
+                    });
+                }
+            });
+        },
         recommended(data){
             this.$swal.fire({
             title: 'Apakah kamu yakin akan menambah buku ini ke rekomendasi pembaca?',
@@ -178,12 +207,17 @@ export default {
                     });
                 }
             });
-        }
+        },
     }
 }
 </script>
 
 <style lang="scss">
+.btn-love {
+    position: absolute;
+    top: 122px;
+    left: 30px;
+}
 .profile-container {
     height: 100vh;
 }

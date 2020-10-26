@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs12 class=" mx-2">
+    <v-flex xs12 class=" mx-2 borrowed-book">
         <v-card
           class="mx-auto card-book"
           max-width="120"
@@ -28,16 +28,19 @@
           </div>
           <div class="text-caption text--disabled d-flex align-center justify-space-between">
             <slot name="custom-bar">
-              <v-chip click color="red" @click.stop="deleteRecommendation(book.details.id)">
-                    <v-icon color="#fff">ri ri-delete-bin-7-line</v-icon>
-                </v-chip>
+              <v-chip class="btn-love" color="#0a369d" @click.stop="recommended(book.details.id)">
+                <v-icon color="#fff">ri ri-heart-add-line</v-icon>
+              </v-chip>
             </slot>
           </div>
         </v-card>
-    </v-flex>
+    </v-flex> 
 </template>
 
 <style>
+.borrowed-book {
+  height: 200px;
+}
   .card-book {
     line-height: 1.4rem;
     word-break: normal;
@@ -59,7 +62,6 @@
 </style>
 
 <script>
-import store from "@/store";
 import imagePlaceholder from 'vuejs-image-placeholder'
 import {bookMixin} from "@/mixins/bookMixin.js";
 export default {
@@ -72,33 +74,6 @@ export default {
       borderColour: '#fff',
       backgroundColour: '#dcdee8',
       fontFamily: 'Nunito, sans-serif'
-    }
-  },
-  methods: {
-    deleteRecommendation(data){
-        this.$swal.fire({
-        title: 'Apakah kamu yakin akan menambah buku ini ke rekomendasi pembaca?',
-        icon: 'success',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Tidak',
-        confirmButtonText: 'Ya'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                let id = {
-                    book_id: data
-                }
-                store.dispatch('user/processAddRecommendation',id)
-                .then(()=> {
-                    this.$swal.fire(
-                    'Sukses!',
-                    'Berhasil Tambah ke Rekomendasi',
-                    location.reload()    
-                    )
-                });
-            }
-        });
     }
   },
   components : {
