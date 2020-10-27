@@ -55,6 +55,7 @@
                         <div class="d-flex mb-3 mt-2">
                             <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
                         </div>
+                        
                     </template>
                 </div>
             </div>
