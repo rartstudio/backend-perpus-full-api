@@ -1,5 +1,6 @@
 import TransactionService from "@/services/TransactionService.js";
 import router from "@/router";
+import NProgress from 'nprogress';
 
 export const namespaced = true
 
@@ -146,9 +147,7 @@ export const actions = {
                         commit('SET_STATUS',response.status)
                         commit('SET_SNACKBAR',false);
                     })
-                    .catch(error => {
-                        console.log(error)
-                    })    
+                    .catch()    
                 }
                 else {
                     commit('SET_SNACKBAR',true);
@@ -187,25 +186,17 @@ export const actions = {
             delete trxDetailsRaw[i].id
             delete trxDetailsRaw[i].details             
         }
-
-        // console.log(trxDetailsRaw);
+        NProgress.start()
         return TransactionService.postProcessBorrow(state.trxid, trxDetailsRaw)
-                    .then((response) => {
-                        console.log(response)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })    
+                    .then(()=> {NProgress.done()})
+                    .catch(()=> {NProgress.done()})    
     },
     rejectBorrow({commit},data){
         commit('TRX_ID',data.id);
+        NProgress.start()
         return TransactionService.rejectBorrow(state.trxid, data)
-                    .then((response) => {
-                        console.log(response)
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })    
+                    .then(()=> {NProgress.done()})
+                    .catch(()=> {NProgress.done()})    
     }
 }
 

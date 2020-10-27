@@ -11,7 +11,7 @@
       <v-spacer></v-spacer>
       <AppBarCart/>
     </v-app-bar>
-    <v-navigation-drawer absolute temporary v-model="drawer">
+    <v-navigation-drawer absolute temporary v-model="drawer" class="position-fixed">
       <v-list nav>
         <template v-if="userAuth">
           <SidebarAuth/>
@@ -33,6 +33,9 @@
 </template>
 
 <style>
+.position-fixed {
+  position: fixed !important;
+}
 .swal2-container {
    font-family: 'Nunito', sans-serif; 
 }

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import MessageService from "@/services/MessagesService.js"
+import NProgress from 'nprogress';
 
 export const namespaced = true
 
@@ -19,22 +20,20 @@ export const mutations = {
 
 export const actions = {
     fetchMessages({commit}){
+        NProgress.start()
         return MessageService.getMessages()
             .then(response => {
                 commit('SET_MESSAGES',response.data.data)
+                NProgress.done()
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch(()=> {NProgress.done()})
     },
     readMessage({commit}, id){
         return MessageService.postReadMessage(id)
             .then(response => {
                commit('SET_STATUS',response.status)
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch()
     }
 }
 

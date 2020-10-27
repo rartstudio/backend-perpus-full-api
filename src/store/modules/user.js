@@ -196,7 +196,6 @@ export const actions = {
                     let details = getDetailsBook(state.transactionsInHistory);
 
                     commit('SET_DETAILS_BOOK',details)
-                    console.log(state.detailsBook);
 
                     dispatch('message/fetchMessages',null,{root:true})
                 }
@@ -206,16 +205,19 @@ export const actions = {
             .catch(() => {NProgress.done()})
     },
     fetchProfile({state}){
+        NProgress.start()
         return UserService.getProfile(state.userData.details)
-            .then(() => {})
-            .catch(error => {console.log(error)})
+            .then(() => { NProgress.done()})
+            .catch(() => { NProgress.done()})
     },
     fetchStatistic({commit}){
+        NProgress.start()
         state.isLoading = true;
         return UserService.getStatistic()
             .then(response => {
                 state.isLoading = false
                 commit('SET_STATISTIC',response.data.data)
+                NProgress.done();
             })
             .catch(() => {
                 state.isLoading = false
@@ -227,15 +229,15 @@ export const actions = {
         commit('updateImage',data);
         return UserService.postImage(state.image)
             .then(()=>{state.loadingImage = false})
-            .catch(error => {console.log(error)})
+            .catch()
     },
     fetchSubmission({state}){
         //0 belum verifikasi
         //1 sedang pengajuan verifikasi
         //2 sukses verifikasi
         return UserService.setSubmission({submission: 1})
-                .then((response) => {console.log(response)})
-                .catch(error => {console.log(error)})
+                .then()
+                .catch()
     },
     submitReview({commit},reviewData){
         NProgress.start();
@@ -249,26 +251,22 @@ export const actions = {
         delete reviewData[1]
                         
         return UserService.postReview(reviewData)
-                .then(response => {
-                    console.log(response)
+                .then(() => {
                     NProgress.done()
                     commit('SET_STATUS_CODE',200);
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(()=> {
                     NProgress.done()
                 })
     },
     processDeleteReview({commit},data){
-        console.log(data)
         return UserService.destroyReview(data)
-                .then(response => console.log(response))
+                .then()
     },
     fetchReview({commit}){
         state.isLoading = true;
         return UserService.getReview()
                 .then(response => {
-                    // console.log(response.data.data)
                     commit('SET_REVIEW',response.data.data)
                     state.isLoading = false
                 })
@@ -291,13 +289,11 @@ export const actions = {
         NProgress.start();
         
         return UserService.postRecommendation(data)
-                .then(response => {
-                    // console.log(response)
+                .then(() => {
                     NProgress.done()
                     commit('SET_STATUS_CODE',200);
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     NProgress.done()
                 })
     },
@@ -305,36 +301,29 @@ export const actions = {
         NProgress.start();
         
         return UserService.destroyRecommendation(data)
-                .then(response => {
-                    console.log(response)
+                .then(() => {
                     NProgress.done()
                     commit('SET_STATUS_CODE',200);
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     NProgress.done()
                 })
     },
     fetchRecommendation({commit}){
         return UserService.getRecommendation()
                 .then(response => {
-                    // console.log(response)
-                    // NProgress.done();
                     commit('SET_RECOMMENDATION',response.data.recommendation);
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     NProgress.done()
                 })
     },
     fetchBorrow({commit}){
         return UserService.getBorrow()
                 .then(response => {
-                    console.log(response)
                     commit('SET_BORROW',response.data.data);
                 })
-                .catch(error => {
-                    console.log(error)
+                .catch(() => {
                     NProgress.done()
                 })
     }

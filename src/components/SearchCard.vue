@@ -43,6 +43,19 @@
                             <p class="text-caption mb-0 ml-1" style="color:white">Tersedia</p>
                         </v-chip>
                     </template>
+                    <template v-if="book.reviews.length != 0">
+                        <div class="d-flex mb-3 mt-2">
+                            <v-icon color="#FFCB36" size="13px" v-for="star in inFive" :key="star+(Math.random()*10)">
+                                mdi-star {{ star }}
+                            </v-icon>
+                            <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div class="d-flex mb-3 mt-2">
+                            <v-icon class="icon-star" v-for="star in notFive" :key="star+(Math.random()*10)">ri ri-star-line {{star}}</v-icon>
+                        </div>
+                    </template>
                 </div>
             </div>
         </v-card>
@@ -72,6 +85,16 @@ export default {
     },
     components : {
         imagePlaceholder
+    },
+    computed: {
+        notFive(){    
+            let allStar = 5
+            let leftStar = allStar - this.rating(this.book.reviews)
+            return leftStar
+        },
+        inFive(){
+            return this.rating(this.book.reviews)
+        }
     }
 }
 </script>

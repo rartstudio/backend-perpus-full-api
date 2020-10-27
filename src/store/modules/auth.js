@@ -40,7 +40,6 @@ export const mutations = {
 
 export const actions = {
     fetchForgot({commit},data){
-        // console.log(data);
         return AuthService.getForgot(data)
             .then(response => {
                 commit('SET_STATUS_CODE',response.status);

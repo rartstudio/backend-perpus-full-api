@@ -58,9 +58,7 @@ export const actions = {
                 commit('SET_CATEGORIES',response.data)
                 state.isLoading = false
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch()
     },
     fetchPerPage({commit}, data){
         state.isLoading = true;
@@ -75,7 +73,6 @@ export const actions = {
                     commit('SET_ALL_BOOKS', response.data);
                     state.isLoading = false;
                     NProgress.done();
-                    console.log('actions per page sort');
                 })
                 .catch(()=> {
                     NProgress.done()
@@ -90,7 +87,6 @@ export const actions = {
                     commit('SET_ALL_BOOKS',response.data);
                     state.isLoading = false;
                     NProgress.done();
-                    console.log('actions per page cat');
                 })
         }
         else {
@@ -99,7 +95,6 @@ export const actions = {
                     commit('SET_ALL_BOOKS',response.data);
                     state.isLoading = false;
                     NProgress.done();
-                    console.log('actions per page');
                 })
                 .catch(()=> {
                     NProgress.done()
@@ -118,7 +113,6 @@ export const actions = {
                 .then(response => {
                     commit('SET_ALL_BOOKS', response.data)
                     state.isLoading = false
-                    console.log('actions all books sort');
                     NProgress.done();
                 })
                 .catch(() => {
@@ -131,7 +125,6 @@ export const actions = {
                 .then(response => {
                     commit('SET_ALL_BOOKS', response.data)
                     state.isLoading = false
-                    console.log('actions all books cat');
                     NProgress.done();
                 })
                 .catch(() => {
@@ -144,7 +137,6 @@ export const actions = {
                 .then(response => {
                     commit('SET_ALL_BOOKS', response.data)
                     state.isLoading = false
-                    console.log('actions all books');
                     NProgress.done();
                 })
                 .catch(() => {
@@ -156,8 +148,6 @@ export const actions = {
         state.isLoading = true
         let { page : by} = data;
         NProgress.start()
-        console.log('berhasil dispatch')
-        console.log(data)
 
         if(by != undefined){
             let {query : q} = data
@@ -193,27 +183,21 @@ export const actions = {
             .then(response => {
                 commit('SET_RECOMMENDATION_BOOKS',response.data)
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch()
     },
     fetchRelatedBooks({commit}){
         return BookService.getBooks()
             .then(response => {
                 commit('SET_RELATED_BOOKS', response.data)
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch()
     },
     fetchBooks({commit}){
         return BookService.getBooks()
             .then(response => {
                 commit('SET_BOOKS', response.data)
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch(()=> {NProgress.done()})
     },
     fetchBooksBy({commit,state},{query,value}){
         return BookService.getBooksBy(query, value)
@@ -222,9 +206,7 @@ export const actions = {
                 //set loader to false so data can appear immediately
                 state.isLoading = false
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch()
     },
     fetchBooksByMax({commit,state},{query,value,max,take}){
         return BookService.getBooksMax(query, value,max,take)
@@ -233,9 +215,7 @@ export const actions = {
                 //set loader to false so data can appear immediately
                 state.isLoading = false
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch()
     },
     //set a second parameter for slug
     fetchBook({commit,dispatch},slug){
@@ -252,6 +232,7 @@ export const actions = {
                 NProgress.done()
                 dispatch('fetchRelatedBooks')
             })
+            .catch(()=> {NProgress.done()})
     }
 }
 

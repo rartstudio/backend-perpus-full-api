@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-4">
-        <h2 class="text-center mb-2">Syarat dan Ketentuan</h2>
+    <div class="mt-4 pa-4">
+        <h2 class="text-center mb-5">Syarat dan Ketentuan</h2>
         <ul>
             <li class="mb-1" v-for="(term,index) in terms" :key="index">{{term}}</li>
         </ul>
