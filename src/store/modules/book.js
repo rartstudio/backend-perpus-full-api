@@ -17,7 +17,7 @@ export const state = {
     book: {},
     isLoading: true,
     skeletonCount: 4,
-    linkServer: 'http://127.0.0.1:8000/'
+    linkServer: 'https://perpustest.xyz/'
 }
 
 export const mutations = {

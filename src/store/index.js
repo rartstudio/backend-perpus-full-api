@@ -19,7 +19,7 @@ export default new Vuex.Store({
     message
   },
   state: {
-    linkServer: 'http://127.0.0.1:8000/'
+    linkServer: 'https://perpustest.xyz/'
   },
   mutations: {},
   actions: {}

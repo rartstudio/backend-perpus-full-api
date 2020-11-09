@@ -10,7 +10,7 @@ export const state = {
     finalCart: null,
     text: null,
     status: null,
-    linkServer: 'http://127.0.0.1:8000/',
+    linkServer: 'https://perpustest.xyz/',
     enabledSnackbar: false,
     trxid: null
 }
