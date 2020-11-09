@@ -15,19 +15,19 @@ import {apiClient} from '@/services/ConfigService.js'
 
 export default {
     getRegister(credential){
-        return apiClient.post('/api/register',credential)
+        return apiClient.post('api/register',credential)
     },
     getLogin(credential){
-        return apiClient.post('/api/login',credential)
+        return apiClient.post('api/login',credential)
     },
     getForgot(credential){
-        return apiClient.post('/api/forgot-password',credential)
+        return apiClient.post('api/forgot-password',credential)
     },
     getReset(credential){
-        return apiClient.post('/api/reset-password',credential)
+        return apiClient.post('api/reset-password',credential)
     },
     getLogout(){
-        return apiClient.post('/api/logout',[],{
+        return apiClient.post('api/logout',[],{
             headers: {
                 'Content-Type' : 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`

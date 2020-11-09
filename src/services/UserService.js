@@ -14,13 +14,13 @@ const apiClient = axios.create({
 
 export default {
     getStatistic(){
-        return apiClient.get('/api/user/statistic',{headers: {
+        return apiClient.get('api/user/statistic',{headers: {
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
             'Content-Type' : 'application/json',
         }});
     },
     getReview(){
-        return apiClient.get(`/api/review`,{
+        return apiClient.get(`api/review`,{
             headers: {
                 'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
                 'Content-Type' : 'application/json'
@@ -28,7 +28,7 @@ export default {
         })
     },
     getUnreview(){
-        return apiClient.get(`/api/user/unreview`, {
+        return apiClient.get(`api/user/unreview`, {
             headers : {
                 'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
                 'Content-Type' : 'application/json'
@@ -36,7 +36,7 @@ export default {
         })
     },
     postReview(data){
-        return apiClient.post(`/api/review`,data,{
+        return apiClient.post(`api/review`,data,{
             headers : {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
                 'Content-Type' : 'application/json',
@@ -44,7 +44,7 @@ export default {
         })
     },
     destroyReview(id){
-        return apiClient.delete(`/api/review/${id}`,{
+        return apiClient.delete(`api/review/${id}`,{
             headers: {
                 'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
                 'Content-Type' : 'application/json'
@@ -52,13 +52,13 @@ export default {
         })
     },
     getUser(){
-        return apiClient.get('/api/user',{headers: {
+        return apiClient.get('api/user',{headers: {
             'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
             'Content-Type' : 'application/json',
           }});
     },
     getProfile(userData){
-        return apiClient.post(`/api/user`,userData,{
+        return apiClient.post(`api/user`,userData,{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
                 'Content-Type' : 'application/json',
@@ -66,7 +66,7 @@ export default {
         })
     },
     postImage(image){
-        return apiClient.post('/api/user/image',image, {
+        return apiClient.post('api/user/image',image, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
                 'Content-Type': 'multipart/form-data'
@@ -74,7 +74,7 @@ export default {
         })
     },
     setSubmission(submission){
-        return apiClient.post(`/api/user/submission`,submission,{
+        return apiClient.post(`api/user/submission`,submission,{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
                 'Content-Type' : 'application/json',
@@ -90,7 +90,7 @@ export default {
         });
     },
     postRecommendation(data){
-        return apiClient.post(`/api/recommendation`,data,{
+        return apiClient.post(`api/recommendation`,data,{
             headers : {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`,
                 'Content-Type' : 'application/json',
@@ -98,7 +98,7 @@ export default {
         })
     },
     destroyRecommendation(id){
-        return apiClient.delete(`/api/recommendation/${id}`,{
+        return apiClient.delete(`api/recommendation/${id}`,{
             headers: {
                 'Authorization' : `Bearer ${localStorage.getItem('usacco')}`,
                 'Content-Type' : 'application/json'

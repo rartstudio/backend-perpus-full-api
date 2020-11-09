@@ -9,7 +9,7 @@ export default {
         })
     },
     postProcessBorrow(id,stock){
-        return apiClient.post(`/api/transaction-borrow/${id}`,stock,{
+        return apiClient.post(`api/transaction-borrow/${id}`,stock,{
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("usacco")}`
             }

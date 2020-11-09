@@ -30,7 +30,7 @@ export default {
         return apiClient.get(`/api/book?${query}=${value}&${max}=${take}`)
     },
     getBook(slug){
-        return apiClient.get(`/api/book/${slug}`)
+        return apiClient.get(`api/book/${slug}`)
     },
     getRecommendationBooks(){
         return apiClient.get('api/recommendation-books')
